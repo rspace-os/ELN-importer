@@ -1,0 +1,481 @@
+import React, { useState } from 'react';
+import {
+  X,
+  FileText,
+  Package,
+  Calendar,
+  Tag,
+  Link,
+  File,
+  CheckCircle,
+  User,
+  Hash,
+  Clock
+} from 'lucide-react';
+import { PreviewItem } from '../types/elabftw';
+import { ClassificationToggle } from './ClassificationToggle';
+import { getConfidenceColor, getValidationIcon, getValidationIconColor } from '../utils/ui-helpers';
+import clsx from 'clsx';
+
+interface ItemDetailModalProps {
+  item: PreviewItem;
+  isOpen: boolean;
+  onClose: () => void;
+  onClassificationChange: (itemId: string, classification: 'document' | 'inventory') => void;
+}
+
+export function ItemDetailModal({ item, isOpen, onClose, onClassificationChange }: ItemDetailModalProps) {
+  const [activeTab, setActiveTab] = useState<'overview' | 'metadata' | 'files' | 'references' | 'validation'>('overview');
+
+  if (!isOpen) return null;
+
+  const currentClassification = item.userClassification || item.proposedClassification;
+  const hasUserOverride = item.userClassification !== null;
+
+  const tabs = [
+    { id: 'overview', label: 'Overview', count: null },
+    { id: 'metadata', label: 'Metadata', count: Object.keys(item.metadata).length },
+    { id: 'files', label: 'Files', count: item.files.length },
+    { id: 'references', label: 'References', count: item.crossReferences.length },
+    { id: 'validation', label: 'Validation', count: item.validationIssues.length },
+    { id: 'raw', label: 'Raw Data', count: item.elabftwMetadata ? 1 : 0 }
+  ] as const;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            {item.type === 'experiment' ? (
+              <FileText className="h-6 w-6 text-blue-600" />
+            ) : (
+              <Package className="h-6 w-6 text-purple-600" />
+            )}
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">{item.name}</h2>
+              <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
+                <span className="capitalize">{item.type}</span>
+                <span 
+                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                  style={{ 
+                    backgroundColor: `${item.categoryColor}20`,
+                    color: item.categoryColor 
+                  }}
+                >
+                  {item.category}
+                </span>
+                <span className="flex items-center space-x-1">
+                  <Calendar className="h-3 w-3" />
+                  <span>{new Date(item.dateCreated).toLocaleDateString()}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <X className="h-5 w-5 text-gray-400" />
+          </button>
+        </div>
+
+        {/* Classification Controls */}
+        <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <span className="text-sm font-medium text-gray-700">Classification:</span>
+              <ClassificationToggle
+                currentClassification={currentClassification}
+                onClassificationChange={(classification) => onClassificationChange(item.id, classification)}
+                size="large"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <span className={clsx(
+                'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
+                getConfidenceColor(item.confidence)
+              )}>
+                {item.confidence} confidence
+              </span>
+              
+              {hasUserOverride && (
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  <User className="h-3 w-3 mr-1" />
+                  Modified
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Justification */}
+          <div className="mt-3 p-3 bg-white rounded border border-gray-200">
+            <div className="text-sm">
+              <span className="font-medium text-gray-700">Why {currentClassification}?</span>
+              <p className="mt-1 text-gray-600">{item.justification}</p>
+              {item.reasons.length > 0 && (
+                <div className="mt-2">
+                  <span className="font-medium text-gray-700">Reasons:</span>
+                  <ul className="mt-1 list-disc list-inside text-gray-600 space-y-1">
+                    {item.reasons.map((reason, index) => (
+                      <li key={index} className="text-sm">{reason}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="border-b border-gray-200">
+          <nav className="flex space-x-8 px-6">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={clsx(
+                  'py-4 px-1 border-b-2 font-medium text-sm transition-colors',
+                  activeTab === tab.id
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                )}
+              >
+                {tab.label}
+                {tab.count !== null && (
+                  <span className={clsx(
+                    'ml-2 py-0.5 px-2 rounded-full text-xs',
+                    activeTab === tab.id
+                      ? 'bg-blue-100 text-blue-600'
+                      : 'bg-gray-100 text-gray-600'
+                  )}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        {/* Tab Content */}
+        <div className="p-6 overflow-y-auto max-h-96">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              {/* Basic Info */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">Basic Information</h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium text-gray-700">ID:</span>
+                    <span className="ml-2 text-gray-600 font-mono">{item.id}</span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-700">Type:</span>
+                    <span className="ml-2 text-gray-600 capitalize">{item.type}</span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-700">Created:</span>
+                    <span className="ml-2 text-gray-600">{new Date(item.dateCreated).toLocaleString()}</span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-700">Modified:</span>
+                    <span className="ml-2 text-gray-600">{new Date(item.dateModified).toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Preview */}
+              {item.textContent && (
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Content Preview</h3>
+                  <div className="bg-gray-50 rounded-lg p-4 max-h-40 overflow-y-auto">
+                    <div className="text-sm text-gray-700 whitespace-pre-wrap">
+                      {item.textContent.length > 500 
+                        ? `${item.textContent.substring(0, 500)}...`
+                        : item.textContent
+                      }
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Steps Preview */}
+              {item.steps.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">
+                    Steps ({item.steps.length})
+                  </h3>
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {item.steps.slice(0, 5).map((step) => (
+                      <div key={step['@id']} className="flex items-start space-x-3 text-sm">
+                        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium flex-shrink-0">
+                          {step.position}
+                        </span>
+                        <span className="text-gray-700">{step.itemListElement.text}</span>
+                      </div>
+                    ))}
+                    {item.steps.length > 5 && (
+                      <div className="text-sm text-gray-500 ml-9">
+                        +{item.steps.length - 5} more steps
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Keywords */}
+              {item.keywords.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Keywords</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {item.keywords.map((keyword, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                      >
+                        <Tag className="h-3 w-3 mr-1" />
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'metadata' && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Custom Fields ({Object.keys(item.metadata).length})</h3>
+              {Object.keys(item.metadata).length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Package className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No custom fields found</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {Object.entries(item.metadata).map(([fieldName, field]) => (
+                    <div key={fieldName} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="font-medium text-gray-900">{fieldName}</h4>
+                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                          {field.type}
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-700 mb-2">
+                        <strong>Value:</strong> {field.value || 'No value'}
+                      </div>
+                      {field.description && (
+                        <div className="text-sm text-gray-600 mb-2">
+                          <strong>Description:</strong> {field.description}
+                        </div>
+                      )}
+                      {field.units && field.units.length > 0 && (
+                        <div className="text-sm text-gray-600 mb-2">
+                          <strong>Units:</strong> {field.units.join(', ')}
+                        </div>
+                      )}
+                      {field.options && field.options.length > 0 && (
+                        <div className="text-sm text-gray-600">
+                          <strong>Options:</strong> {field.options.join(', ')}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'files' && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Attached Files ({item.files.length})</h3>
+              {item.files.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <File className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No files attached</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {item.files.map((file, index) => {
+                    const fileName = file.split('/').pop() || file;
+                    const fileExt = fileName.split('.').pop()?.toLowerCase() || '';
+                    
+                    return (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4">
+                        <div className="flex items-center space-x-3">
+                          <File className="h-8 w-8 text-gray-400" />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium text-gray-900 truncate">
+                              {fileName}
+                            </div>
+                            <div className="text-xs text-gray-500 uppercase">
+                              {fileExt} file
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'references' && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Cross References ({item.crossReferences.length})</h3>
+              {item.crossReferences.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Link className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No cross-references found</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {item.crossReferences.map((ref, index) => {
+                    const refName = ref.split('/').pop() || ref;
+                    return (
+                      <div key={index} className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+                        <Link className="h-5 w-5 text-blue-500" />
+                        <div className="flex-1">
+                          <div className="text-sm font-medium text-gray-900">{refName}</div>
+                          <div className="text-xs text-gray-500 font-mono">{ref}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'validation' && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Validation Issues ({item.validationIssues.length})</h3>
+              {item.validationIssues.length === 0 ? (
+                <div className="text-center py-8 text-green-500">
+                  <CheckCircle className="h-12 w-12 mx-auto mb-4" />
+                  <p className="font-medium">No validation issues found</p>
+                  <p className="text-sm text-gray-600 mt-1">This item is ready for import</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {item.validationIssues.map((issue, index) => {
+                    const IconComponent = getValidationIcon(issue.type);
+                    const iconColor = getValidationIconColor(issue.type);
+                    return (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4">
+                        <div className="flex items-start space-x-3">
+                          <IconComponent className={clsx('h-4 w-4', iconColor)} />
+                          <div className="flex-1">
+                            <div className="text-sm font-medium text-gray-900">
+                              {issue.message}
+                            </div>
+                            {issue.suggestion && (
+                              <div className="text-sm text-gray-600 mt-1">
+                                <strong>Suggestion:</strong> {issue.suggestion}
+                              </div>
+                            )}
+                            {issue.field && (
+                              <div className="text-xs text-gray-500 mt-1">
+                                Field: {issue.field}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'raw' && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">Raw ELN Data</h3>
+              {!item.elabftwMetadata ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Hash className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No raw ELN metadata available</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium text-gray-900">Complete ELN Metadata</h4>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(JSON.stringify(item.elabftwMetadata, null, 2));
+                          // You could add a toast notification here
+                        }}
+                        className="text-xs text-blue-600 hover:text-blue-800 px-2 py-1 bg-blue-100 rounded"
+                      >
+                        Copy JSON
+                      </button>
+                    </div>
+                    <pre className="text-xs text-gray-700 bg-white rounded border p-3 max-h-96 overflow-auto">
+                      {JSON.stringify(item.elabftwMetadata, null, 2)}
+                    </pre>
+                  </div>
+                  
+                  {/* Show specific sections if available */}
+                  {item.elabftwMetadata.dataset && (
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-medium text-blue-900 mb-2">Dataset Properties</h4>
+                      <div className="text-sm text-blue-800 space-y-1">
+                        <div><strong>ID:</strong> {item.elabftwMetadata.dataset['@id']}</div>
+                        <div><strong>Type:</strong> {item.elabftwMetadata.dataset['@type']}</div>
+                        {item.elabftwMetadata.dataset.genre && (
+                          <div><strong>Genre:</strong> {item.elabftwMetadata.dataset.genre}</div>
+                        )}
+                        {item.elabftwMetadata.dataset.about && (
+                          <div><strong>Category:</strong> {item.elabftwMetadata.dataset.about['@id']}</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {item.elabftwMetadata.variableMeasured && item.elabftwMetadata.variableMeasured.length > 0 && (
+                    <div className="bg-green-50 rounded-lg p-4">
+                      <h4 className="font-medium text-green-900 mb-2">
+                        Variable Measured ({item.elabftwMetadata.variableMeasured.length} items)
+                      </h4>
+                      <div className="max-h-40 overflow-y-auto">
+                        {item.elabftwMetadata.variableMeasured.slice(0, 5).map((variable: any, index: number) => (
+                          <div key={index} className="text-sm text-green-800 mb-2 p-2 bg-white rounded border">
+                            <div><strong>ID:</strong> {variable['@id'] || 'N/A'}</div>
+                            {variable.propertyID && <div><strong>Property:</strong> {variable.propertyID}</div>}
+                            {variable.value && <div><strong>Value:</strong> {variable.value}</div>}
+                          </div>
+                        ))}
+                        {item.elabftwMetadata.variableMeasured.length > 5 && (
+                          <div className="text-sm text-green-600">
+                            +{item.elabftwMetadata.variableMeasured.length - 5} more items
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div className="text-sm text-gray-600">
+            {hasUserOverride ? 'Classification modified by user' : 'Using automatic classification'}
+          </div>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

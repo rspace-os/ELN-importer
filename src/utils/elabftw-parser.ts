@@ -1,0 +1,749 @@
+import {
+  ELabFTWDataset,
+  PropertyValue,
+  HowToStep,
+  FileMetadata,
+  PreviewItem,
+  ROCrateData
+} from '../types/elabftw';
+import { CustomFieldExtractor } from './CustomFieldExtractor';
+import { ClassificationEngine } from './ClassificationEngine';
+import { ValidationEngine } from './ValidationEngine';
+
+export class ELabFTWParser {
+  private crateData: ROCrateData | null = null;
+  private fileIndex: Map<string, any> = new Map();
+
+  getCrateData(): ROCrateData | null {
+    return this.crateData;
+  }
+
+  async parseELNFile(file: File): Promise<{
+    datasets: ELabFTWDataset[];
+    fileMetadata: Record<string, FileMetadata>;
+    fileIndex: Map<string, Blob>;
+  }> {
+    console.log('=== STARTING ELN FILE PARSING ===');
+    console.log('File name:', file.name);
+    console.log('File size:', file.size);
+    
+    // Reset state
+    this.crateData = null;
+    this.fileIndex.clear();
+
+    // Read the ZIP file
+    const JSZip = (await import('jszip')).default;
+    let zip;
+    try {
+      zip = await JSZip.loadAsync(file);
+    } catch (error) {
+      console.error('Failed to load ZIP file:', error);
+      throw new Error('Invalid .eln file format. Please ensure the file is a valid ELN export.');
+    }
+    
+    // Find the base directory and ro-crate-metadata.json
+    let baseDirectory = '';
+    let crateFile = null;
+    
+    // First, try to find ro-crate-metadata.json and determine the base directory
+    zip.forEach((relativePath, zipEntry) => {
+      if (relativePath.endsWith('ro-crate-metadata.json')) {
+        crateFile = zipEntry;
+        // Extract base directory from the path
+        const pathParts = relativePath.split('/');
+        if (pathParts.length > 1) {
+          baseDirectory = pathParts.slice(0, -1).join('/') + '/';
+        }
+      }
+    });
+
+    if (!crateFile) {
+      console.error('Available files in archive:', Object.keys(zip.files));
+      throw new Error('ro-crate-metadata.json not found in ELN archive. This may not be a valid ELN export.');
+    }
+
+    // Build file index with correct paths matching @id format in ro-crate
+    zip.forEach((relativePath, zipEntry) => {
+      if (!zipEntry.dir && relativePath.startsWith(baseDirectory)) {
+        // Store with the @id format: "./" + full path (e.g., "./2025-09-19-090444-export/dir/file.png")
+        const fileIdWithDot = `./${relativePath}`;
+        this.fileIndex.set(fileIdWithDot, zipEntry);
+
+        // Also store without "./" for flexibility
+        this.fileIndex.set(relativePath, zipEntry);
+
+        // Store with path relative to base directory (this matches @id in @graph)
+        const pathRelativeToBase = relativePath.substring(baseDirectory.length);
+        if (pathRelativeToBase) {
+          // This is the key format used in the @graph (e.g., "./Molecular-biology - Cloning - 6300f19f/test.png")
+          this.fileIndex.set(`./${pathRelativeToBase}`, zipEntry);
+          this.fileIndex.set(pathRelativeToBase, zipEntry);
+        }
+      }
+    });
+
+    let crateContent;
+    try {
+      crateContent = await crateFile.async('text');
+      console.log('Raw crate content length:', crateContent.length);
+      this.crateData = JSON.parse(crateContent);
+      console.log('Parsed crate data:', this.crateData);
+      console.log('Graph items count:', this.crateData['@graph']?.length || 0);
+    } catch (error) {
+      console.error('Failed to parse ro-crate-metadata.json:', error);
+      throw new Error('Invalid ro-crate-metadata.json format in ELN archive.');
+    }
+
+    // Extract datasets and file metadata
+    const datasets = this.extractDatasets(this.crateData);
+    const fileMetadata = this.extractFileMetadata(this.crateData);
+
+    console.log('=== PARSING RESULTS ===');
+    console.log(`Extracted ${datasets.length} datasets`);
+    console.log(`Extracted ${Object.keys(fileMetadata).length} files`);
+    console.log('Datasets:', datasets);
+    console.log('File metadata:', fileMetadata);
+    
+    return { datasets, fileMetadata, fileIndex: this.fileIndex };
+  }
+
+  private extractDatasets(crateData: ROCrateData | null | undefined): ELabFTWDataset[] {
+    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
+      console.warn('Invalid or missing crateData for dataset extraction');
+      return [];
+    }
+
+    const datasets: ELabFTWDataset[] = [];
+    const categories = this.extractCategories(crateData);
+
+    console.log('=== DEBUGGING DATASET EXTRACTION ===');
+    console.log('Total items in @graph:', crateData['@graph'].length);
+
+    for (const item of crateData['@graph']) {
+      if (item['@type'] === 'Dataset' && item.genre) {
+        console.log('\n--- Processing Dataset ---');
+        console.log('Dataset ID:', item['@id']);
+        console.log('Dataset name:', item.name);
+        console.log('Dataset type:', item['@type']);
+        console.log('Dataset genre:', item.genre);
+        console.log('Raw variableMeasured:', item.variableMeasured);
+        console.log('variableMeasured length:', (item.variableMeasured || []).length);
+        
+        // Log each variableMeasured item in detail
+        if (item.variableMeasured && item.variableMeasured.length > 0) {
+          item.variableMeasured.forEach((variable, index) => {
+            console.log(`variableMeasured[${index}]:`, variable);
+            console.log(`  - Type: ${typeof variable}`);
+            console.log(`  - Keys:`, Object.keys(variable));
+            if (variable['@id']) {
+              console.log(`  - @id: ${variable['@id']}`);
+            }
+          });
+        }
+        
+        // Log all properties of the dataset item
+        console.log('All dataset properties:', Object.keys(item));
+        
+        const dataset: ELabFTWDataset = {
+          id: item['@id'],
+          name: item.name || 'Untitled',
+          genre: item.genre,
+          dateCreated: item.dateCreated || '',
+          dateModified: item.dateModified || '',
+          textContent: item.text || '',
+          steps: this.extractSteps(item.step || [], crateData),
+          mentions: this.extractMentions(item.mentions || []),
+          files: this.extractFiles(item.hasPart || []),
+          variableMeasured: item.variableMeasured || [],
+          keywords: this.extractKeywords(item.keywords || ''),
+          category: this.getCategoryName(item.about?.['@id'], categories),
+          categoryColor: this.getCategoryColor(item.about?.['@id'], categories)
+        };
+
+        console.log('Final dataset variableMeasured:', dataset.variableMeasured);
+        console.log('--- End Dataset ---\n');
+
+        datasets.push(dataset);
+      }
+    }
+
+    return datasets;
+  }
+
+  private extractCategories(crateData: ROCrateData | null | undefined): Record<string, { name: string; color: string }> {
+    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
+      return {};
+    }
+
+    const categories: Record<string, { name: string; color: string }> = {};
+    
+    for (const item of crateData['@graph']) {
+      if (item['@type'] === 'Thing' && item['@id'].startsWith('#category-')) {
+        categories[item['@id']] = {
+          name: item.name || '',
+          color: item.color || '#666666'
+        };
+      }
+    }
+
+    return categories;
+  }
+
+  private getCategoryName(categoryId: string | undefined, categories: Record<string, { name: string; color: string }>): string {
+    if (!categoryId) return 'Uncategorized';
+    return categories[categoryId]?.name || 'Unknown';
+  }
+
+  private getCategoryColor(categoryId: string | undefined, categories: Record<string, { name: string; color: string }>): string {
+    if (!categoryId) return '#666666';
+    return categories[categoryId]?.color || '#666666';
+  }
+
+  private extractSteps(stepRefs: any[], crateData: ROCrateData | null | undefined): HowToStep[] {
+    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
+      return [];
+    }
+
+    const steps: HowToStep[] = [];
+    
+    for (const stepRef of stepRefs) {
+      const stepId = typeof stepRef === 'string' ? stepRef : stepRef['@id'];
+      const stepItem = crateData['@graph'].find(item => item['@id'] === stepId);
+      
+      // Try to parse elabftw_metadata if it exists
+      let metadata = null;
+      try {
+        if (stepItem?.elabftw_metadata) {
+          metadata = typeof stepItem.elabftw_metadata === 'string' 
+            ? JSON.parse(stepItem.elabftw_metadata) 
+            : stepItem.elabftw_metadata;
+        }
+      } catch (error) {
+        // Silently skip parsing errors
+        console.warn('Failed to parse elabftw_metadata:', error);
+      }
+      
+      if (stepItem && stepItem['@type'] === 'HowToStep') {
+        const directionId = stepItem.itemListElement?.['@id'];
+        const directionItem = crateData['@graph'].find(item => item['@id'] === directionId);
+        
+        steps.push({
+          '@id': stepItem['@id'],
+          '@type': stepItem['@type'],
+          position: stepItem.position || 0,
+          creativeWorkStatus: stepItem.creativeWorkStatus || '',
+          itemListElement: {
+            '@id': directionId || '',
+            '@type': directionItem?.['@type'] || 'HowToDirection',
+            text: directionItem?.text || ''
+          }
+        });
+      }
+    }
+
+    return steps.sort((a, b) => a.position - b.position);
+  }
+
+  private extractMentions(mentions: any[]): string[] {
+    return mentions
+      .map(mention => typeof mention === 'string' ? mention : mention['@id'] || mention.name)
+      .filter(Boolean);
+  }
+
+  private extractFiles(hasPart: any[]): string[] {
+    return hasPart
+      .map(part => typeof part === 'string' ? part : part['@id'])
+      .filter(Boolean);
+  }
+
+  private extractKeywords(keywords: string | string[]): string[] {
+    if (Array.isArray(keywords)) {
+      return keywords;
+    }
+    if (typeof keywords === 'string') {
+      return keywords.split(',').map(k => k.trim()).filter(Boolean);
+    }
+    return [];
+  }
+
+  private extractFileMetadata(crateData: ROCrateData | null | undefined): Record<string, FileMetadata> {
+    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
+      return {};
+    }
+
+    const fileMetadata: Record<string, FileMetadata> = {};
+    
+    for (const item of crateData['@graph']) {
+      if (item['@type'] === 'File') {
+        fileMetadata[item['@id']] = {
+          id: item['@id'],
+          name: item.name || '',
+          encodingFormat: item.encodingFormat || '',
+          contentSize: item.contentSize || 0,
+          dateModified: item.dateModified || '',
+          description: item.description || ''
+        };
+      }
+    }
+
+    return fileMetadata;
+  }
+
+  extractCustomFields(variableMeasured: any[], crateData?: ROCrateData | null) {
+    const extractor = new CustomFieldExtractor();
+    return extractor.extractCustomFields(variableMeasured, crateData);
+  }
+
+  // Deprecated: use CustomFieldExtractor directly
+  private _extractCustomFieldsOld(variableMeasured: any[], crateData?: ROCrateData | null): Record<string, any> {
+    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
+      console.warn('No valid crateData available for field extraction');
+      return {};
+    }
+
+    const customFields: Record<string, CustomField> = {};
+
+    console.log('=== EXTRACTING CUSTOM FIELDS ===');
+    console.log('variableMeasured array:', variableMeasured);
+    console.log('crateData available:', true);
+
+    // Create a map for quick graph lookups
+    const graphMap = new Map();
+    crateData['@graph'].forEach(item => {
+      if (item['@id']) {
+        graphMap.set(item['@id'], item);
+      }
+    });
+
+    console.log('Graph items available:', graphMap.size);
+
+    // Process all variableMeasured items
+    variableMeasured.forEach((variable, index) => {
+      console.log(`\n--- Processing variable ${index} ---`);
+      console.log('Raw variable:', variable);
+      
+      // Resolve references to get the actual variable data
+      let actualVariable = variable;
+      if (variable['@id'] && Object.keys(variable).length <= 2) {
+        const resolved = graphMap.get(variable['@id']);
+        if (resolved) {
+          actualVariable = resolved;
+          console.log('Resolved reference:', variable['@id']);
+          console.log('Resolved to:', actualVariable);
+        }
+      }
+      
+      // Extract eLabFTW metadata first (highest priority) - handle both experiments and resources
+      if (actualVariable.propertyID === 'elabftw_metadata' && actualVariable.value) {
+        console.log('Found elabftw_metadata PropertyValue');
+        this.extractFromElabFTWMetadata(actualVariable.value, customFields);
+      } else if (actualVariable.elabftw_metadata) {
+        console.log('Found direct elabftw_metadata');
+        this.extractFromElabFTWMetadata(actualVariable.elabftw_metadata, customFields);
+      }
+      
+      // Extract direct property values
+      if (actualVariable.propertyID && actualVariable.value) {
+        // Skip elabftw_metadata as it's handled above
+        if (actualVariable.propertyID !== 'elabftw_metadata') {
+          console.log('Found direct property:', actualVariable.propertyID);
+          this.extractPropertyValue(actualVariable, customFields);
+        }
+      }
+
+      // Extract other structured data
+      if (actualVariable.name && actualVariable.value && !actualVariable.propertyID) {
+        this.extractNameValuePair(actualVariable, customFields);
+      }
+      });
+
+
+    return customFields;
+  }
+
+  private extractFromElabFTWMetadata(metadataValue: string | any, customFields: Record<string, CustomField>): void {
+    console.log('=== EXTRACTING FROM ELABFTW METADATA ===');
+    console.log('Raw metadata value:', metadataValue);
+    
+    let metadata;
+    try {
+      // Parse if it's a string, otherwise use as-is
+      metadata = typeof metadataValue === 'string' ? JSON.parse(metadataValue) : metadataValue;
+      console.log('Parsed metadata:', metadata);
+    } catch (error) {
+      console.error('Failed to parse metadata JSON:', error);
+      return;
+    }
+
+    // Handle different metadata structures
+    let extraFields = null;
+    
+    // Check for nested elabftw.extra_fields (experiments)
+    if (metadata.elabftw?.extra_fields) {
+      extraFields = metadata.elabftw.extra_fields;
+      console.log('Found elabftw.extra_fields (experiment format)');
+    }
+    // Check for direct extra_fields (resources)
+    else if (metadata.extra_fields) {
+      extraFields = metadata.extra_fields;
+      console.log('Found direct extra_fields (resource format)');
+    }
+
+    if (extraFields) {
+      console.log('Processing extra fields:', Object.keys(extraFields));
+      
+      // Process each field
+      Object.entries(extraFields).forEach(([fieldName, fieldData]: [string, any]) => {
+        console.log(`Processing field: ${fieldName}`, fieldData);
+        this.processExtraField({ name: fieldName, ...fieldData }, customFields);
+      });
+    } else {
+      console.log('No extra_fields found in metadata');
+    }
+  }
+
+  private processExtraField(field: any, customFields: Record<string, CustomField>): void {
+    console.log(`\n--- Processing field: ${field.name} ---`);
+    console.log('Field object:', field);
+    console.log('Field type:', field.type);
+    console.log('Field value:', field.value);
+    console.log('Field has options:', !!field.options);
+    console.log('Field has units:', !!field.units);
+    console.log('Field required:', field.required);
+    
+    if (field.name && (field.value !== undefined && field.value !== null)) {
+      // Allow empty strings for required fields
+      const fieldValue = field.value.toString();
+      console.log(`Adding extra field: ${field.name} = "${fieldValue}" (type: ${field.type})`);
+      
+      customFields[field.name] = {
+        type: this.mapELabFTWFieldType(field.type) || 'text',
+        value: fieldValue,
+        description: field.description || `Extra field: ${field.name}`,
+        required: field.required || false,
+        ...(field.options && { options: field.options }),
+        ...(field.units && { units: field.units }),
+        ...(field.group_id && { group_id: field.group_id })
+      };
+      
+      console.log(`Successfully added field "${field.name}" with type "${customFields[field.name].type}"`);
+      if (field.options) {
+        console.log(`  - Options: ${field.options.join(', ')}`);
+      }
+      if (field.units) {
+        console.log(`  - Units: ${field.units.join(', ')}`);
+      }
+      if (field.required) {
+        console.log(`  - Required: ${field.required}`);
+      }
+    } else {
+      console.log(`Skipping field due to missing name or value:`, {
+        name: field.name,
+        value: field.value,
+        hasName: !!field.name,
+        hasValue: field.value !== undefined && field.value !== null
+      });
+    }
+  }
+
+  private extractPropertyValue(variable: any, customFields: Record<string, CustomField>): void {
+    const fieldName = variable.propertyID?.toString().trim();
+    const fieldValue = variable.value?.toString().trim();
+    
+    if (!fieldName || !fieldValue) return;
+    
+    console.log(`Extracting property: ${fieldName} = "${fieldValue}"`);
+    
+    const fieldType = this.inferFieldType(fieldValue);
+
+    customFields[fieldName] = {
+      type: fieldType,
+      value: fieldValue,
+      description: variable.description || `Property: ${fieldName}`,
+      ...(variable.unitCode && { units: [variable.unitCode] }),
+      ...(variable.unitText && { units: [variable.unitText] })
+    };
+  }
+
+  private extractNameValuePair(variable: any, customFields: Record<string, CustomField>): void {
+    const fieldName = variable.name?.toString().trim();
+    const fieldValue = variable.value?.toString().trim();
+    
+    if (!fieldName || !fieldValue) return;
+    
+    console.log(`Extracting name/value: ${fieldName} = "${fieldValue}"`);
+    
+    customFields[fieldName] = {
+      type: this.inferFieldType(fieldValue),
+      value: fieldValue,
+      description: variable.description || `Field: ${fieldName}`
+    };
+  }
+
+  private extractNestedReferences(variable: any, graphMap: Map<string, any>, customFields: Record<string, CustomField>): void {
+    // Look for nested references in the variable
+    Object.keys(variable).forEach(key => {
+      const value = variable[key];
+      if (value && typeof value === 'object' && value['@id']) {
+        const resolved = graphMap.get(value['@id']);
+        if (resolved && resolved.name && resolved.value) {
+          console.log(`Found nested reference: ${key} -> ${resolved.name}`);
+          this.extractNameValuePair(resolved, customFields);
+        }
+      }
+    });
+  }
+
+  private exploreGraphForProperties(graph: any[], customFields: Record<string, CustomField>): void {
+    // Look for PropertyValue items in the graph
+    graph.forEach(item => {
+      if (item['@type'] === 'PropertyValue' && item.name && item.value) {
+        const fieldName = item.name.toString().trim();
+        const fieldValue = item.value.toString().trim();
+        
+        if (fieldName && fieldValue && !customFields[fieldName]) {
+          console.log(`\n--- Processing field ${index + 1}/${fieldsToProcess.length} ---`);
+          console.log('Field object:', field);
+          console.log('Field name:', field.name);
+          console.log('Field type:', field.type);
+          console.log('Field value:', field.value);
+          console.log('Field has options:', !!field.options);
+          console.log('Field has units:', !!field.units);
+          console.log('Field required:', field.required);
+          
+          console.log(`Found PropertyValue in graph: ${fieldName} = "${fieldValue}"`);
+          customFields[fieldName] = {
+            type: this.inferFieldType(fieldValue),
+            value: fieldValue,
+            description: item.description || `Property: ${fieldName}`
+          };
+        }
+      }
+    });
+  }
+
+  private createMetadataBlob(variableMeasured: any[], crateData: ROCrateData, customFields: Record<string, CustomField>): void {
+    const otherMetadata: any = {};
+    
+    otherMetadata.variableMeasured = variableMeasured;
+    
+    const relevantItems = crateData['@graph'].filter(item => 
+      item['@type'] === 'PropertyValue' || 
+      item['@type'] === 'DefinedTerm' ||
+      (item['@type'] === 'Thing' && item.name && item.value)
+    );
+    
+    if (relevantItems.length > 0) {
+      otherMetadata.additionalProperties = relevantItems;
+    }
+    
+    customFields['elabftw_metadata'] = {
+      type: 'textarea',
+      value: JSON.stringify(otherMetadata, null, 2),
+      description: 'ELN metadata (JSON format)'
+    };
+  }
+
+  private mapELabFTWFieldType(type: string): string | null {
+    if (!type) return null;
+    
+    const typeMapping: Record<string, string> = {
+      'number': 'number',
+      'integer': 'number',
+      'decimal': 'number',
+      'float': 'number',
+      'date': 'date',
+      'datetime': 'datetime',
+      'time': 'time',
+      'boolean': 'checkbox',
+      'url': 'url',
+      'email': 'email',
+      'select': 'select',
+      'radio': 'radio',
+      'checkbox': 'checkbox',
+      'textarea': 'textarea'
+    };
+    
+    return typeMapping[String(type).toLowerCase()] || null;
+  }
+
+  private inferFieldType(value: string): string {
+    const trimmedValue = value.trim();
+    
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)) {
+      return 'date';
+    } else if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(trimmedValue)) {
+      return 'datetime';
+    } else if (/^-?\d+\.?\d*$/.test(trimmedValue)) {
+      return 'number';
+    } else if (/^(true|false)$/i.test(trimmedValue)) {
+      return 'checkbox';
+    } else if (/^https?:\/\//.test(trimmedValue)) {
+      return 'url';
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue)) {
+      return 'email';
+    }
+    
+    return 'text';
+  }
+}
+
+// Re-export for backwards compatibility
+export { ClassificationEngine } from './ClassificationEngine';
+export { ValidationEngine } from './ValidationEngine';
+export { CustomFieldExtractor } from './CustomFieldExtractor';
+
+// Helper function to convert datasets to preview items
+export function convertDatasetsToPreviewItems(
+  datasets: ELabFTWDataset[],
+  fileMetadata: Record<string, FileMetadata>,
+  crateData?: ROCrateData | null
+): PreviewItem[] {
+  const parser = new ELabFTWParser();
+  const classifier = new ClassificationEngine();
+  const validator = new ValidationEngine();
+
+  return datasets.map(dataset => {
+    // Extract custom fields
+    const customFields = parser.extractCustomFields(dataset.variableMeasured, crateData);
+    
+    // Classify the dataset
+    const classification = classifier.classifyDataset(dataset, customFields);
+    
+    // Create item-specific eLabFTW metadata blob
+    const rawElabFTWMetadata = createItemSpecificMetadata(dataset, crateData);
+    
+    // Create preview item
+    const previewItem: PreviewItem = {
+      id: dataset.id,
+      name: dataset.name,
+      type: dataset.genre,
+      category: dataset.category || 'Uncategorized',
+      categoryColor: dataset.categoryColor || '#666666',
+      proposedClassification: classification.proposed,
+      userClassification: null,
+      confidence: classification.confidence,
+      justification: classification.justification,
+      reasons: classification.reasons,
+      metadata: customFields,
+      files: dataset.files,
+      crossReferences: dataset.mentions,
+      validationIssues: [],
+      textContent: dataset.textContent,
+      steps: dataset.steps || [],
+      keywords: dataset.keywords || [],
+      dateCreated: dataset.dateCreated || '',
+      dateModified: dataset.dateModified || '',
+      elabftwMetadata: rawElabFTWMetadata
+    };
+    
+    // Validate the item
+    previewItem.validationIssues = validator.validateItem(previewItem);
+
+    return previewItem;
+  });
+}
+
+// Helper function to create item-specific metadata
+function createItemSpecificMetadata(dataset: ELabFTWDataset, crateData?: ROCrateData | null): any {
+  if (!crateData || !crateData['@graph']) {
+    return {
+      dataset: {
+        id: dataset.id,
+        name: dataset.name,
+        genre: dataset.genre,
+        dateCreated: dataset.dateCreated,
+        dateModified: dataset.dateModified
+      },
+      variableMeasured: dataset.variableMeasured,
+      extractedAt: new Date().toISOString(),
+      note: 'Limited metadata - no RO-Crate graph available'
+    };
+  }
+
+  // Find the specific dataset in the graph
+  const datasetInGraph = crateData['@graph'].find(item => item['@id'] === dataset.id);
+  if (!datasetInGraph) {
+    return {
+      dataset: {
+        id: dataset.id,
+        name: dataset.name,
+        genre: dataset.genre
+      },
+      variableMeasured: dataset.variableMeasured,
+      extractedAt: new Date().toISOString(),
+      note: 'Dataset not found in RO-Crate graph'
+    };
+  }
+
+  // Create a map for quick lookups
+  const graphMap = new Map();
+  crateData['@graph'].forEach(item => {
+    if (item['@id']) {
+      graphMap.set(item['@id'], item);
+    }
+  });
+
+  // Collect only items that are directly referenced by this dataset
+  const referencedItems: any[] = [];
+  const processedIds = new Set([dataset.id]);
+
+  // Function to collect referenced items recursively (but only 1 level deep to avoid bloat)
+  const collectReferences = (item: any, depth: number = 0) => {
+    if (depth > 1) return; // Limit depth to avoid including too much
+
+    Object.values(item).forEach((value: any) => {
+      if (value && typeof value === 'object') {
+        if (Array.isArray(value)) {
+          value.forEach(arrayItem => {
+            if (arrayItem && typeof arrayItem === 'object' && arrayItem['@id']) {
+              const refId = arrayItem['@id'];
+              if (!processedIds.has(refId)) {
+                const referencedItem = graphMap.get(refId);
+                if (referencedItem) {
+                  processedIds.add(refId);
+                  referencedItems.push(referencedItem);
+                  if (depth === 0) {
+                    collectReferences(referencedItem, depth + 1);
+                  }
+                }
+              }
+            }
+          });
+        } else if (value['@id']) {
+          const refId = value['@id'];
+          if (!processedIds.has(refId)) {
+            const referencedItem = graphMap.get(refId);
+            if (referencedItem) {
+              processedIds.add(refId);
+              referencedItems.push(referencedItem);
+              if (depth === 0) {
+                collectReferences(referencedItem, depth + 1);
+              }
+            }
+          }
+        }
+      }
+    });
+  };
+
+  // Start collecting references from the main dataset
+  collectReferences(datasetInGraph);
+
+  // Build the item-specific metadata
+  const itemMetadata = {
+    dataset: datasetInGraph,
+    referencedItems: referencedItems,
+    variableMeasured: dataset.variableMeasured,
+    extractedAt: new Date().toISOString(),
+    source: 'ELN',
+    note: `Item-specific metadata for ${dataset.name} (${dataset.id})`
+  };
+
+  console.log(`Created item-specific metadata for ${dataset.name}:`);
+  console.log(`- Dataset properties: ${Object.keys(datasetInGraph).length}`);
+  console.log(`- Referenced items: ${referencedItems.length}`);
+  console.log(`- Variable measured: ${dataset.variableMeasured.length}`);
+
+  return itemMetadata;
+}
