@@ -25,35 +25,18 @@ export class CustomFieldExtractor {
         }
       }
 
-      // P1 IMPROVEMENT: Generic metadata extraction (supports multiple ELN sources)
-      // Check for source-specific metadata in multiple formats
-      const metadataPropertyNames = [
-        'elabftw_metadata',    // eLabFTW format
-        'source_metadata',     // Generic format
-        'extra_fields',        // Generic format
-        'custom_fields'        // Generic format
-      ];
+      if (actualVariable.propertyID === 'elabftw_metadata' && actualVariable.value) {
+        this.extractFromElabFTWMetadata(actualVariable.value, customFields);
+      } else if (actualVariable.elabftw_metadata) {
+        this.extractFromElabFTWMetadata(actualVariable.elabftw_metadata, customFields);
+      }
 
-      // Extract from any recognized metadata property
-      let metadataExtracted = false;
-      for (const propName of metadataPropertyNames) {
-        if (actualVariable.propertyID === propName && actualVariable.value) {
-          this.extractFromSourceMetadata(actualVariable.value, customFields, propName);
-          metadataExtracted = true;
-          break;
-        } else if (actualVariable[propName]) {
-          this.extractFromSourceMetadata(actualVariable[propName], customFields, propName);
-          metadataExtracted = true;
-          break;
+      if (actualVariable.propertyID && actualVariable.value) {
+        if (actualVariable.propertyID !== 'elabftw_metadata') {
+          this.extractPropertyValue(actualVariable, customFields);
         }
       }
 
-      // Extract standard PropertyValue fields (if not metadata container)
-      if (actualVariable.propertyID && actualVariable.value && !metadataExtracted) {
-        this.extractPropertyValue(actualVariable, customFields);
-      }
-
-      // Extract name-value pairs (fallback for simple fields)
       if (actualVariable.name && actualVariable.value && !actualVariable.propertyID) {
         this.extractNameValuePair(actualVariable, customFields);
       }
@@ -62,55 +45,27 @@ export class CustomFieldExtractor {
     return customFields;
   }
 
-  /**
-   * P1 IMPROVEMENT: Renamed from extractFromElabFTWMetadata to extractFromSourceMetadata
-   * Now supports multiple ELN source formats, not just eLabFTW
-   *
-   * @param metadataValue - Raw metadata value (string or object)
-   * @param customFields - Output object for extracted fields
-   * @param sourceName - Name of the metadata property (for logging)
-   */
-  private extractFromSourceMetadata(
-    metadataValue: string | any,
-    customFields: Record<string, CustomField>,
-    sourceName: string = 'unknown'
-  ): void {
+  private extractFromElabFTWMetadata(metadataValue: string | any, customFields: Record<string, CustomField>): void {
     let metadata;
     try {
       metadata = typeof metadataValue === 'string' ? JSON.parse(metadataValue) : metadataValue;
     } catch (error) {
-      console.error(`Failed to parse ${sourceName} JSON:`, error);
+      console.error('Failed to parse metadata JSON:', error);
       return;
     }
 
-    console.log(`Extracting fields from ${sourceName}:`, metadata);
-
     let extraFields = null;
 
-    // P1 IMPROVEMENT: Support multiple metadata structures
-    // Try different paths to find extra fields
-    const possiblePaths = [
-      metadata.elabftw?.extra_fields,  // eLabFTW nested format
-      metadata.extra_fields,           // Direct extra_fields
-      metadata.custom_fields,          // Generic custom_fields
-      metadata.fields,                 // Generic fields
-      metadata                         // Flat structure (fields at root)
-    ];
-
-    for (const path of possiblePaths) {
-      if (path && typeof path === 'object') {
-        extraFields = path;
-        break;
-      }
+    if (metadata.elabftw?.extra_fields) {
+      extraFields = metadata.elabftw.extra_fields;
+    } else if (metadata.extra_fields) {
+      extraFields = metadata.extra_fields;
     }
 
     if (extraFields) {
-      console.log(`Found extra fields in ${sourceName}:`, Object.keys(extraFields));
       Object.entries(extraFields).forEach(([fieldName, fieldData]: [string, any]) => {
         this.processExtraField({ name: fieldName, ...fieldData }, customFields);
       });
-    } else {
-      console.warn(`No extra fields found in ${sourceName} metadata`);
     }
   }
 
@@ -119,7 +74,7 @@ export class CustomFieldExtractor {
       const fieldValue = field.value.toString();
 
       customFields[field.name] = {
-        type: this.mapFieldType(field.type) || 'text',
+        type: this.mapELabFTWFieldType(field.type) || 'text',
         value: fieldValue,
         description: field.description || `Extra field: ${field.name}`,
         required: field.required || false,
@@ -160,56 +115,24 @@ export class CustomFieldExtractor {
     };
   }
 
-  /**
-   * P1 IMPROVEMENT: Renamed from mapELabFTWFieldType to mapFieldType
-   * Now supports field types from multiple ELN sources
-   *
-   * Maps field type names from various ELN systems to our internal type system
-   * @param type - Field type name from source ELN
-   * @returns Normalized field type or null if not recognized
-   */
-  private mapFieldType(type: string): string | null {
+  private mapELabFTWFieldType(type: string): string | null {
     if (!type) return null;
 
     const typeMapping: Record<string, string> = {
-      // Numeric types
       'number': 'number',
       'integer': 'number',
       'decimal': 'number',
       'float': 'number',
-      'numeric': 'number',
-
-      // Date/time types
       'date': 'date',
       'datetime': 'datetime',
       'time': 'time',
-      'timestamp': 'datetime',
-
-      // Boolean types
       'boolean': 'checkbox',
-      'bool': 'checkbox',
-
-      // URL types
       'url': 'url',
-      'link': 'url',
-      'uri': 'url',
-
-      // Email types
       'email': 'email',
-      'mail': 'email',
-
-      // Selection types
       'select': 'select',
-      'dropdown': 'select',
-      'choice': 'select',
       'radio': 'radio',
       'checkbox': 'checkbox',
-
-      // Text types
-      'textarea': 'textarea',
-      'text': 'text',
-      'string': 'text',
-      'multiline': 'textarea'
+      'textarea': 'textarea'
     };
 
     return typeMapping[String(type).toLowerCase()] || null;

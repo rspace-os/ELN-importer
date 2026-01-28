@@ -1,5 +1,3 @@
-import { RetryManager } from '../utils/RetryManager';  // P1: Retry logic
-
 interface RSpaceConfig {
   baseUrl: string;
   apiKey: string;
@@ -30,11 +28,9 @@ interface RSpaceForm {
 
 export class RSpaceService {
   private config: RSpaceConfig;
-  private retryManager: RetryManager;  // P1: Retry manager for network operations
 
   constructor(config: RSpaceConfig) {
     this.config = config;
-    this.retryManager = new RetryManager();  // P1: Initialize retry manager
   }
 
   private async makeRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
@@ -247,10 +243,6 @@ export class RSpaceService {
 
       const result = await response.json();
       console.log('Sample created:', result);
-      console.log('DEBUG - Sample result keys:', Object.keys(result));
-      console.log('DEBUG - Sample result.id:', result.id);
-      console.log('DEBUG - Sample result.globalId:', result.globalId);
-      console.log('DEBUG - Sample result.subSamples:', result.subSamples);
 
       return { ...result, type: 'sample' as const };
     } catch (error) {
@@ -349,71 +341,33 @@ export class RSpaceService {
     console.log('Custom fields are now added during item creation');
   }
 
-  /**
-   * P1 IMPROVEMENT: File upload with retry logic
-   * Wraps file upload in RetryManager for automatic retry on transient failures
-   *
-   * @param file - File to upload
-   * @param caption - Optional caption for the file
-   * @param onRetry - Optional callback for retry progress updates
-   * @returns Upload result with file ID and name
-   */
-  async uploadFile(
-    file: File,
-    caption?: string,
-    onRetry?: (attempt: number, delayMs: number, error: any) => void
-  ): Promise<{ id: string; globalId: string; name: string }> {
-    console.log(`Uploading file: ${file.name} (${file.size} bytes)`);
+  async uploadFile(file: File, caption?: string): Promise<{ id: string; name: string }> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('caption', caption || file.name);
 
-    // P1: Wrap upload in retry manager
-    const result = await this.retryManager.executeWithRetry(
-      async () => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('caption', caption || file.name);
+      const response = await fetch(`${this.config.baseUrl}/api/v1/files`, {
+        method: 'POST',
+        headers: {
+          'apiKey': this.config.apiKey
+        },
+        body: formData
+      });
 
-        const response = await fetch(`${this.config.baseUrl}/api/v1/files`, {
-          method: 'POST',
-          headers: {
-            'apiKey': this.config.apiKey
-          },
-          body: formData
-        });
+      if (!response.ok) {
+        throw new Error(`File upload failed: ${response.status}`);
+      }
 
-        if (!response.ok) {
-          // Create error with status code for retry decision
-          const error: any = new Error(`File upload failed: ${response.status}`);
-          error.status = response.status;
-          error.response = { status: response.status };
-          throw error;
-        }
-
-        const uploadResult = await response.json();
-        console.log('File upload response:', uploadResult);
-        console.log('DEBUG - Upload result keys:', Object.keys(uploadResult));
-        console.log('DEBUG - Upload result.id:', uploadResult.id);
-        console.log('DEBUG - Upload result.globalId:', uploadResult.globalId);
-        return {
-          id: uploadResult.id,
-          globalId: uploadResult.globalId,
-          name: uploadResult.name || file.name
-        };
-      },
-      {
-        maxAttempts: 5,
-        initialDelayMs: 1000,
-        maxDelayMs: 16000,
-        timeoutMs: 120000  // 2 minutes total for large files
-      },
-      onRetry
-    );
-
-    if (result.success) {
-      console.log(`File uploaded successfully after ${result.attempts} attempt(s)`);
-      return result.result!;
-    } else {
-      console.error(`File upload failed after ${result.attempts} attempts:`, result.error);
-      throw result.error!;
+      const result = await response.json();
+      console.log('File upload response:', result);
+      return {
+        id: result.id,
+        name: result.name || file.name
+      };
+    } catch (error) {
+      console.error('File upload failed:', error);
+      throw error;
     }
   }
 
@@ -437,52 +391,6 @@ export class RSpaceService {
       console.log(`Successfully attached file ${fileId} to document ${documentId}:`, result);
     } catch (error) {
       console.error(`Failed to attach file ${fileId} to document ${documentId}:`, error);
-      throw error;
-    }
-  }
-
-  /**
-   * Attach an uploaded Gallery file to an inventory item (sample or container)
-   * Uses the /api/inventory/v1/attachments endpoint
-   *
-   * @param itemGlobalId - Global ID of inventory item (e.g., "SA12345" or "IC67890")
-   * @param fileGlobalId - Global ID of the Gallery file (e.g., "GL123")
-   */
-  async attachFileToInventoryItem(itemGlobalId: string, fileGlobalId: string): Promise<void> {
-    try {
-      console.log(`=== ATTACHMENT DEBUG ===`);
-      console.log(`Attaching Gallery file ${fileGlobalId} to inventory item ${itemGlobalId}`);
-
-      const requestBody = {
-        parentGlobalId: itemGlobalId,
-        mediaFileGlobalId: fileGlobalId
-      };
-      console.log('Request body:', JSON.stringify(requestBody, null, 2));
-
-      const response = await this.makeRequest(
-        '/api/inventory/v1/attachments',
-        {
-          method: 'POST',
-          body: JSON.stringify(requestBody)
-        }
-      );
-
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-      console.log('Response headers:', Array.from(response.headers.entries()));
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response body:', errorText);
-        throw new Error(`Failed to attach file to inventory item: ${response.status} - ${errorText}`);
-      }
-
-      const result = await response.json();
-      console.log('Attachment API response:', JSON.stringify(result, null, 2));
-      console.log('DEBUG - Attachment result keys:', Object.keys(result));
-      console.log(`Successfully attached file ${fileGlobalId} to inventory item ${itemGlobalId}`);
-    } catch (error) {
-      console.error(`Failed to attach file ${fileGlobalId} to inventory item ${itemGlobalId}:`, error);
       throw error;
     }
   }
@@ -542,54 +450,6 @@ export class RSpaceService {
       await this.updateDocumentField(documentId, 'References', linkHtml);
     } catch (error) {
       console.warn(`Failed to add internal link to document ${documentId}:`, error);
-    }
-  }
-
-  // P0 FIX: Delete methods for rollback support
-  async deleteDocument(documentId: number): Promise<void> {
-    try {
-      console.log(`Deleting document ${documentId}`);
-      const response = await this.makeRequest(`/api/v1/documents/${documentId}`, {
-        method: 'DELETE'
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete document: ${response.statusText}`);
-      }
-
-      console.log(`Document ${documentId} deleted successfully`);
-    } catch (error) {
-      console.error(`Failed to delete document ${documentId}:`, error);
-      throw error;
-    }
-  }
-
-  async deleteInventoryItem(globalId: string): Promise<void> {
-    try {
-      console.log(`Deleting inventory item ${globalId}`);
-
-      // RSpace inventory API uses globalId for deletion
-      // Format: /api/inventory/v1/samples/{id} or /api/inventory/v1/containers/{id}
-      // Try sample first, then container
-      let response = await this.makeRequest(`/api/inventory/v1/samples/${globalId}`, {
-        method: 'DELETE'
-      });
-
-      if (!response.ok && response.status === 404) {
-        // Try as container if sample deletion failed
-        response = await this.makeRequest(`/api/inventory/v1/containers/${globalId}`, {
-          method: 'DELETE'
-        });
-      }
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete inventory item: ${response.statusText}`);
-      }
-
-      console.log(`Inventory item ${globalId} deleted successfully`);
-    } catch (error) {
-      console.error(`Failed to delete inventory item ${globalId}:`, error);
-      throw error;
     }
   }
 }

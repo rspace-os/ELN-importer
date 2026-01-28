@@ -1,7 +1,7 @@
-import { ELNDataset, CustomField, ClassificationResult } from '../types/eln';
+import { ELabFTWDataset, CustomField, ClassificationResult } from '../types/eln';
 
 export class ClassificationEngine {
-  classifyDataset(dataset: ELNDataset, customFields: Record<string, CustomField>): ClassificationResult {
+  classifyDataset(dataset: ELabFTWDataset, customFields: Record<string, CustomField>): ClassificationResult {
     if (dataset.genre === 'experiment') {
       return {
         proposed: 'document',
@@ -80,7 +80,7 @@ export class ClassificationEngine {
     };
   }
 
-  private isInstrumentResource(dataset: ELNDataset, customFields: Record<string, CustomField>): boolean {
+  private isInstrumentResource(dataset: ELabFTWDataset, customFields: Record<string, CustomField>): boolean {
     const categoryIndicators = ['microscope', 'spectrometer', 'instrument', 'equipment', 'nmr', 'hplc', 'gc-ms'];
     const fieldIndicators = ['serial number', 'model', 'manufacturer', 'calibration', 'maintenance', 'console', 'frequency'];
 
