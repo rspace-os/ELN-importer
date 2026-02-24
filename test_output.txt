@@ -1,0 +1,463 @@
+
+> vite-react-typescript-starter@0.0.0 test
+> vitest --run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/Users/neilhanlon/projects/rspace-os-fork/ELN-importer[39m
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mexecutes successfully on the first attempt
+[22m[39mRetryManager: Attempt 1/5
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mretries on failure and eventually succeeds
+[22m[39mRetryManager: Attempt 1/3
+
+[90mstderr[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mretries on failure and eventually succeeds
+[22m[39mRetryManager: Attempt 1 failed: fetch failed
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mretries on failure and eventually succeeds
+[22m[39mRetryManager: Network error detected - retryable
+RetryManager: Retrying in 1096ms...
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mretries on failure and eventually succeeds
+[22m[39mRetryManager: Attempt 2/3
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mretries on failure and eventually succeeds
+[22m[39mRetryManager: Success after 2 attempts (1ms total)
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 1/3
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Network error detected - retryable
+RetryManager: Retrying in 982ms...
+
+[90mstderr[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 1 failed: fetch failed
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 2/3
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Network error detected - retryable
+RetryManager: Retrying in 2179ms...
+
+[90mstderr[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 2 failed: fetch failed
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 3/3
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Network error detected - retryable
+
+[90mstderr[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2maborts after max attempts
+[22m[39mRetryManager: Attempt 3 failed: fetch failed
+RetryManager: All 3 attempts failed (1ms total)
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mdoes not retry on non-retryable errors (e.g., 404)
+[22m[39mRetryManager: Attempt 1/5
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mdoes not retry on non-retryable errors (e.g., 404)
+[22m[39mRetryManager: HTTP 404 detected - not retryable
+
+[90mstderr[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mdoes not retry on non-retryable errors (e.g., 404)
+[22m[39mRetryManager: Attempt 1 failed: Not Found
+RetryManager: Error is not retryable, aborting
+
+[90mstdout[2m | src/utils/RetryManager.test.ts[2m > [22m[2mRetryManager[2m > [22m[2mrespects timeout
+[22m[39mRetryManager: Attempt 1/5
+
+ [31m❯[39m src/utils/ClassificationEngine.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 5[2mms[22m[39m
+     [32m✓[39m classifies experiments as documents with high confidence[32m 1[2mms[22m[39m
+     [32m✓[39m classifies instruments as inventory with high confidence[32m 0[2mms[22m[39m
+[31m     [31m×[31m classifies materials as inventory with high confidence[39m[32m 3[2mms[22m[39m
+     [32m✓[39m detects instruments by custom fields[32m 0[2mms[22m[39m
+ [31m❯[39m src/services/rspace-mapper.test.ts [2m([22m[2m8 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+       [32m✓[39m should map various field types correctly[32m 1[2mms[22m[39m
+       [32m✓[39m should return Text for unknown field types[32m 0[2mms[22m[39m
+       [32m✓[39m should prepare basic form fields[32m 1[2mms[22m[39m
+       [32m✓[39m should handle step fields with deduplication[32m 0[2mms[22m[39m
+       [32m✓[39m should map metadata fields and handle collisions[32m 0[2mms[22m[39m
+[31m       [31m×[31m should prepare field values for documents[39m[32m 3[2mms[22m[39m
+[31m       [31m×[31m should combine category and keywords into tags[39m[32m 0[2mms[22m[39m
+[31m       [31m×[31m should handle missing category or keywords[39m[32m 0[2mms[22m[39m
+[90mstderr[2m | src/services/rspace-importer.test.ts[2m > [22m[2mRSpaceImporter[2m > [22m[2mimports a document session successfully
+[22m[39mImport failed: TypeError: this.rspaceService.testConnection is not a function
+    at RSpaceImporter.importSession [90m(/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.ts:62:53[90m)[39m
+    at [90m/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.test.ts:43:20
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:145:11
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:915:26
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:37
+    at Traces.$ [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+
+[90mstderr[2m | src/services/rspace-importer.test.ts[2m > [22m[2mRSpaceImporter[2m > [22m[2mimports an inventory item successfully
+[22m[39mImport failed: TypeError: this.rspaceService.testConnection is not a function
+    at RSpaceImporter.importSession [90m(/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.ts:62:53[90m)[39m
+    at [90m/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.test.ts:78:20
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:145:11
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:915:26
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:37
+    at Traces.$ [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+
+[90mstderr[2m | src/services/rspace-importer.test.ts[2m > [22m[2mRSpaceImporter[2m > [22m[2mhandles file uploads during document import
+[22m[39mImport failed: TypeError: this.rspaceService.testConnection is not a function
+    at RSpaceImporter.importSession [90m(/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.ts:62:53[90m)[39m
+    at [90m/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.test.ts:104:20
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:145:11
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:915:26
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:37
+    at Traces.$ [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+
+[90mstderr[2m | src/services/rspace-importer.test.ts[2m > [22m[2mRSpaceImporter[2m > [22m[2mreports errors during import
+[22m[39mImport failed: TypeError: this.rspaceService.testConnection is not a function
+    at RSpaceImporter.importSession [90m(/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.ts:62:53[90m)[39m
+    at [90m/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39msrc/services/rspace-importer.test.ts:122:27
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:145:11
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:915:26
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:37
+    at Traces.$ [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27[90m)[39m
+    at trace [90m(file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+
+ [31m❯[39m src/services/rspace-importer.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 9[2mms[22m[39m
+[31m     [31m×[31m imports a document session successfully[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m imports an inventory item successfully[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m handles file uploads during document import[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m reports errors during import[39m[32m 3[2mms[22m[39m
+ [31m❯[39m src/utils/RetryManager.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 21[2mms[22m[39m
+     [32m✓[39m executes successfully on the first attempt[32m 2[2mms[22m[39m
+     [32m✓[39m retries on failure and eventually succeeds[32m 2[2mms[22m[39m
+     [32m✓[39m aborts after max attempts[32m 1[2mms[22m[39m
+     [32m✓[39m does not retry on non-retryable errors (e.g., 404)[32m 2[2mms[22m[39m
+[31m     [31m×[31m respects timeout[39m[32m 14[2mms[22m[39m
+ [31m❯[39m src/utils/ValidationEngine.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 6[2mms[22m[39m
+[31m     [31m×[31m validates a clean item successfully[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m detects missing name or content[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m detects long field names[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m checks for missing files[39m[32m 0[2mms[22m[39m
+[90mstdout[2m | src/utils/elabftw-parser.test.ts[2m > [22m[2mELabFTWParser[2m > [22m[2mparses a minimal ELN ZIP and extracts datasets
+[22m[39m=== STARTING ELN FILE PARSING ===
+File name: export.eln
+File size: [33m10[39m
+
+[90mstdout[2m | src/utils/elabftw-parser.test.ts[2m > [22m[2mELabFTWParser[2m > [22m[2mparses a minimal ELN ZIP and extracts datasets
+[22m[39mRaw crate content length: [33m223[39m
+Parsed crate data: {
+  [32m'@graph'[39m: [
+    { [32m'@id'[39m: [32m'./'[39m, [32m'@type'[39m: [32m'Dataset'[39m },
+    {
+      [32m'@id'[39m: [32m'./dataset1'[39m,
+      [32m'@type'[39m: [32m'Dataset'[39m,
+      name: [32m'Exp 1'[39m,
+      hasPart: [36m[Array][39m,
+      variableMeasured: [],
+      keywords: [36m[Array][39m
+    },
+    { [32m'@id'[39m: [32m'./step1'[39m, [32m'@type'[39m: [32m'HowToStep'[39m, text: [32m'Mix A and B'[39m }
+  ]
+}
+Graph items count: [33m3[39m
+=== DEBUGGING DATASET EXTRACTION ===
+Total items in @graph: [33m3[39m
+=== PARSING RESULTS ===
+Extracted 0 datasets
+Extracted 0 files
+Datasets: []
+File metadata: {}
+
+ [31m❯[39m src/utils/elabftw-parser.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 11[2mms[22m[39m
+[31m     [31m×[31m parses a minimal ELN ZIP and extracts datasets[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m converts datasets to preview items[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m creates item-specific metadata structure[39m[32m 0[2mms[22m[39m
+     [32m✓[39m extracts keywords from verschiedene Formate[32m 0[2mms[22m[39m
+[31m     [31m×[31m extracts mentions correctly[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m maps ELabFTW field types correctly[39m[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 18 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-importer.test.ts[2m > [22mRSpaceImporter[2m > [22mimports a document session successfully
+[31m[1mTypeError[22m: this.rspaceService.testConnection is not a function[39m
+[36m [2m❯[22m RSpaceImporter.importSession src/services/rspace-importer.ts:[2m62:53[22m[39m
+    [90m 60| [39m
+    [90m 61| [39m    [35mtry[39m {
+    [90m 62| [39m      [35mconst[39m connectionOk [33m=[39m [35mawait[39m [35mthis[39m[33m.[39mrspaceService[33m.[39m[34mtestConnection[39m()[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m 63| [39m      [35mif[39m ([33m![39mconnectionOk) {
+    [90m 64| [39m        throw new Error('Cannot connect to RSpace. Please check your A…
+[90m [2m❯[22m src/services/rspace-importer.test.ts:[2m43:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-importer.test.ts[2m > [22mRSpaceImporter[2m > [22mimports an inventory item successfully
+[31m[1mTypeError[22m: this.rspaceService.testConnection is not a function[39m
+[36m [2m❯[22m RSpaceImporter.importSession src/services/rspace-importer.ts:[2m62:53[22m[39m
+    [90m 60| [39m
+    [90m 61| [39m    [35mtry[39m {
+    [90m 62| [39m      [35mconst[39m connectionOk [33m=[39m [35mawait[39m [35mthis[39m[33m.[39mrspaceService[33m.[39m[34mtestConnection[39m()[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m 63| [39m      [35mif[39m ([33m![39mconnectionOk) {
+    [90m 64| [39m        throw new Error('Cannot connect to RSpace. Please check your A…
+[90m [2m❯[22m src/services/rspace-importer.test.ts:[2m78:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-importer.test.ts[2m > [22mRSpaceImporter[2m > [22mhandles file uploads during document import
+[31m[1mTypeError[22m: this.rspaceService.testConnection is not a function[39m
+[36m [2m❯[22m RSpaceImporter.importSession src/services/rspace-importer.ts:[2m62:53[22m[39m
+    [90m 60| [39m
+    [90m 61| [39m    [35mtry[39m {
+    [90m 62| [39m      [35mconst[39m connectionOk [33m=[39m [35mawait[39m [35mthis[39m[33m.[39mrspaceService[33m.[39m[34mtestConnection[39m()[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m 63| [39m      [35mif[39m ([33m![39mconnectionOk) {
+    [90m 64| [39m        throw new Error('Cannot connect to RSpace. Please check your A…
+[90m [2m❯[22m src/services/rspace-importer.test.ts:[2m104:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-importer.test.ts[2m > [22mRSpaceImporter[2m > [22mreports errors during import
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'API Down' but got 'this.rspaceService.testConnection is …'[39m
+
+Expected: [32m"[7mAPI Dow[27mn"[39m
+Received: [31m"[7mthis.rspaceService.testConnection is not a functio[27mn"[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-mapper.test.ts[2m > [22mRSpaceMapper[2m > [22mprepareDocumentFieldValues[2m > [22mshould prepare field values for documents
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'text')[39m
+[36m [2m❯[22m src/services/rspace-mapper.ts:[2m123:63[22m[39m
+    [90m121| [39m  [35mif[39m (item[33m.[39msteps [33m&&[39m item[33m.[39msteps[33m.[39mlength [33m>[39m [34m0[39m) {
+    [90m122| [39m    item[33m.[39msteps[33m.[39m[34mforEach[39m((step[33m,[39m index) [33m=>[39m {
+    [90m123| [39m      fieldValues[[32m`Step [39m[36m${[39mindex [33m+[39m [34m1[39m[36m}[39m[32m`[39m] [33m=[39m step[33m.[39mitemListElement[33m.[39mtext[33m;[39m
+    [90m   | [39m                                                              [31m^[39m
+    [90m124| [39m    })[33m;[39m
+    [90m125| [39m  }
+[90m [2m❯[22m prepareDocumentFieldValues src/services/rspace-mapper.ts:[2m122:16[22m[39m
+[90m [2m❯[22m src/services/rspace-mapper.test.ts:[2m101:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-mapper.test.ts[2m > [22mRSpaceMapper[2m > [22mprepareTags[2m > [22mshould combine category and keywords into tags
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'toLowerCase')[39m
+[36m [2m❯[22m prepareTags src/services/rspace-mapper.ts:[2m264:19[22m[39m
+    [90m262| [39m    [32m'eln-import'[39m[33m,[39m  [90m// P1: Generic tag instead of 'elabftw-import'[39m
+    [90m263| [39m    item[33m.[39mtype[33m,[39m
+    [90m264| [39m    item[33m.[39mcategory[33m.[39m[34mtoLowerCase[39m()[33m.[39m[34mreplace[39m([36m/\s+/g[39m[33m,[39m [32m'-'[39m)
+    [90m   | [39m                  [31m^[39m
+    [90m265| [39m  ][33m;[39m
+    [90m266| [39m}
+[90m [2m❯[22m src/services/rspace-mapper.test.ts:[2m122:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/rspace-mapper.test.ts[2m > [22mRSpaceMapper[2m > [22mprepareTags[2m > [22mshould handle missing category or keywords
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'toLowerCase')[39m
+[36m [2m❯[22m prepareTags src/services/rspace-mapper.ts:[2m264:19[22m[39m
+    [90m262| [39m    [32m'eln-import'[39m[33m,[39m  [90m// P1: Generic tag instead of 'elabftw-import'[39m
+    [90m263| [39m    item[33m.[39mtype[33m,[39m
+    [90m264| [39m    item[33m.[39mcategory[33m.[39m[34mtoLowerCase[39m()[33m.[39m[34mreplace[39m([36m/\s+/g[39m[33m,[39m [32m'-'[39m)
+    [90m   | [39m                  [31m^[39m
+    [90m265| [39m  ][33m;[39m
+    [90m266| [39m}
+[90m [2m❯[22m src/services/rspace-mapper.test.ts:[2m132:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/ClassificationEngine.test.ts[2m > [22mClassificationEngine[2m > [22mclassifies materials as inventory with high confidence
+[31m[1mAssertionError[22m: expected [ Array(1) ] to include 'Contains material/reagent keywords: b…'[39m
+[36m [2m❯[22m src/utils/ClassificationEngine.test.ts:[2m33:28[22m[39m
+    [90m 31| [39m    [34mexpect[39m(result[33m.[39mproposed)[33m.[39m[34mtoBe[39m([32m'inventory'[39m)[33m;[39m
+    [90m 32| [39m    [34mexpect[39m(result[33m.[39misInstrument)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m 33| [39m    expect(result.reasons).toContain('Contains material/reagent keywor…
+    [90m   | [39m                           [31m^[39m
+    [90m 34| [39m  })[33m;[39m
+    [90m 35| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/RetryManager.test.ts[2m > [22mRetryManager[2m > [22mrespects timeout
+[31m[1mAssertionError[22m: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m src/utils/RetryManager.test.ts:[2m72:28[22m[39m
+    [90m 70| [39m    const result = await retryManager.executeWithRetry(operation, { ti…
+    [90m 71| [39m
+    [90m 72| [39m    [34mexpect[39m(result[33m.[39msuccess)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 73| [39m    [34mexpect[39m(result[33m.[39merror[33m?.[39mmessage)[33m.[39m[34mtoContain[39m([32m'timed out'[39m)[33m;[39m
+    [90m 74| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/ValidationEngine.test.ts[2m > [22mValidationEngine[2m > [22mvalidates a clean item successfully
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'length')[39m
+[36m [2m❯[22m ValidationEngine.validateItem src/utils/ValidationEngine.ts:[2m76:30[22m[39m
+    [90m 74| [39m    }
+    [90m 75| [39m
+    [90m 76| [39m    [35mif[39m (item[33m.[39mcrossReferences[33m.[39mlength [33m>[39m [34m10[39m) {
+    [90m   | [39m                             [31m^[39m
+    [90m 77| [39m      issues[33m.[39m[34mpush[39m({
+    [90m 78| [39m        type[33m:[39m [32m'info'[39m[33m,[39m
+[90m [2m❯[22m src/utils/ValidationEngine.test.ts:[2m17:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/ValidationEngine.test.ts[2m > [22mValidationEngine[2m > [22mdetects missing name or content
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'length')[39m
+[36m [2m❯[22m ValidationEngine.validateItem src/utils/ValidationEngine.ts:[2m76:30[22m[39m
+    [90m 74| [39m    }
+    [90m 75| [39m
+    [90m 76| [39m    [35mif[39m (item[33m.[39mcrossReferences[33m.[39mlength [33m>[39m [34m10[39m) {
+    [90m   | [39m                             [31m^[39m
+    [90m 77| [39m      issues[33m.[39m[34mpush[39m({
+    [90m 78| [39m        type[33m:[39m [32m'info'[39m[33m,[39m
+[90m [2m❯[22m src/utils/ValidationEngine.test.ts:[2m30:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/ValidationEngine.test.ts[2m > [22mValidationEngine[2m > [22mdetects long field names
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m src/utils/ValidationEngine.test.ts:[2m48:87[22m[39m
+    [90m 46| [39m    [90m// @ts-ignore[39m
+    [90m 47| [39m    engine[33m.[39m[34mvalidateFieldNames[39m(item [35mas[39m any[33m,[39m issues)[33m;[39m
+    [90m 48| [39m    expect(issues.some(i => i.type === 'warning' && i.message.includes…
+    [90m   | [39m                                                                                      [31m^[39m
+    [90m 49| [39m  })[33m;[39m
+    [90m 50| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/ValidationEngine.test.ts[2m > [22mValidationEngine[2m > [22mchecks for missing files
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m src/utils/ValidationEngine.test.ts:[2m60:85[22m[39m
+    [90m 58| [39m    [90m// @ts-ignore[39m
+    [90m 59| [39m    engine[33m.[39m[34mvalidateFiles[39m(item [35mas[39m any[33m,[39m issues)[33m;[39m
+    [90m 60| [39m    expect(issues.some(i => i.type === 'error' && i.message.includes('…
+    [90m   | [39m                                                                                    [31m^[39m
+    [90m 61| [39m  })[33m;[39m
+    [90m 62| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/elabftw-parser.test.ts[2m > [22mELabFTWParser[2m > [22mparses a minimal ELN ZIP and extracts datasets
+[31m[1mAssertionError[22m: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m src/utils/elabftw-parser.test.ts:[2m58:29[22m[39m
+    [90m 56| [39m
+    [90m 57| [39m    [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(datasets))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 58| [39m    [34mexpect[39m(datasets[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m 59| [39m    [34mexpect[39m(datasets[[34m0[39m][33m.[39mname)[33m.[39m[34mtoBe[39m([32m'Exp 1'[39m)[33m;[39m
+    [90m 60| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/elabftw-parser.test.ts[2m > [22mRO-Crate converters[2m > [22mconverts datasets to preview items
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'length')[39m
+[36m [2m❯[22m ValidationEngine.validateItem src/utils/ValidationEngine.ts:[2m76:30[22m[39m
+    [90m 74| [39m    }
+    [90m 75| [39m
+    [90m 76| [39m    [35mif[39m (item[33m.[39mcrossReferences[33m.[39mlength [33m>[39m [34m10[39m) {
+    [90m   | [39m                             [31m^[39m
+    [90m 77| [39m      issues[33m.[39m[34mpush[39m({
+    [90m 78| [39m        type[33m:[39m [32m'info'[39m[33m,[39m
+[90m [2m❯[22m src/utils/elabftw-parser.ts:[2m641:46[22m[39m
+[90m [2m❯[22m Module.convertDatasetsToPreviewItems src/utils/elabftw-parser.ts:[2m606:19[22m[39m
+[90m [2m❯[22m src/utils/elabftw-parser.test.ts:[2m77:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/elabftw-parser.test.ts[2m > [22mRO-Crate converters[2m > [22mcreates item-specific metadata structure
+[31m[1mTypeError[22m: __vi_import_1__.createItemSpecificMetadata is not a function[39m
+[36m [2m❯[22m src/utils/elabftw-parser.test.ts:[2m88:18[22m[39m
+    [90m 86| [39m    ][33m;[39m
+    [90m 87| [39m    [35mconst[39m crateData [33m=[39m { [32m'@graph'[39m[33m:[39m datasets } [35mas[39m any[33m;[39m
+    [90m 88| [39m    const meta = createItemSpecificMetadata(datasets[0] as any, crateD…
+    [90m   | [39m                 [31m^[39m
+    [90m 89| [39m    [34mexpect[39m([35mtypeof[39m meta)[33m.[39m[34mtoBe[39m([32m'object'[39m)[33m;[39m
+    [90m 90| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/elabftw-parser.test.ts[2m > [22mELabFTWParser Internal Extractors[2m > [22mextracts mentions correctly
+[31m[1mAssertionError[22m: expected undefined to be 'Reference 1' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"Reference 1"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m src/utils/elabftw-parser.test.ts:[2m116:28[22m[39m
+    [90m114| [39m    [35mconst[39m result [33m=[39m parser[33m.[39m[34mextractMentions[39m(mentions)[33m;[39m
+    [90m115| [39m    [34mexpect[39m(result[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m116| [39m    [34mexpect[39m(result[[34m0[39m][33m.[39mname)[33m.[39m[34mtoBe[39m([32m'Reference 1'[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m117| [39m  })[33m;[39m
+    [90m118| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/utils/elabftw-parser.test.ts[2m > [22mELabFTWParser Internal Extractors[2m > [22mmaps ELabFTW field types correctly
+[31m[1mAssertionError[22m: expected null to be 'text' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"text"
+
+[31m+ Received:[39m 
+null
+
+[36m [2m❯[22m src/utils/elabftw-parser.test.ts:[2m121:48[22m[39m
+    [90m119| [39m  [34mit[39m([32m'maps ELabFTW field types correctly'[39m[33m,[39m () [33m=>[39m {
+    [90m120| [39m    [90m// @ts-ignore[39m
+    [90m121| [39m    [34mexpect[39m(parser[33m.[39m[34mmapELabFTWFieldType[39m([32m'text'[39m))[33m.[39m[34mtoBe[39m([32m'text'[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m122| [39m    [90m// @ts-ignore[39m
+    [90m123| [39m    [34mexpect[39m(parser[33m.[39m[34mmapELabFTWFieldType[39m([32m'date'[39m))[33m.[39m[34mtoBe[39m([32m'date'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/18]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m6 failed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m18 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (31)[39m
+[2m   Start at [22m 20:38:47
+[2m   Duration [22m 825ms[2m (transform 283ms, setup 292ms, import 295ms, tests 59ms, environment 2.90s)[22m
+

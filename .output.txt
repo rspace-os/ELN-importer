@@ -1,0 +1,1998 @@
+
+> vite-react-typescript-starter@0.0.0 test
+> vitest --run
+ RUN  v4.0.18 /Users/neilhanlon/projects/rspace-os-fork/ELN-importer
+ ✓ src/services/rspace-mapper.test.ts (8 tests) 5ms
+stdout | src/utils/elabftw-parser.test.ts > ELabFTWParser > parses a minimal ELN ZIP and extracts datasets
+=== STARTING ELN FILE PARSING ===
+File name: export.eln
+File size: 10
+stdout | src/utils/elabftw-parser.test.ts > ELabFTWParser > parses a minimal ELN ZIP and extracts datasets
+Raw crate content length: 223
+Parsed crate data: {
+  '@graph': [
+    { '@id': './', '@type': 'Dataset' },
+    {
+      '@id': './dataset1',
+      '@type': 'Dataset',
+      name: 'Exp 1',
+      hasPart: [Array],
+      variableMeasured: [],
+      keywords: [Array]
+    },
+    { '@id': './step1', '@type': 'HowToStep', text: 'Mix A and B' }
+  ]
+}
+Graph items count: 3
+=== DEBUGGING DATASET EXTRACTION ===
+Total items in @graph: 3
+=== PARSING RESULTS ===
+Extracted 0 datasets
+Extracted 0 files
+Datasets: []
+File metadata: {}
+ ✓ src/utils/elabftw-parser.test.ts (5 tests) 17ms
+stdout | src/components/ImportProgressModal.test.tsx > ImportProgressModal > renders progress information when open
+ImportProgressModal render: {
+  isOpen: true,
+  current: 2,
+  total: 5,
+  percentage: 40,
+  status: 'importing'
+}
+stdout | src/components/ImportProgressModal.test.tsx > ImportProgressModal > displays results list
+ImportProgressModal render: {
+  isOpen: true,
+  current: 2,
+  total: 5,
+  percentage: 40,
+  status: 'importing'
+}
+stdout | src/components/ImportProgressModal.test.tsx > ImportProgressModal > shows close button only when complete or error
+ImportProgressModal render: {
+  isOpen: true,
+  current: 2,
+  total: 5,
+  percentage: 40,
+  status: 'importing'
+}
+ImportProgressModal render: {
+  isOpen: true,
+  current: 2,
+  total: 5,
+  percentage: 40,
+  status: 'complete'
+}
+ ❯ src/components/ImportProgressModal.test.tsx (5 tests | 2 failed) 206ms
+     ✓ renders nothing when isOpen is false 8ms
+     ✓ renders nothing when progress is null 1ms
+     ✓ renders progress information when open 32ms
+     × displays results list 10ms
+     × shows close button only when complete or error 154ms
+ ❯ src/components/ItemDetailModal.test.tsx (5 tests | 1 failed) 283ms
+     ✓ renders nothing when isOpen is false 10ms
+     ✓ renders basic item info when open 50ms
+     ✓ switches tabs correctly 16ms
+     ✓ calls onClassificationChange from toggle 7ms
+     × calls onClose when close button clicked 200ms
+ ❯ src/components/PreviewInterface.test.tsx (4 tests | 1 failed) 182ms
+     ✓ renders session items and summary 94ms
+     ✓ filters items by search query 42ms
+     ✓ selects items for import 12ms
+     × calls onBack when Back button is clicked 27ms
+ ❯ src/components/PreviewCard.test.tsx (4 tests | 2 failed) 295ms
+     ✓ renders item basic information 57ms
+     ✓ calls onClassificationChange when toggle is used 7ms
+     × calls onItemClick when "Review Details" is clicked 8ms
+     × shows/hides justification when chevron is clicked 222ms
+stdout | src/utils/RetryManager.test.ts > RetryManager > executes successfully on the first attempt
+RetryManager: Attempt 1/5
+stdout | src/utils/RetryManager.test.ts > RetryManager > retries on failure and eventually succeeds
+RetryManager: Attempt 1/3
+stderr | src/utils/RetryManager.test.ts > RetryManager > retries on failure and eventually succeeds
+RetryManager: Attempt 1 failed: fetch failed
+stdout | src/utils/RetryManager.test.ts > RetryManager > retries on failure and eventually succeeds
+RetryManager: Network error detected - retryable
+RetryManager: Retrying in 1037ms...
+stdout | src/utils/RetryManager.test.ts > RetryManager > retries on failure and eventually succeeds
+RetryManager: Attempt 2/3
+stdout | src/utils/RetryManager.test.ts > RetryManager > retries on failure and eventually succeeds
+RetryManager: Success after 2 attempts (1ms total)
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 1/3
+stderr | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 1 failed: fetch failed
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Network error detected - retryable
+RetryManager: Retrying in 968ms...
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 2/3
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Network error detected - retryable
+RetryManager: Retrying in 2065ms...
+stderr | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 2 failed: fetch failed
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 3/3
+stdout | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Network error detected - retryable
+stderr | src/utils/RetryManager.test.ts > RetryManager > aborts after max attempts
+RetryManager: Attempt 3 failed: fetch failed
+RetryManager: All 3 attempts failed (1ms total)
+stdout | src/utils/RetryManager.test.ts > RetryManager > does not retry on non-retryable errors (e.g., 404)
+RetryManager: Attempt 1/5
+stdout | src/utils/RetryManager.test.ts > RetryManager > does not retry on non-retryable errors (e.g., 404)
+RetryManager: HTTP 404 detected - not retryable
+stderr | src/utils/RetryManager.test.ts > RetryManager > does not retry on non-retryable errors (e.g., 404)
+RetryManager: Attempt 1 failed: Not Found
+RetryManager: Error is not retryable, aborting
+stdout | src/utils/RetryManager.test.ts > RetryManager > returns success even with tiny timeout when first attempt resolves
+RetryManager: Attempt 1/5
+ ✓ src/utils/RetryManager.test.ts (5 tests) 16ms
+ ❯ src/components/PreviewSummary.test.tsx (4 tests | 1 failed) 150ms
+     × renders session overview information 95ms
+     ✓ displays correct content breakdown 22ms
+     ✓ displays correct classification breakdown 14ms
+     ✓ displays file and cross-reference counts 16ms
+ ✓ src/utils/ValidationEngine.test.ts (4 tests) 2ms
+ ✓ src/components/ClassificationToggle.test.tsx (4 tests) 29ms
+ ❯ src/components/FileUpload.test.tsx (4 tests | 1 failed) 49ms
+     ✓ renders upload message when not processing 34ms
+     ✓ renders processing state when isProcessing is true 5ms
+     × calls onFileSelect when a file is dropped 9ms
+     ✓ shows error toast for invalid file type 0ms
+ ✓ src/utils/ClassificationEngine.test.ts (4 tests) 2ms
+stdout | src/services/rspace-importer.test.ts > RSpaceImporter > handles file uploads during document import
+Uploading 1 files for Doc with File
+File IDs to upload: [ 'file1' ]
+Available file blobs: [ 'file1' ]
+Available file metadata: [ 'file1' ]
+stdout | src/services/rspace-importer.test.ts > RSpaceImporter > handles file uploads during document import
+Uploaded file: test.txt (ID: 501, GlobalID: GL501)
+stderr | src/services/rspace-importer.test.ts > RSpaceImporter > reports errors during import
+Failed to import Bad: Error: API Down
+    at /Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/services/rspace-importer.test.ts:152:52
+    at file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:145:11
+    at file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:915:26
+    at file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:1209:10)
+    at file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:1653:37
+    at Traces.$ (file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)
+    at trace (file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)
+    at runTest (file:///Users/neilhanlon/projects/rspace-os-fork/ELN-importer/node_modules/@vitest/runner/dist/index.js:1653:12)
+ ✓ src/components/SettingsModal.test.tsx (4 tests) 1566ms
+     ✓ allows entering and saving configuration  1522ms
+ ✓ src/services/rspace-importer.test.ts (4 tests) 2934ms
+     ✓ imports a document session successfully  806ms
+     ✓ imports an inventory item successfully  806ms
+     ✓ handles file uploads during document import  811ms
+     ✓ reports errors during import  508ms
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/components/FileUpload.test.tsx > FileUpload > calls onFileSelect when a file is dropped
+TestingLibraryElementError: Found a label with the text of: , however no form control was found associated to that label. Make sure you're using the "for" attribute or "aria-labelledby" attribute correctly.
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="w-full max-w-2xl mx-auto"
+    >
+      <div
+        class="
+          border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200
+          border-gray-300 hover:border-gray-400 hover:bg-gray-50
+
+        "
+        role="presentation"
+        tabindex="0"
+      >
+        <input
+          accept="application/zip,.eln,application/x-zip-compressed,.eln"
+          multiple=""
+          style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
+          tabindex="-1"
+          type="file"
+        />
+        <div
+          class="flex flex-col items-center space-y-4"
+        >
+          <div
+            class="flex items-center space-x-2"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-upload h-12 w-12 text-gray-400"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 3v12"
+              />
+              <path
+                d="m17 8-5-5-5 5"
+              />
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-text h-8 w-8 text-blue-500"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+              />
+              <path
+                d="M10 9H8"
+              />
+              <path
+                d="M16 13H8"
+              />
+              <path
+                d="M16 17H8"
+              />
+            </svg>
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="text-lg font-medium text-gray-700"
+            >
+              Upload .ELN Export
+            </div>
+            <div
+              class="text-sm text-gray-500"
+            >
+              Drag and drop your .eln file here, or click to browse
+            </div>
+          </div>
+          <div
+            class="flex items-center space-x-2 text-xs text-gray-400"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-circle-alert h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <line
+                x1="12"
+                x2="12"
+                y1="8"
+                y2="12"
+              />
+              <line
+                x1="12"
+                x2="12.01"
+                y1="16"
+                y2="16"
+              />
+            </svg>
+            <span>
+              Maximum file size: 100MB
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-6 text-center"
+      >
+        <div
+          class="text-sm text-gray-600 mb-2"
+        >
+          <strong>
+            What happens next:
+          </strong>
+        </div>
+        <div
+          class="text-xs text-gray-500 space-y-1"
+        >
+          <div>
+            • Extract experiments and resources from your .eln file
+          </div>
+          <div>
+            • Parse RO-Crate metadata and custom fields
+          </div>
+          <div>
+            • Classify items as documents or inventory with confidence scoring
+          </div>
+          <div>
+            • Show detailed preview with validation and cross-references
+          </div>
+          <div>
+            • Allow modifications before importing to RSpace
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getAllByLabelText node_modules/@testing-library/dom/dist/queries/label-text.js:108:40
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/FileUpload.test.tsx:37:26
+     35|
+     36|     const file = new File(['dummy content'], 'test.eln', { type: 'appl…
+     37|     const input = screen.getByLabelText('', { selector: 'input' }) as …
+       |                          ^
+     38|
+     39|     // Simulate file drop/select
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+ FAIL  src/components/ImportProgressModal.test.tsx > ImportProgressModal > displays results list
+TestingLibraryElementError: Unable to find an element with the text: Item 1. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200"
+        >
+          <div
+            class="flex items-center space-x-3"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-upload h-6 w-6 text-blue-600 animate-bounce"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 3v12"
+              />
+              <path
+                d="m17 8-5-5-5 5"
+              />
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              />
+            </svg>
+            <div>
+              <h2
+                class="text-xl font-semibold text-gray-900"
+              >
+                Importing to RSpace
+              </h2>
+              <p
+                class="text-sm text-gray-600"
+              >
+                Importing Test Item...
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-6"
+        >
+          <div
+            class="mb-4"
+          >
+            <div
+              class="flex items-center justify-between mb-2"
+            >
+              <span
+                class="text-sm font-medium text-gray-700"
+              >
+                Progress:
+                2
+                 of
+                5
+              </span>
+              <span
+                class="text-sm text-gray-500"
+              >
+                40
+                %
+              </span>
+            </div>
+            <div
+              class="w-full bg-gray-200 rounded-full h-2"
+            >
+              <div
+                class="h-2 rounded-full transition-all duration-300 bg-blue-600"
+                style="width: 40%;"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4 p-3 bg-blue-50 rounded-lg"
+          >
+            <div
+              class="text-sm text-blue-800"
+            >
+              <strong>
+                Currently processing:
+              </strong>
+
+              Test Item
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <h3
+              class="text-sm font-medium text-gray-900 mb-2"
+            >
+              Import Summary
+            </h3>
+            <div
+              class="grid grid-cols-2 gap-4 text-sm"
+            >
+              <div
+                class="flex items-center space-x-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-circle-check-big h-4 w-4 text-green-500"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.801 10A10 10 0 1 1 17 3.335"
+                  />
+                  <path
+                    d="m9 11 3 3L22 4"
+                  />
+                </svg>
+                <span
+                  class="text-green-700"
+                >
+                  1
+                   successful
+                </span>
+              </div>
+              <div
+                class="flex items-center space-x-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-triangle-alert h-4 w-4 text-red-500"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                  />
+                  <path
+                    d="M12 9v4"
+                  />
+                  <path
+                    d="M12 17h.01"
+                  />
+                </svg>
+                <span
+                  class="text-red-700"
+                >
+                  1
+                   failed
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/ImportProgressModal.test.tsx:64:19
+     62|     );
+     63|
+     64|     expect(screen.getByText('Item 1')).toBeInTheDocument();
+       |                   ^
+     65|     expect(screen.getByText('Item 2')).toBeInTheDocument();
+     66|     expect(screen.getByText('Failed')).toBeInTheDocument();
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+ FAIL  src/components/ImportProgressModal.test.tsx > ImportProgressModal > shows close button only when complete or error
+TestingLibraryElementError: Found multiple elements with the role "button"
+Here are the matching elements:
+Ignored nodes: comments, script, style
+<button
+  class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+>
+  <svg
+    aria-hidden="true"
+    class="lucide lucide-x h-5 w-5 text-gray-400"
+    fill="none"
+    height="24"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18 6 6 18"
+    />
+    <path
+      d="m6 6 12 12"
+    />
+  </svg>
+</button>
+Ignored nodes: comments, script, style
+<button
+  class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+>
+  Close
+</button>
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200"
+        >
+          <div
+            class="flex items-center space-x-3"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-circle-check-big h-6 w-6 text-green-600"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.801 10A10 10 0 1 1 17 3.335"
+              />
+              <path
+                d="m9 11 3 3L22 4"
+              />
+            </svg>
+            <div>
+              <h2
+                class="text-xl font-semibold text-gray-900"
+              >
+                Importing to RSpace
+              </h2>
+              <p
+                class="text-sm text-gray-600"
+              >
+                Import completed!
+              </p>
+            </div>
+          </div>
+          <button
+            class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x h-5 w-5 text-gray-400"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
+              />
+              <path
+                d="m6 6 12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="p-6"
+        >
+          <div
+            class="mb-4"
+          >
+            <div
+              class="flex items-center justify-between mb-2"
+            >
+              <span
+                class="text-sm font-medium text-gray-700"
+              >
+                Progress:
+                2
+                 of
+                5
+              </span>
+              <span
+                class="text-sm text-gray-500"
+              >
+                40
+                %
+              </span>
+            </div>
+            <div
+              class="w-full bg-gray-200 rounded-full h-2"
+            >
+              <div
+                class="h-2 rounded-full transition-all duration-300 bg-blue-600"
+                style="width: 40%;"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <h3
+              class="text-sm font-medium text-gray-900 mb-2"
+            >
+              Import Summary
+            </h3>
+            <div
+              class="grid grid-cols-2 gap-4 text-sm"
+            >
+              <div
+                class="flex items-center space-x-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-circle-check-big h-4 w-4 text-green-500"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21.801 10A10 10 0 1 1 17 3.335"
+                  />
+                  <path
+                    d="m9 11 3 3L22 4"
+                  />
+                </svg>
+                <span
+                  class="text-green-700"
+                >
+                  1
+                   successful
+                </span>
+              </div>
+              <div
+                class="flex items-center space-x-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-triangle-alert h-4 w-4 text-red-500"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                  />
+                  <path
+                    d="M12 9v4"
+                  />
+                  <path
+                    d="M12 17h.01"
+                  />
+                </svg>
+                <span
+                  class="text-red-700"
+                >
+                  1
+                   failed
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="max-h-60 overflow-y-auto"
+          >
+            <h3
+              class="text-sm font-medium text-gray-900 mb-2"
+            >
+              Detailed Results
+            </h3>
+            <div
+              class="space-y-2"
+            >
+              <div
+                class="flex items-center justify-between p-3 rounded-lg text-sm bg-green-50 border border-green-200"
+              >
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-circle-check-big h-4 w-4 text-green-500"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21.801 10A10 10 0 1 1 17 3.335"
+                    />
+                    <path
+                      d="m9 11 3 3L22 4"
+                    />
+                  </svg>
+                  <span
+                    class="text-green-800"
+                  >
+                    Item 1
+                  </span>
+                </div>
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <span
+                    class="text-xs text-green-600 font-mono"
+                  >
+                    123
+                  </span>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between p-3 rounded-lg text-sm bg-red-50 border border-red-200"
+              >
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-triangle-alert h-4 w-4 text-red-500"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    />
+                    <path
+                      d="M12 9v4"
+                    />
+                    <path
+                      d="M12 17h.01"
+                    />
+                  </svg>
+                  <span
+                    class="text-red-800"
+                  >
+                    Item 2
+                  </span>
+                </div>
+                <div
+                  class="flex items-center space-x-2"
+                >
+                  <span
+                    class="text-xs text-red-600"
+                    title="Failed"
+                  >
+                    Error
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-between px-6 py-4 bg-gray-50 border-t border-gray-200"
+        >
+          <div
+            class="text-sm text-gray-600"
+          >
+            Import completed: 1 successful, 1 failed
+          </div>
+          <button
+            class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/ImportProgressModal.test.tsx:95:32
+     93|     );
+     94|
+     95|     const closeButton = screen.getByRole('button');
+       |                                ^
+     96|     fireEvent.click(closeButton);
+     97|     expect(onClose).toHaveBeenCalled();
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+ FAIL  src/components/ItemDetailModal.test.tsx > ItemDetailModal > calls onClose when close button clicked
+AssertionError: expected "vi.fn()" to be called at least once
+ ❯ src/components/ItemDetailModal.test.tsx:120:21
+    118|     // Toggle Document, Toggle Inventory, Close X
+    119|     fireEvent.click(buttons[2]);
+    120|     expect(onClose).toHaveBeenCalled();
+       |                     ^
+    121|   });
+    122| });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+ FAIL  src/components/PreviewCard.test.tsx > PreviewCard > calls onItemClick when "Review Details" is clicked
+TestingLibraryElementError: Unable to find an element with the text: Review Details. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200"
+    >
+      <div
+        class="p-4 border-b border-gray-100"
+      >
+        <div
+          class="flex items-start justify-between"
+        >
+          <div
+            class="flex items-start space-x-3 flex-1"
+          >
+            <div
+              class="flex-shrink-0 mt-1"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-file-text h-6 w-6 text-blue-600"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                />
+                <path
+                  d="M14 2v5a1 1 0 0 0 1 1h5"
+                />
+                <path
+                  d="M10 9H8"
+                />
+                <path
+                  d="M16 13H8"
+                />
+                <path
+                  d="M16 17H8"
+                />
+              </svg>
+            </div>
+            <div
+              class="flex-1 min-w-0"
+            >
+              <div
+                class="flex items-center space-x-2 mb-1"
+              >
+                <h3
+                  class="text-lg font-semibold text-gray-900 truncate"
+                >
+                  Test Experiment
+                </h3>
+                <span
+                  class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                  style="background-color: rgba(59, 130, 246, 0.125); color: rgb(59, 130, 246);"
+                >
+                  Experiments
+                </span>
+              </div>
+              <div
+                class="flex items-center space-x-4 text-sm text-gray-500"
+              >
+                <span
+                  class="capitalize"
+                >
+                  experiment
+                </span>
+                <span
+                  class="flex items-center space-x-1"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-calendar h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 2v4"
+                    />
+                    <path
+                      d="M16 2v4"
+                    />
+                    <rect
+                      height="18"
+                      rx="2"
+                      width="18"
+                      x="3"
+                      y="4"
+                    />
+                    <path
+                      d="M3 10h18"
+                    />
+                  </svg>
+                  <span>
+                    1/1/2023
+                  </span>
+                </span>
+                <span
+                  class="flex items-center space-x-1"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-tag h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
+                    />
+                    <circle
+                      cx="7.5"
+                      cy="7.5"
+                      fill="currentColor"
+                      r=".5"
+                    />
+                  </svg>
+                  <span>
+                    key1, key2
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center space-x-3"
+          >
+            <div
+              class="flex items-center space-x-2"
+            >
+              <span
+                class="text-sm text-gray-600"
+              >
+                Classification:
+              </span>
+              <div
+                class="flex bg-gray-100 rounded-lg p-1"
+              >
+                <button
+                  class="px-2 py-1 text-xs rounded font-medium transition-colors bg-blue-600 text-white shadow-sm"
+                >
+                  Document
+                </button>
+                <button
+                  class="px-2 py-1 text-xs rounded font-medium transition-colors text-gray-600 hover:text-gray-800"
+                >
+                  Inventory
+                </button>
+              </div>
+            </div>
+            <button
+              class="p-1 hover:bg-gray-100 rounded"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-right h-5 w-5 text-gray-400"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m9 18 6-6-6-6"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="mt-3 flex items-center justify-between"
+        >
+          <div
+            class="flex items-center space-x-3"
+          >
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-green-600 bg-green-100"
+            >
+              high
+               confidence
+            </span>
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+            >
+              1
+               issue
+            </span>
+          </div>
+          <button
+            class="text-sm text-blue-600 hover:text-blue-800 flex items-center space-x-1"
+          >
+            <span>
+              View Details
+            </span>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-external-link h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 3h6v6"
+              />
+              <path
+                d="M10 14 21 3"
+              />
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="mt-2 text-sm text-gray-600 bg-gray-50 rounded p-2"
+        >
+          <strong>
+            Why
+            document
+            ?
+          </strong>
+
+          This is a test experiment justification.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/PreviewCard.test.tsx:76:33
+     74|     );
+     75|
+     76|     const reviewButton = screen.getByText('Review Details');
+       |                                 ^
+     77|     fireEvent.click(reviewButton);
+     78|
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+ FAIL  src/components/PreviewCard.test.tsx > PreviewCard > shows/hides justification when chevron is clicked
+TestingLibraryElementError: Unable to find an element with the text: Justification:. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200"
+    >
+      <div
+        class="p-4 border-b border-gray-100"
+      >
+        <div
+          class="flex items-start justify-between"
+        >
+          <div
+            class="flex items-start space-x-3 flex-1"
+          >
+            <div
+              class="flex-shrink-0 mt-1"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-file-text h-6 w-6 text-blue-600"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                />
+                <path
+                  d="M14 2v5a1 1 0 0 0 1 1h5"
+                />
+                <path
+                  d="M10 9H8"
+                />
+                <path
+                  d="M16 13H8"
+                />
+                <path
+                  d="M16 17H8"
+                />
+              </svg>
+            </div>
+            <div
+              class="flex-1 min-w-0"
+            >
+              <div
+                class="flex items-center space-x-2 mb-1"
+              >
+                <h3
+                  class="text-lg font-semibold text-gray-900 truncate"
+                >
+                  Test Experiment
+                </h3>
+                <span
+                  class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                  style="background-color: rgba(59, 130, 246, 0.125); color: rgb(59, 130, 246);"
+                >
+                  Experiments
+                </span>
+              </div>
+              <div
+                class="flex items-center space-x-4 text-sm text-gray-500"
+              >
+                <span
+                  class="capitalize"
+                >
+                  experiment
+                </span>
+                <span
+                  class="flex items-center space-x-1"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-calendar h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 2v4"
+                    />
+                    <path
+                      d="M16 2v4"
+                    />
+                    <rect
+                      height="18"
+                      rx="2"
+                      width="18"
+                      x="3"
+                      y="4"
+                    />
+                    <path
+                      d="M3 10h18"
+                    />
+                  </svg>
+                  <span>
+                    1/1/2023
+                  </span>
+                </span>
+                <span
+                  class="flex items-center space-x-1"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-tag h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
+                    />
+                    <circle
+                      cx="7.5"
+                      cy="7.5"
+                      fill="currentColor"
+                      r=".5"
+                    />
+                  </svg>
+                  <span>
+                    key1, key2
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center space-x-3"
+          >
+            <div
+              class="flex items-center space-x-2"
+            >
+              <span
+                class="text-sm text-gray-600"
+              >
+                Classification:
+              </span>
+              <div
+                class="flex bg-gray-100 rounded-lg p-1"
+              >
+                <button
+                  class="px-2 py-1 text-xs rounded font-medium transition-colors bg-blue-600 text-white shadow-sm"
+                >
+                  Document
+                </button>
+                <button
+                  class="px-2 py-1 text-xs rounded font-medium transition-colors text-gray-600 hover:text-gray-800"
+                >
+                  Inventory
+                </button>
+              </div>
+            </div>
+            <button
+              class="p-1 hover:bg-gray-100 rounded"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-down h-5 w-5 text-gray-400"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m6 9 6 6 6-6"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="mt-3 flex items-center justify-between"
+        >
+          <div
+            class="flex items-center space-x-3"
+          >
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-green-600 bg-green-100"
+            >
+              high
+               confidence
+            </span>
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+            >
+              1
+               issue
+            </span>
+          </div>
+          <button
+            class="text-sm text-blue-600 hover:text-blue-800 flex items-center space-x-1"
+          >
+            <span>
+              View Details
+            </span>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-external-link h-4 w-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 3h6v6"
+              />
+              <path
+                d="M10 14 21 3"
+              />
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="mt-2 text-sm text-gray-600 bg-gray-50 rounded p-2"
+        >
+          <strong>
+            Why
+            document
+            ?
+          </strong>
+
+          This is a test experiment justification.
+        </div>
+      </div>
+      <div
+        class="p-4 space-y-4"
+      >
+        <div>
+          <h4
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Content Preview
+          </h4>
+          <div
+            class="text-sm text-gray-600 bg-gray-50 rounded p-3 max-h-32 overflow-y-auto"
+          >
+            Test content
+          </div>
+        </div>
+        <div>
+          <h4
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Custom Fields (
+            1
+            )
+          </h4>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="text-sm"
+            >
+              <span
+                class="font-medium text-gray-700"
+              >
+                Field 1
+                :
+              </span>
+              <div
+                class="text-gray-600 ml-1 mt-1"
+              >
+                <div>
+                  <span
+                    class="block"
+                  >
+                    Value 1
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Files (
+            1
+            )
+          </h4>
+          <div
+            class="flex flex-wrap gap-2"
+          >
+            <span
+              class="inline-flex items-center space-x-1 px-2 py-1 bg-gray-100 rounded text-xs"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-file h-3 w-3"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                />
+                <path
+                  d="M14 2v5a1 1 0 0 0 1 1h5"
+                />
+              </svg>
+              <span>
+                file-1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div>
+          <h4
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Cross References (
+            1
+            )
+          </h4>
+          <div
+            class="flex flex-wrap gap-2"
+          >
+            <span
+              class="inline-flex items-center space-x-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-link h-3 w-3"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                />
+                <path
+                  d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                />
+              </svg>
+              <span>
+                ref-1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div>
+          <h4
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Validation Issues
+          </h4>
+          <div
+            class="space-y-2"
+          >
+            <div
+              class="flex items-start space-x-2 text-sm"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-triangle-alert h-4 w-4 text-yellow-500"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                />
+                <path
+                  d="M12 9v4"
+                />
+                <path
+                  d="M12 17h.01"
+                />
+              </svg>
+              <div>
+                <div
+                  class="text-gray-700"
+                >
+                  Test warning
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/PreviewCard.test.tsx:112:19
+    110|     fireEvent.click(buttons[2]);
+    111|
+    112|     expect(screen.getByText('Justification:')).toBeInTheDocument();
+       |                   ^
+    113|     expect(screen.getByText(mockItem.justification)).toBeInTheDocument…
+    114|   });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+ FAIL  src/components/PreviewInterface.test.tsx > PreviewInterface > calls onBack when Back button is clicked
+TestingLibraryElementError: Unable to find an element with the text: Back to Upload. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="min-h-screen bg-gray-50"
+    >
+      <div
+        class="bg-white shadow-sm border-b border-gray-200"
+      >
+        <div
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        >
+          <div
+            class="flex items-center justify-between h-16"
+          >
+            <div
+              class="flex items-center space-x-4"
+            >
+              <button
+                class="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                ← Back
+              </button>
+              <h1
+                class="text-xl font-semibold text-gray-900"
+              >
+                Import Preview
+              </h1>
+              <span
+                class="text-sm text-gray-500"
+              >
+                test.eln
+              </span>
+            </div>
+            <div
+              class="flex items-center space-x-3"
+            >
+              <button
+                class="px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center space-x-2"
+                title="Configure RSpace Connection"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-settings h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
+                <span
+                  class="text-sm"
+                >
+                  Configure
+                </span>
+              </button>
+              <button
+                class="px-4 py-2 rounded-lg font-medium transition-colors bg-gray-300 text-gray-500 cursor-not-allowed"
+                disabled=""
+              >
+                <span
+                  class="flex items-center space-x-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-upload h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 3v12"
+                    />
+                    <path
+                      d="m17 8-5-5-5 5"
+                    />
+                    <path
+                      d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                    />
+                  </svg>
+                  <span>
+                    Select Items to Import
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+      >
+        <div
+          class="grid grid-cols-1 lg:grid-cols-4 gap-6"
+        >
+          <div
+            class="lg:col-span-1"
+          >
+            <div
+              class="space-y-6"
+            >
+              <div
+                class="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
+              >
+                <div
+                  class="relative"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="m21 21-4.34-4.34"
+                    />
+                    <circle
+                      cx="11"
+                      cy="11"
+                      r="8"
+                    />
+         ...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/PreviewInterface.test.tsx:117:31
+    115|     );
+    116|
+    117|     const backButton = screen.getByText('Back to Upload');
+       |                               ^
+    118|     fireEvent.click(backButton);
+    119|     expect(onBack).toHaveBeenCalled();
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+ FAIL  src/components/PreviewSummary.test.tsx > PreviewSummary > renders session overview information
+TestingLibraryElementError: Found multiple elements with the text: 3
+Here are the matching elements:
+Ignored nodes: comments, script, style
+<div
+  class="text-2xl font-bold text-gray-900"
+>
+  3
+</div>
+Ignored nodes: comments, script, style
+<span
+  class="text-sm font-medium"
+>
+  3
+</span>
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="bg-white rounded-lg shadow-md border border-gray-200 p-6"
+    >
+      <div
+        class="flex items-center justify-between mb-6"
+      >
+        <div>
+          <h2
+            class="text-xl font-semibold text-gray-900"
+          >
+            Import Preview Summary
+          </h2>
+          <div
+            class="flex items-center space-x-4 mt-2 text-sm text-gray-600"
+          >
+            <span
+              class="flex items-center space-x-1"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-calendar h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 2v4"
+                />
+                <path
+                  d="M16 2v4"
+                />
+                <rect
+                  height="18"
+                  rx="2"
+                  width="18"
+                  x="3"
+                  y="4"
+                />
+                <path
+                  d="M3 10h18"
+                />
+              </svg>
+              <span>
+                1/1/2023, 10:00:00 AM
+              </span>
+            </span>
+            <span
+              class="flex items-center space-x-1"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-hash h-4 w-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="4"
+                  x2="20"
+                  y1="9"
+                  y2="9"
+                />
+                <line
+                  x1="4"
+                  x2="20"
+                  y1="15"
+                  y2="15"
+                />
+                <line
+                  x1="10"
+                  x2="8"
+                  y1="3"
+                  y2="21"
+                />
+                <line
+                  x1="16"
+                  x2="14"
+                  y1="3"
+                  y2="21"
+                />
+              </svg>
+              <span>
+                session-
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="text-right"
+        >
+          <div
+            class="text-2xl font-bold text-gray-900"
+          >
+            3
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Total Items
+          </div>
+        </div>
+      </div>
+      <div
+        class="mb-6 p-4 bg-blue-50 rounded-lg"
+      >
+        <div
+          class="flex items-center space-x-2 mb-2"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-file-text h-5 w-5 text-blue-600"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+            />
+            <path
+              d="M14 2v5a1 1 0 0 0 1 1h5"
+            />
+            <path
+              d="M10 9H8"
+            />
+            <path
+              d="M16 13H8"
+            />
+            <path
+              d="M16 17H8"
+            />
+          </svg>
+          <span
+            class="font-medium text-blue-900"
+          >
+            Source File
+          </span>
+        </div>
+        <div
+          class="text-sm text-blue-800"
+        >
+          <div
+            class="font-medium"
+          >
+            test-data.eln
+          </div>
+          <div
+            class="mt-1"
+          >
+            2
+             attached files •
+            0
+             cross-references
+          </div>
+        </div>
+      </div>
+      <div
+        class
+[3[90m ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/PreviewSummary.test.tsx:52:19
+     50|     expect(screen.getByText('Import Preview Summary')).toBeInTheDocume…
+     51|     expect(screen.getByText('test-data.eln')).toBeInTheDocument();
+     52|     expect(screen.getByText('3')).toBeInTheDocument(); // Total Items
+       |                   ^
+     53|     expect(screen.getByText('Total Items')).toBeInTheDocument();
+     54|   });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+ Test Files  6 failed | 8 passed (14)
+      Tests  8 failed | 56 passed (64)
+   Start at  20:54:31
+   Duration  3.97s (transform 856ms, setup 871ms, import 1.79s, tests 5.74s, environment 6.82s)
