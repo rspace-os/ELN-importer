@@ -17,8 +17,8 @@ export function mapFieldTypeForRSpace(fieldType: string): string {
     'select': 'Choice',
     'radio': 'Radio',
     'textarea': 'Text',
-    'url': 'String',
-    'email': 'String',
+    'url': 'Uri',         // Improved: Use Uri type
+    'email': 'Uri',       // Improved: Use Uri type
     'text': 'String'
   };
 
@@ -54,10 +54,16 @@ export function prepareFormFields(item: PreviewItem) {
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
       // P0 FIX: Use index instead of position to avoid duplicate field names
-      const stepName = getUniqueFieldName(`Step ${index + 1}`);
+      const stepName = step.itemListElement.text;
       formFields.push({
         name: stepName,
-        type: 'Text',
+        type: 'Radio',
+        mandatory: false,
+        options: ['finished','unfinished']
+      });
+      formFields.push({
+        name: stepName+"_deadline",
+        type: 'String',
         mandatory: false
       });
     });
@@ -85,15 +91,18 @@ export function prepareFormFields(item: PreviewItem) {
     if (!metadataFieldsToSkip.has(fieldName)) {
       const mappedType = mapFieldTypeForRSpace(field.type);
 
-      // P0 FIX: Checkbox fields mapped to Radio need Yes/No options
+      // Choice fields mapped from checkboxes need multipleSelection: true
+      const isMultipleChoice = field.type === 'checkbox' && mappedType === 'Choice';
+      
       const fieldOptions = field.options ||
-        (field.type === 'checkbox' && mappedType === 'Radio' ? ['Yes', 'No'] : undefined);
+        (field.type === 'checkbox' ? ['Yes', 'No'] : undefined);
 
       formFields.push({
         name: getUniqueFieldName(fieldName),
         type: mappedType,
         mandatory: field.required || false,
-        ...(fieldOptions && { options: fieldOptions })
+        ...(fieldOptions && { options: fieldOptions }),
+        ...(isMultipleChoice && { multipleSelection: true })
       } as any);
     }
   });
@@ -120,7 +129,8 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
   // P0 FIX: Use index instead of position to match field names from prepareFormFields
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
-      fieldValues[`Step ${index + 1}`] = step.itemListElement.text;
+      fieldValues[step.itemListElement.text] = step.creativeWorkStatus;
+      fieldValues[step.itemListElement.text+'_deadline'] = step.expires ? new Date(step.expires).toLocaleString():"";
     });
   }
 
@@ -144,9 +154,8 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
     if (!metadataFieldsToSkip.has(fieldName)) {
       let fieldValue = field.value || '';
 
-      // P0 FIX: Convert checkbox values to Yes/No for Radio buttons
+      // Convert checkbox values to Choice format
       if (field.type === 'checkbox') {
-        // Convert checkbox values: 'on', 'true', '1', 'checked' → 'Yes', otherwise 'No'
         const truthy = ['on', 'true', '1', 'checked', 'yes'];
         fieldValue = truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
       }

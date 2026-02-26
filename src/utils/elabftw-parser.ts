@@ -120,6 +120,11 @@ export class ELabFTWParser {
     console.log('Total items in @graph:', crateData['@graph'].length);
 
     for (const item of crateData['@graph']) {
+      // P0 FIX: Skip the root dataset metadata (usually with id "./")
+      if (item['@id'] === './') {
+        continue;
+      }
+
       if (item['@type'] === 'Dataset' && item.genre) {
         console.log('\n--- Processing Dataset ---');
         console.log('Dataset ID:', item['@id']);
@@ -232,6 +237,7 @@ export class ELabFTWParser {
           '@type': stepItem['@type'],
           position: stepItem.position || 0,
           creativeWorkStatus: stepItem.creativeWorkStatus || '',
+          expires: stepItem.expires || '',
           itemListElement: {
             '@id': directionId || '',
             '@type': directionItem?.['@type'] || 'HowToDirection',

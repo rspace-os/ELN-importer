@@ -50,7 +50,6 @@ export class RSpaceService {
     const response = await fetch(url, {
       ...options,
       headers,
-      timeout: 30000,
     });
 
     if (!response.ok) {

@@ -656,7 +656,7 @@ export function convertDatasetsToPreviewItems(
   const classifier = new ClassificationEngine();
   const validator = new ValidationEngine();
 
-  return datasets.map(dataset => {
+  return datasets.filter(dataset => dataset.id !=='./').map(dataset => {
     // Extract custom fields
     const customFields = parser.extractCustomFields(dataset.variableMeasured, crateData);
     

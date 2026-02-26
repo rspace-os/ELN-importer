@@ -22,9 +22,10 @@ vi.mock('jszip', () => {
       const cratePath = `${base}ro-crate-metadata.json`;
       const crateGraph = {
         '@graph': [
-          { '@id': './', '@type': 'Dataset' },
-          { '@id': './dataset1', '@type': 'Dataset', name: 'Exp 1', hasPart: ['./step1'], variableMeasured: [], keywords: ['k1','k2'] },
-          { '@id': './step1', '@type': 'HowToStep', text: 'Mix A and B' },
+          { '@id': './', '@type': 'Dataset' }, // Should be skipped
+          { '@id': './dataset1', '@type': 'Dataset', name: 'Exp 1', genre: 'experiment', hasPart: ['./step1'], variableMeasured: [], keywords: ['k1','k2'], step: [{ '@id': './step1' }] },
+          { '@id': './step1', '@type': 'HowToStep', position: 1, creativeWorkStatus: 'unfinished', expires: '2026-02-25T17:42:10+01:00', itemListElement: { '@id': './dir1' } },
+          { '@id': './dir1', '@type': 'HowToDirection', text: 'Mix A and B' },
         ],
       };
       zip.files[cratePath] = new MockZipEntry(cratePath, JSON.stringify(crateGraph));
@@ -55,7 +56,12 @@ describe('ELabFTWParser', () => {
     const { datasets, fileMetadata, fileIndex } = await parser.parseELNFile(file);
 
     expect(Array.isArray(datasets)).toBe(true);
-    // Implementation details may vary; ensure no throw and structures exist
+    // Root dataset with id './' should be filtered out, leaving only dataset1
+    expect(datasets.length).toBe(1);
+    expect(datasets[0].id).toBe('./dataset1');
+    expect(datasets[0].steps.length).toBe(1);
+    expect(datasets[0].steps[0].expires).toBe('2026-02-25T17:42:10+01:00');
+    expect(datasets[0].steps[0].itemListElement.text).toBe('Mix A and B');
     expect(typeof fileMetadata).toBe('object');
     expect(fileIndex instanceof Map).toBe(true);
   });

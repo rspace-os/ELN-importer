@@ -31,6 +31,7 @@ export interface HowToStep {
   '@type': string;
   position: number;
   creativeWorkStatus: string;
+  expires?: string;
   itemListElement: {
     '@id': string;
     '@type': string;
