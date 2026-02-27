@@ -182,6 +182,15 @@ export function ItemDetailModal({ item, isOpen, onClose, onClassificationChange 
                     <span className="font-medium text-gray-700">Modified:</span>
                     <span className="ml-2 text-gray-600">{new Date(item.dateModified).toLocaleString()}</span>
                   </div>
+                  {item.authorName && (
+                    <div className="col-span-2">
+                      <span className="font-medium text-gray-700">Author:</span>
+                      <span className="ml-2 text-gray-600 flex items-center inline-flex">
+                        <User className="h-3 w-3 mr-1" />
+                        {item.authorName}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -212,7 +221,15 @@ export function ItemDetailModal({ item, isOpen, onClose, onClassificationChange 
                         <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium flex-shrink-0">
                           {step.position}
                         </span>
-                        <span className="text-gray-700">{step.itemListElement.text}</span>
+                        <div className="flex-1">
+                          <span className="text-gray-700 block">{step.itemListElement.text}</span>
+                          {step.expires && (
+                            <span className="text-xs text-red-600 flex items-center mt-1">
+                              <Clock className="h-3 w-3 mr-1" />
+                              Expires: {new Date(step.expires).toLocaleString()}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                     {item.steps.length > 5 && (

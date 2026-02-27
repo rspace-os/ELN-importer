@@ -10,7 +10,7 @@ describe('RSpaceMapper', () => {
       expect(mapFieldTypeForRSpace('datetime')).toBe('Date');
       expect(mapFieldTypeForRSpace('time')).toBe('Time');
       expect(mapFieldTypeForRSpace('checkbox')).toBe('Radio');
-      expect(mapFieldTypeForRSpace('select')).toBe('Choice');
+      expect(mapFieldTypeForRSpace('select')).toBe('Radio');
       expect(mapFieldTypeForRSpace('radio')).toBe('Radio');
       expect(mapFieldTypeForRSpace('textarea')).toBe('Text');
       expect(mapFieldTypeForRSpace('url')).toBe('Uri');

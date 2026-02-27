@@ -43,10 +43,10 @@ describe('ItemDetailModal', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders basic item info when open', () => {
+  it('renders basic item info when open and shows author', () => {
     render(
       <ItemDetailModal
-        item={mockItem}
+        item={{ ...mockItem, authorName: 'John Author' }}
         isOpen={true}
         onClose={() => {}}
         onClassificationChange={() => {}}
@@ -54,7 +54,40 @@ describe('ItemDetailModal', () => {
     );
 
     expect(screen.getByText('Detailed Test Item')).toBeInTheDocument();
-    expect(screen.getByText('Justification for detailed item.')).toBeInTheDocument();
+    expect(screen.getByText(/Author:/)).toBeInTheDocument();
+    expect(screen.getByText('John Author')).toBeInTheDocument();
+  });
+
+  it('renders step with expires field', () => {
+    const itemWithExpires: PreviewItem = {
+      ...mockItem,
+      steps: [
+        {
+          '@id': 'step-1',
+          '@type': 'HowToStep',
+          position: 1,
+          creativeWorkStatus: 'unfinished',
+          expires: '2026-02-25T17:42:10Z',
+          itemListElement: {
+            '@id': 'dir-1',
+            '@type': 'HowToDirection',
+            text: 'Step with deadline'
+          }
+        }
+      ]
+    };
+    render(
+      <ItemDetailModal
+        item={itemWithExpires}
+        isOpen={true}
+        onClose={() => {}}
+        onClassificationChange={() => {}}
+      />
+    );
+
+    expect(screen.getByText('Step with deadline')).toBeInTheDocument();
+    expect(screen.getByText(/Expires:/)).toBeInTheDocument();
+    expect(screen.getByText(/2\/25\/2026/)).toBeInTheDocument();
   });
 
   it('switches tabs correctly', () => {
