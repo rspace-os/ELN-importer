@@ -161,6 +161,7 @@ export class ELabFTWParser {
           files: this.extractFiles(item.hasPart || []),
           variableMeasured: item.variableMeasured || [],
           keywords: this.extractKeywords(item.keywords || ''),
+          authorName: this.extractAuthorName(item.author, crateData),
           category: this.getCategoryName(item.about?.['@id'], categories),
           categoryColor: this.getCategoryColor(item.about?.['@id'], categories)
         };
@@ -270,6 +271,22 @@ export class ELabFTWParser {
       return keywords.split(',').map(k => k.trim()).filter(Boolean);
     }
     return [];
+  }
+
+  private extractAuthorName(authorRef: any, crateData: ROCrateData): string {
+    if (!authorRef) return '';
+    
+    const authorId = typeof authorRef === 'string' ? authorRef : authorRef['@id'];
+    if (!authorId) return '';
+
+    const authorItem = crateData['@graph'].find(item => item['@id'] === authorId);
+    if (authorItem && authorItem['@type'] === 'Person') {
+      const givenName = authorItem.givenName || '';
+      const familyName = authorItem.familyName || '';
+      return `${givenName} ${familyName}`.trim();
+    }
+
+    return '';
   }
 
   private extractFileMetadata(crateData: ROCrateData | null | undefined): Record<string, FileMetadata> {
@@ -640,6 +657,7 @@ export function convertDatasetsToPreviewItems(
       keywords: dataset.keywords || [],
       dateCreated: dataset.dateCreated || '',
       dateModified: dataset.dateModified || '',
+      authorName: dataset.authorName,
       elabftwMetadata: rawElabFTWMetadata
     };
     

@@ -117,7 +117,9 @@ export class CustomFieldExtractor {
   private processExtraField(field: any, customFields: Record<string, CustomField>): void {
     if (field.name && (field.value !== undefined && field.value !== null)) {
       const fieldValue = field.value.toString();
-
+      if (field.options) {
+        field.options = field.options.filter(option => option !== undefined && option !== null && option !== "");
+      }
       customFields[field.name] = {
         type: this.mapFieldType(field.type) || 'text',
         value: fieldValue,
@@ -136,28 +138,30 @@ export class CustomFieldExtractor {
 
     if (!fieldName || !fieldValue) return;
 
-    const fieldType = this.inferFieldType(fieldValue);
+    const fieldType = variable.valueReference || 'text';
+    if(!customFields[fieldName]) {
+      customFields[fieldName] = {
+        type: fieldType,
+        value: fieldValue,
+        description: variable.description || `Property: ${fieldName}`,
+        ...(variable.unitCode && {units: [variable.unitCode]}),
+        ...(variable.unitText && {units: [variable.unitText]})
+      };
+    }
 
-    customFields[fieldName] = {
-      type: fieldType,
-      value: fieldValue,
-      description: variable.description || `Property: ${fieldName}`,
-      ...(variable.unitCode && { units: [variable.unitCode] }),
-      ...(variable.unitText && { units: [variable.unitText] })
-    };
   }
 
   private extractNameValuePair(variable: any, customFields: Record<string, CustomField>): void {
     const fieldName = variable.name?.toString().trim();
     const fieldValue = variable.value?.toString().trim();
-
-    if (!fieldName || !fieldValue) return;
-
-    customFields[fieldName] = {
-      type: this.inferFieldType(fieldValue),
-      value: fieldValue,
-      description: variable.description || `Field: ${fieldName}`
-    };
+    if(!customFields[fieldName]) {
+      if (!fieldName || !fieldValue) return;
+      customFields[fieldName] = {
+        type: variable.valueReference || 'text',
+        value: fieldValue,
+        description: variable.description || `Field: ${fieldName}`
+      };
+    }
   }
 
   /**

@@ -13,8 +13,8 @@ describe('RSpaceMapper', () => {
       expect(mapFieldTypeForRSpace('select')).toBe('Choice');
       expect(mapFieldTypeForRSpace('radio')).toBe('Radio');
       expect(mapFieldTypeForRSpace('textarea')).toBe('Text');
-      expect(mapFieldTypeForRSpace('url')).toBe('String');
-      expect(mapFieldTypeForRSpace('email')).toBe('String');
+      expect(mapFieldTypeForRSpace('url')).toBe('Uri');
+      expect(mapFieldTypeForRSpace('email')).toBe('Uri');
       expect(mapFieldTypeForRSpace('text')).toBe('String');
     });
 
@@ -49,6 +49,7 @@ describe('RSpaceMapper', () => {
       const fields = prepareFormFields(item as PreviewItem);
       
       const fieldNames = fields.map(f => f.name);
+      expect(fieldNames).toContain('Owner');
       expect(fieldNames).toContain('Content');
       expect(fieldNames).toContain('References');
       expect(fieldNames).toContain('Keywords');
@@ -69,8 +70,8 @@ describe('RSpaceMapper', () => {
       const fields = prepareFormFields(item as PreviewItem);
       const fieldNames = fields.map(f => f.name);
       
-      expect(fieldNames).toContain('Step 1');
-      expect(fieldNames).toContain('Step 2');
+      expect(fieldNames).toContain('Step 1 content');
+      expect(fieldNames).toContain('Step 2 content');
     });
 
     it('should map metadata fields and handle collisions', () => {
@@ -99,7 +100,7 @@ describe('RSpaceMapper', () => {
   describe('prepareDocumentFieldValues', () => {
     it('should prepare field values for documents', () => {
       const steps: HowToStep[] = [
-        { '@id': 's1', '@type': 'HowToStep', position: 1, creativeWorkStatus: 'complete', itemListElement: { '@id': 'it1', '@type': 'HowToDirection', text: 'Step 1 content' } }
+        { '@id': 's1', '@type': 'HowToStep', position: 1, creativeWorkStatus: 'complete', expires: '2023-01-01T12:00:00Z', itemListElement: { '@id': 'it1', '@type': 'HowToDirection', text: 'Step 1 content' } }
       ];
       const item: PreviewItem = {
         id: '123',
@@ -125,8 +126,10 @@ describe('RSpaceMapper', () => {
       
       const values = prepareDocumentFieldValues(item as PreviewItem);
       
+      expect(values['Owner']).toBe('');
       expect(values['Content']).toBe('Main content');
-      expect(values['Step 1']).toBe('Step 1 content');
+      expect(values['Step 1 content']).toBe('complete');
+      expect(values['Step 1 content_deadline']).toBe(new Date(steps[0].expires!).toLocaleString());
       expect(values['Source ELN ID']).toBe('123');
       expect(values['Category']).toBe('Experiments');
       expect(values['Date Created']).toBe('2023-01-01');

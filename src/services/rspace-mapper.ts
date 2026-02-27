@@ -47,6 +47,7 @@ export function prepareFormFields(item: PreviewItem) {
   };
 
   const formFields = [
+    { name: getUniqueFieldName('Owner'), type: 'String', mandatory: false },
     { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false },
   ];
 
@@ -122,6 +123,7 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
   };
 
   const fieldValues: Record<string, string> = {
+    'Owner': item.authorName || '',
     'Content': item.textContent || 'No content',
   };
 

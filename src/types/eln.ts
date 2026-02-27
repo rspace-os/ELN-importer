@@ -13,6 +13,7 @@ export interface ELNDataset {
   files: string[];
   variableMeasured: PropertyValue[];
   keywords: string[];
+  authorName?: string;
   category?: string;
   categoryColor?: string;
 }
@@ -88,6 +89,7 @@ export interface PreviewItem {
   keywords: string[];
   dateCreated: string;
   dateModified: string;
+  authorName?: string;
   elnMetadata?: any; // Raw ELN-specific metadata as JSON blob
 }
 

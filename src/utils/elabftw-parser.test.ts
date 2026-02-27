@@ -23,7 +23,8 @@ vi.mock('jszip', () => {
       const crateGraph = {
         '@graph': [
           { '@id': './', '@type': 'Dataset' }, // Should be skipped
-          { '@id': './dataset1', '@type': 'Dataset', name: 'Exp 1', genre: 'experiment', hasPart: ['./step1'], variableMeasured: [], keywords: ['k1','k2'], step: [{ '@id': './step1' }] },
+          { '@id': './dataset1', '@type': 'Dataset', name: 'Exp 1', genre: 'experiment', author: { '@id': '#person1' }, hasPart: ['./step1'], variableMeasured: [], keywords: ['k1','k2'], step: [{ '@id': './step1' }] },
+          { '@id': '#person1', '@type': 'Person', givenName: 'John', familyName: 'Doe' },
           { '@id': './step1', '@type': 'HowToStep', position: 1, creativeWorkStatus: 'unfinished', expires: '2026-02-25T17:42:10+01:00', itemListElement: { '@id': './dir1' } },
           { '@id': './dir1', '@type': 'HowToDirection', text: 'Mix A and B' },
         ],
@@ -59,6 +60,7 @@ describe('ELabFTWParser', () => {
     // Root dataset with id './' should be filtered out, leaving only dataset1
     expect(datasets.length).toBe(1);
     expect(datasets[0].id).toBe('./dataset1');
+    expect(datasets[0].authorName).toBe('John Doe');
     expect(datasets[0].steps.length).toBe(1);
     expect(datasets[0].steps[0].expires).toBe('2026-02-25T17:42:10+01:00');
     expect(datasets[0].steps[0].itemListElement.text).toBe('Mix A and B');
