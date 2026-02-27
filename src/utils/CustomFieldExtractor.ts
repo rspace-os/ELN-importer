@@ -218,7 +218,7 @@ export class CustomFieldExtractor {
 
     return typeMapping[String(type).toLowerCase()] || null;
   }
-
+  //Todo - not used and probably not needed
   private inferFieldType(value: string): string {
     const trimmedValue = value.trim();
 

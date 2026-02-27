@@ -14,7 +14,7 @@ export function mapFieldTypeForRSpace(fieldType: string): string {
     'datetime': 'Date',
     'time': 'Time',
     'checkbox': 'Radio',  // P0: Checkboxes map to Radio with Yes/No options
-    'select': 'Choice',
+    'select': 'Radio',
     'radio': 'Radio',
     'textarea': 'Text',
     'url': 'Uri',         // Improved: Use Uri type
@@ -91,20 +91,18 @@ export function prepareFormFields(item: PreviewItem) {
   Object.entries(item.metadata).forEach(([fieldName, field]) => {
     if (!metadataFieldsToSkip.has(fieldName)) {
       const mappedType = mapFieldTypeForRSpace(field.type);
+      const isPickList = field.type === 'select';
 
-      // Choice fields mapped from checkboxes need multipleSelection: true
-      const isMultipleChoice = field.type === 'checkbox' && mappedType === 'Choice';
-      
       const fieldOptions = field.options ||
         (field.type === 'checkbox' ? ['Yes', 'No'] : undefined);
-
-      formFields.push({
+      let request = {
         name: getUniqueFieldName(fieldName),
         type: mappedType,
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
-        ...(isMultipleChoice && { multipleSelection: true })
-      } as any);
+        ...(isPickList && { pickList: true }),
+      } as any;
+      formFields.push(request);
     }
   });
 

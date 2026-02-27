@@ -8,7 +8,7 @@ import { PreviewSession } from '../types/eln';
 async function runImport() {
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_differenttypes.json';
   const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_bores_size_metadata.json';
-  const apiKey = 'lwTjhgDKzfHvqou8mLUTfwZUL3ez1EY5';
+  const apiKey = 'nJvnR3rsBrMCn9yipJJWnAU6sAH8Krrb';
   const baseUrl = 'http://localhost:8080';
 
   console.log('--- Starting Import Script ---');
