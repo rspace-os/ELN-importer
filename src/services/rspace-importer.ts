@@ -213,7 +213,7 @@ export class RSpaceImporter {
     const formName = `ELN ${item.category} (${item.type})`;
     const formFields = prepareFormFields(item);
     const formId = await this.rspaceService.createForm(formName, formFields);
-    const fieldValues = prepareDocumentFieldValues(item);
+    const fieldValues = prepareDocumentFieldValues(item,formFields);
     const tags = prepareTags(item);
 
     // Add file references to the Content field if files were uploaded
@@ -222,7 +222,11 @@ export class RSpaceImporter {
       const fileLinks = uploadedFileIds.map(fileId =>
         `<p><fileId=${fileId}></p>`
       ).join('\n');
-      fieldValues['Content'] = (fieldValues['Content'] || '') + '\n' + fileLinks;
+      const contentValue = fieldValues.find(a=> a[0] ==='Content');
+      if(contentValue) { //there is always a content field
+        contentValue[1] = (contentValue[1] || '') + '\n' + fileLinks;
+      }
+      // fieldValues['Content'] = (fieldValues['Content'] || '') + '\n' + fileLinks;
     }
 
     return await this.rspaceService.createDocument(formId, item.name, fieldValues, tags);
@@ -233,7 +237,7 @@ export class RSpaceImporter {
     const customFields = prepareInventoryCustomFields(item);
     const tags = prepareTags(item);
 
-    let description = item.textContent || `Imported from ELN: ${item.category}`;
+    const description = item.textContent || `Imported from ELN: ${item.category}`;
 
     const commonData = {
       name: item.name,

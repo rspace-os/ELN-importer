@@ -168,16 +168,13 @@ export class RSpaceService {
     }
   }
 
-  async createDocument(formId: number, name: string, fieldValues: Record<string, string>, tags: string[] = []): Promise<RSpaceDocument> {
+  async createDocument(formId: number, name: string, fieldValues: Record<string, string> [], tags: string[] = []): Promise<RSpaceDocument> {
     try {
       const docData = {
         name,
         tags: tags.join(','),
         form: { id: formId },
-        fields: Object.entries(fieldValues).map(([name, content]) => ({
-          name,
-          content
-        }))
+        fields: fieldValues
       };
 
       console.log('Creating document:', { name, formId, tags, fieldCount: Object.keys(fieldValues).length });

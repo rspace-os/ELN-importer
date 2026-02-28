@@ -109,7 +109,7 @@ export function prepareFormFields(item: PreviewItem) {
   return formFields;
 }
 
-export function prepareDocumentFieldValues(item: PreviewItem): Record<string, string> {
+export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name:string}[]): Record<string, string> []{
   const formatDateForRSpace = (dateString?: string): string => {
     if (!dateString) return '';
     try {
@@ -120,26 +120,26 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
     }
   };
 
-  const fieldValues: Record<string, string> = {
-    'Owner': item.authorName || '',
-    'Content': item.textContent || 'No content',
-  };
+  const fieldValues: Record<string, string>[]= [
+      {'Owner': item.authorName || ''},
+    {'Content': item.textContent || 'No content'},
+  ];
 
-  // Add individual step values
-  // P0 FIX: Use index instead of position to match field names from prepareFormFields
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
-      fieldValues[step.itemListElement.text] = step.creativeWorkStatus;
-      fieldValues[step.itemListElement.text+'_deadline'] = step.expires ? new Date(step.expires).toLocaleString():"";
+      fieldValues.push({[step.itemListElement.text]: step.creativeWorkStatus});
+      fieldValues.push({[step.itemListElement.text+'_deadline']:  step.expires ? new Date(step.expires).toLocaleString():""});
+      // fieldValues[step.itemListElement.text] = step.creativeWorkStatus;
+      // fieldValues[step.itemListElement.text+'_deadline'] = step.expires ? new Date(step.expires).toLocaleString():"";
     });
   }
 
-  fieldValues['References'] = '';
-  fieldValues['Keywords'] = item.keywords.join(', ');
-  fieldValues['Source ELN ID'] = item.id;  // P1: Generic name
-  fieldValues['Category'] = item.category;
-  fieldValues['Date Created'] = formatDateForRSpace(item.dateCreated);
-  fieldValues['Date Modified'] = formatDateForRSpace(item.dateModified);
+  fieldValues.push({'References' :''});
+  fieldValues.push({'Keywords': item.keywords.join(', ')});
+  fieldValues.push({'Source ELN ID':item.id});  // P1: Generic name
+  fieldValues.push({'Category': item.category});
+  fieldValues.push({'Date Created': formatDateForRSpace(item.dateCreated)});
+  fieldValues.push({'Date Modified': formatDateForRSpace(item.dateModified)});
 
   // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
   const metadataFieldsToSkip = new Set([
@@ -159,12 +159,16 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
         const truthy = ['on', 'true', '1', 'checked', 'yes'];
         fieldValue = truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
       }
-
-      fieldValues[fieldName.substring(0, 50)] = fieldValue;
+      fieldValues.push({[fieldName.substring(0, 50)]: fieldValue});
+      // fieldValues[fieldName.substring(0, 50)] = fieldValue;
     }
   });
-
-  return fieldValues;
+  const orderedFieldValues :{name:string,content:string} [] = [];
+  formFields.forEach(field => {
+    const aValue = fieldValues.find(v=>v[field.name] !== undefined);
+    orderedFieldValues.push({name:field.name,content:aValue?aValue[field.name]:""});
+  });
+  return orderedFieldValues;
 }
 
 export function prepareInventoryCustomFields(item: PreviewItem): Record<string, string> {
