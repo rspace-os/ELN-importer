@@ -222,9 +222,9 @@ export class RSpaceImporter {
       const fileLinks = uploadedFileIds.map(fileId =>
         `<p><fileId=${fileId}></p>`
       ).join('\n');
-      const contentValue = fieldValues.find(a=> a[0] ==='Content');
+      const contentValue = fieldValues.find(a=> a.name ==='Content');
       if(contentValue) { //there is always a content field
-        contentValue[1] = (contentValue[1] || '') + '\n' + fileLinks;
+        contentValue.content = (contentValue.content || '') + '\n' + fileLinks;
       }
       // fieldValues['Content'] = (fieldValues['Content'] || '') + '\n' + fileLinks;
     }

@@ -57,7 +57,7 @@ export function prepareFormFields(item: PreviewItem) {
       // P0 FIX: Use index instead of position to avoid duplicate field names
       const stepName = step.itemListElement.text;
       formFields.push({
-        name: stepName,
+        name: 'step: '+stepName,
         type: 'Radio',
         mandatory: false,
         options: ['finished','unfinished']
@@ -91,7 +91,7 @@ export function prepareFormFields(item: PreviewItem) {
   Object.entries(item.metadata).forEach(([fieldName, field]) => {
     if (!metadataFieldsToSkip.has(fieldName)) {
       const mappedType = mapFieldTypeForRSpace(field.type);
-      const isPickList = field.type === 'select';
+      const showAsPickList = field.type === 'select';
 
       const fieldOptions = field.options ||
         (field.type === 'checkbox' ? ['Yes', 'No'] : undefined);
@@ -100,7 +100,7 @@ export function prepareFormFields(item: PreviewItem) {
         type: mappedType,
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
-        ...(isPickList && { pickList: true }),
+        ...(showAsPickList && { showAsPickList: true }),
       } as any;
       formFields.push(request);
     }
@@ -127,7 +127,7 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
 
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
-      fieldValues.push({[step.itemListElement.text]: step.creativeWorkStatus});
+      fieldValues.push({['step: '+step.itemListElement.text]: step.creativeWorkStatus});
       fieldValues.push({[step.itemListElement.text+'_deadline']:  step.expires ? new Date(step.expires).toLocaleString():""});
       // fieldValues[step.itemListElement.text] = step.creativeWorkStatus;
       // fieldValues[step.itemListElement.text+'_deadline'] = step.expires ? new Date(step.expires).toLocaleString():"";

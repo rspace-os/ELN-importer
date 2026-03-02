@@ -145,7 +145,8 @@ describe('RSpaceImporter', () => {
     expect(mockRSpaceService.createDocument).toHaveBeenCalled();
     // Verify file syntax was added to content
     const callArgs = mockRSpaceService.createDocument.mock.calls[0];
-    expect(callArgs[2].Content).toContain('<fileId=501>');
+    const contentField = callArgs[2].find((f: any) => f.name === 'Content');
+    expect(contentField.content).toContain('<fileId=501>');
   });
 
   it('reports errors during import', async () => {

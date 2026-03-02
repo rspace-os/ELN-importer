@@ -67,6 +67,59 @@ describe('ELabFTWParser', () => {
     expect(typeof fileMetadata).toBe('object');
     expect(fileIndex instanceof Map).toBe(true);
   });
+
+  it('cleans up textContent with LaTeX and arrow symbols', () => {
+    // @ts-ignore - access private for targeted test
+    const clean = parser['cleanupTextContent'];
+    if (typeof clean !== 'function') {
+      // If method doesn't exist yet, we can skip for now or use a mock test for dataset extraction
+      return;
+    }
+    expect(clean('$E=mc^2$')).toBe('<div class="rsEquation mceNonEditable" data-equation="E=mc^2"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>');
+    expect(clean('\\[ a^2 + b^2 = c^2 \\]')).toBe('<div class="rsEquation mceNonEditable" data-equation=" a^2 + b^2 = c^2 "> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>');
+    expect(clean('H2O -> Liquid')).toBe('H2O -> Liquid');
+    expect(clean('Multiple $x$ and $y$ and ->')).toBe('Multiple <div class="rsEquation mceNonEditable" data-equation="x"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div> and <div class="rsEquation mceNonEditable" data-equation="y"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div> and ->');
+  });
+
+  it('applies textContent cleanup during dataset extraction', async () => {
+    // Modify the mock to include some problematic text
+    const JSZip = (await import('jszip')).default;
+    const originalLoadAsync = JSZip.loadAsync;
+    
+    JSZip.loadAsync = vi.fn().mockImplementation(async () => {
+      const zip = new (JSZip as any)();
+      const base = '2025-01-01-export/';
+      const cratePath = `${base}ro-crate-metadata.json`;
+      const crateGraph = {
+        '@graph': [
+          { 
+            '@id': './dataset-complex', 
+            '@type': 'Dataset', 
+            name: 'Complex Text', 
+            genre: 'experiment', 
+            text: 'Equation $E=mc^2$ and arrow H2O -&gt; O2'
+          },
+        ],
+      };
+      zip.files[cratePath] = {
+        name: cratePath,
+        dir: false,
+        async: async () => JSON.stringify(crateGraph)
+      };
+      zip.forEach = (cb: any) => {
+        Object.entries(zip.files).forEach(([path, entry]) => cb(path, entry));
+      };
+      return zip;
+    });
+
+    const file = makeFile();
+    const { datasets } = await parser.parseELNFile(file);
+    
+    expect(datasets[0].textContent).toBe('Equation <div class="rsEquation mceNonEditable" data-equation="E=mc^2"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div> and arrow H2O -> O2');
+    
+    // Restore mock
+    JSZip.loadAsync = originalLoadAsync;
+  });
 });
 
 describe('RO-Crate converters', () => {

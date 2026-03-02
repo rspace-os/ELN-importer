@@ -131,7 +131,7 @@ export class RSpaceService {
     }
   }
 
-  async createForm(name: string, fields: Array<{ name: string; type: string; mandatory?: boolean; pickList?: boolean; options?: string[] }>): Promise<number> {
+  async createForm(name: string, fields: Array<{ name: string; type: string; mandatory?: boolean; showAsPickList?: boolean; options?: string[] }>): Promise<number> {
     try {
       const formData = {
         name: name.substring(0, 50),
@@ -141,7 +141,7 @@ export class RSpaceService {
           type: field.type,
           mandatory: field.mandatory || false,
           ...(field.options && { options: field.options }),
-          ...(field.pickList && { pickList: true }),
+          ...(field.showAsPickList && { showAsPickList: true }),
         }))
       };
 

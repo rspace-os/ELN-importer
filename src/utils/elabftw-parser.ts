@@ -166,6 +166,9 @@ export class ELabFTWParser {
           categoryColor: this.getCategoryColor(item.about?.['@id'], categories)
         };
 
+        // Cleanup textContent
+        dataset.textContent = this.cleanupTextContent(dataset.textContent);
+
         console.log('Final dataset variableMeasured:', dataset.variableMeasured);
         console.log('--- End Dataset ---\n');
 
@@ -608,6 +611,37 @@ export class ELabFTWParser {
     }
     
     return 'text';
+  }
+
+  /**
+   * Cleans up text content by removing LaTeX delimiters and fixing arrows
+   * - Removes '$' around LaTeX
+   * - Removes '\[ ' and ' \]' around LaTeX
+   * - Replaces '->' with '->'
+   */
+  private cleanupTextContent(text: string): string {
+    if (!text) return '';
+
+    let cleaned = text;
+
+    // Replace LaTeX enclosed in '$' characters
+    // Using a regex to find content between $ and $
+    // This matches $...$ and replaces it with RSpace equation div
+    cleaned = cleaned.replace(/\$([^$]+)\$/g, (_, latex) => {
+      return `<div class="rsEquation mceNonEditable" data-equation="${latex}"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>`;
+    });
+
+    // Replace LaTeX enclosed in '\[ ' and ' \]' characters
+    // Using a regex to find content between \[ and \]
+    // We escape [ and ] in the regex
+    cleaned = cleaned.replace(/\\\[(.*?)\\\]/g, (_, latex) => {
+      return `<div class="rsEquation mceNonEditable" data-equation="${latex}"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>`;
+    });
+
+    // Replace '->' with '->'
+    cleaned = cleaned.replace(/-&gt;/g, '->');
+
+    return cleaned;
   }
 }
 

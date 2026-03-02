@@ -124,19 +124,22 @@ describe('RSpaceMapper', () => {
         files: [], crossReferences: [], validationIssues: []
       };
       
-      const values = prepareDocumentFieldValues(item as PreviewItem);
+      const formFields = prepareFormFields(item as PreviewItem);
+      const values = prepareDocumentFieldValues(item as PreviewItem, formFields);
       
-      expect(values['Owner']).toBe('');
-      expect(values['Content']).toBe('Main content');
-      expect(values['Step 1 content']).toBe('complete');
-      expect(values['Step 1 content_deadline']).toBe(new Date(steps[0].expires!).toLocaleString());
-      expect(values['Source ELN ID']).toBe('123');
-      expect(values['Category']).toBe('Experiments');
-      expect(values['Date Created']).toBe('2023-01-01');
-      expect(values['Keywords']).toContain('tag1');
-      expect(values['Keywords']).toContain('tag2');
-      expect(values['References']).toBe('');
-      expect(values['Custom Field']).toBe('Custom Value');
+      const getValue = (name: string) => values.find(v => v.name === name)?.content;
+      
+      expect(getValue('Owner')).toBe('');
+      expect(getValue('Content')).toBe('Main content');
+      expect(getValue('Step 1 content')).toBe('complete');
+      expect(getValue('Step 1 content_deadline')).toBe(new Date(steps[0].expires!).toLocaleString());
+      expect(getValue('Source ELN ID')).toBe('123');
+      expect(getValue('Category')).toBe('Experiments');
+      expect(getValue('Date Created')).toBe('2023-01-01');
+      expect(getValue('Keywords')).toContain('tag1');
+      expect(getValue('Keywords')).toContain('tag2');
+      expect(getValue('References')).toBe('');
+      expect(getValue('Custom Field')).toBe('Custom Value');
     });
   });
 
