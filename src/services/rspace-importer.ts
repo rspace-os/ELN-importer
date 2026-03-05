@@ -1,4 +1,4 @@
-import { PreviewItem, PreviewSession } from '../types/eln';
+import { PreviewItem, PreviewSession } from '../types/elabftw.ts';
 import { RSpaceService } from './rspace-api';
 import {
   prepareFormFields,
@@ -228,7 +228,7 @@ export class RSpaceImporter {
       }
     }
 
-    return await this.rspaceService.createDocument(formId, item.name, fieldValues, tags);
+    return await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
   }
 
   private async createRSpaceInventoryItem(item: PreviewItem) {

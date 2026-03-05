@@ -1,4 +1,4 @@
-import { PreviewSession, PreviewItem } from '../types/eln';
+import { PreviewSession, PreviewItem } from '../types/elabftw';
 
 const STORAGE_KEY = 'elabftw_preview_sessions';
 const MAX_SESSIONS = 10;

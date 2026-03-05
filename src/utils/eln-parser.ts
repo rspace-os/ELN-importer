@@ -1,11 +1,11 @@
 import {
-  ELNDataset,
+  ELabFTWDataset,
   PropertyValue,
   HowToStep,
   FileMetadata,
   PreviewItem,
   ROCrateData
-} from '../types/eln';
+} from '../types/elabftw';
 import { CustomFieldExtractor } from './CustomFieldExtractor';
 import { ClassificationEngine } from './ClassificationEngine';
 import { ValidationEngine } from './ValidationEngine';
@@ -30,7 +30,7 @@ export class ELNParser {
   }
 
   async parseELNFile(file: File): Promise<{
-    datasets: ELNDataset[];
+    datasets: ELabFTWDataset[];
     fileMetadata: Record<string, FileMetadata>;
     fileIndex: Map<string, Blob>;
   }> {
@@ -129,13 +129,13 @@ export class ELNParser {
     return { datasets, fileMetadata, fileIndex: this.fileIndex };
   }
 
-  private extractDatasets(crateData: ROCrateData | null | undefined): ELNDataset[] {
+  private extractDatasets(crateData: ROCrateData | null | undefined): ELabFTWDataset[] {
     if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
       console.warn('Invalid or missing crateData for dataset extraction');
       return [];
     }
 
-    const datasets: ELNDataset[] = [];
+    const datasets: ELabFTWDataset[] = [];
     const categories = this.extractCategories(crateData);
 
     console.log('=== DEBUGGING DATASET EXTRACTION ===');
@@ -170,7 +170,7 @@ export class ELNParser {
         // Log all properties of the dataset item
         console.log('All dataset properties:', Object.keys(item));
 
-        const dataset: ELNDataset = {
+        const dataset: ELabFTWDataset = {
           id: item['@id'],
           name: item.name || 'Untitled',
           genre: genre,
@@ -648,7 +648,7 @@ export { CustomFieldExtractor } from './CustomFieldExtractor';
 
 // Helper function to convert datasets to preview items
 export function convertDatasetsToPreviewItems(
-  datasets: ELNDataset[],
+  datasets: ELabFTWDataset[],
   fileMetadata: Record<string, FileMetadata>,
   crateData?: ROCrateData | null
 ): PreviewItem[] {
@@ -698,7 +698,7 @@ export function convertDatasetsToPreviewItems(
 }
 
 // Helper function to create item-specific metadata
-function createItemSpecificMetadata(dataset: ELNDataset, crateData?: ROCrateData | null): any {
+function createItemSpecificMetadata(dataset: ELabFTWDataset, crateData?: ROCrateData | null): any {
   if (!crateData || !crateData['@graph']) {
     return {
       dataset: {

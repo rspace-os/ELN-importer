@@ -1,4 +1,4 @@
-import { PreviewItem, ValidationIssue } from '../types/eln';
+import { PreviewItem, ValidationIssue } from '../types/elabftw';
 
 /**
  * P1 IMPROVEMENT: Enhanced validation engine with comprehensive pre-import checks

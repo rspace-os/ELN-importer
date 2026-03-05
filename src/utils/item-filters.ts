@@ -1,4 +1,4 @@
-import { PreviewItem } from '../types/eln';
+import { PreviewItem } from '../types/elabftw';
 
 export type FilterType = 'all' | 'experiments' | 'resources' | 'high' | 'medium' | 'low' | 'modified' | 'issues';
 export type SortType = 'name' | 'type' | 'confidence' | 'created' | 'modified';

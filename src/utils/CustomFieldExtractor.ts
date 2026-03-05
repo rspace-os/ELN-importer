@@ -1,4 +1,4 @@
-import { CustomField, ROCrateData } from '../types/eln';
+import { CustomField, ROCrateData } from '../types/elabftw';
 
 export class CustomFieldExtractor {
   extractCustomFields(variableMeasured: any[], crateData?: ROCrateData | null): Record<string, CustomField> {
@@ -127,7 +127,8 @@ export class CustomFieldExtractor {
         required: field.required || false,
         ...(field.options && { options: field.options }),
         ...(field.units && { units: field.units }),
-        ...(field.units && { unitText: field.unit }),
+        ...(field.units && field.unit && { unitText: field.unit }),
+        ...(field.units && !field.unit && { unitText: field.units[0] }),//observation showed that when there was only one value for 'units', the 'unit' field was dropped from the ElabFTW json.
         ...(field.group_id && { group_id: field.group_id })
       };
     }

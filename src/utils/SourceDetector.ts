@@ -1,4 +1,4 @@
-import { ROCrateData } from '../types/eln';
+import { ROCrateData } from '../types/elabftw';
 
 /**
  * P1 IMPROVEMENT: ELN Source Detection

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { RSpaceImporter } from './rspace-importer';
 import { RSpaceService } from './rspace-api';
-import { PreviewItem, PreviewSession } from '../types/eln';
+import { PreviewItem, PreviewSession } from '../types/elabftw';
 
 describe('RSpaceImporter', () => {
   let importer: RSpaceImporter;

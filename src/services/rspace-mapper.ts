@@ -1,4 +1,4 @@
-import { PreviewItem } from '../types/eln';
+import { PreviewItem } from '../types/elabftw';
 
 /**
  * P1 IMPROVEMENT: Renamed parameter from elabftwType to fieldType
@@ -72,7 +72,7 @@ export function prepareFormFields(item: PreviewItem) {
 
   formFields.push(
     { name: getUniqueFieldName('References'), type: 'Text', mandatory: false },
-    { name: getUniqueFieldName('Keywords'), type: 'Text', mandatory: false },
+    // { name: getUniqueFieldName('Keywords'), type: 'Text', mandatory: false },
     { name: getUniqueFieldName('Source ELN ID'), type: 'String', mandatory: false },  // P1: Generic name
     { name: getUniqueFieldName('Category'), type: 'String', mandatory: false },
     { name: getUniqueFieldName('Date Created'), type: 'Date', mandatory: false },
@@ -155,7 +155,7 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
   }
 
   preFieldValues.push({'References' :''});
-  preFieldValues.push({'Keywords': item.keywords.join(', ')});
+  // preFieldValues.push({'Keywords': item.keywords.join(', ')});
   preFieldValues.push({'Source ELN ID':item.id});  // P1: Generic name
   preFieldValues.push({'Category': item.category});
   preFieldValues.push({'Date Created': formatDateForRSpace(item.dateCreated)});
@@ -314,9 +314,13 @@ export function isInstrumentResource(item: PreviewItem): boolean {
  * @returns Array of tags for RSpace
  */
 export function prepareTags(item: PreviewItem): string[] {
-  return [
-    'eln-import',  // P1: Generic tag instead of 'elabftw-import'
-    item.type,
-    item.category.toLowerCase().replace(/\s+/g, '-')
-  ];
+  const tags: string[] = [];
+  tags.push('eln-import');
+  tags.push(item.type);
+  tags.push(item.category.toLowerCase().replace(/\s+/g, '-'));
+  tags.push(item.keywords.join(','));
+  if (item.creativeWorkStatus) {
+    tags.push(item.creativeWorkStatus);
+  }
+  return tags;
 }

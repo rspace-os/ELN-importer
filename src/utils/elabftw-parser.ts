@@ -152,6 +152,7 @@ export class ELabFTWParser {
         const dataset: ELabFTWDataset = {
           id: item['@id'],
           name: item.name || 'Untitled',
+          alternateName: item.alternateName || '',
           genre: item.genre,
           dateCreated: item.dateCreated || '',
           dateModified: item.dateModified || '',
@@ -163,7 +164,8 @@ export class ELabFTWParser {
           keywords: this.extractKeywords(item.keywords || ''),
           authorName: this.extractAuthorName(item.author, crateData),
           category: this.getCategoryName(item.about?.['@id'], categories),
-          categoryColor: this.getCategoryColor(item.about?.['@id'], categories)
+          categoryColor: this.getCategoryColor(item.about?.['@id'], categories),
+          creativeWorkStatus: item.creativeWorkStatus || '',
         };
 
         // Cleanup textContent
@@ -301,13 +303,21 @@ export class ELabFTWParser {
     
     for (const item of crateData['@graph']) {
       if (item['@type'] === 'File') {
+        // Normalize contentSize to number (handles both string and number per spec)
+        const contentSize = typeof item.contentSize === 'string'
+          ? parseInt(item.contentSize, 10)
+          : (item.contentSize || 0);
+
         fileMetadata[item['@id']] = {
-          id: item['@id'],
+          '@id': item['@id'],
+          '@type': item['@type'] || 'File',
           name: item.name || '',
+          alternateName: item.alternateName,
           encodingFormat: item.encodingFormat || '',
-          contentSize: item.contentSize || 0,
+          contentSize: contentSize,
           dateModified: item.dateModified || '',
-          description: item.description || ''
+          description: item.description || '',
+          sha256: item.sha256 || ''
         };
       }
     }
@@ -492,20 +502,20 @@ export class ELabFTWParser {
   //   };
   // }
 
-  private extractNameValuePair(variable: any, customFields: Record<string, CustomField>): void {
-    const fieldName = variable.name?.toString().trim();
-    const fieldValue = variable.value?.toString().trim();
-    
-    if (!fieldName || !fieldValue) return;
-    
-    console.log(`Extracting name/value: ${fieldName} = "${fieldValue}"`);
-    
-    customFields[fieldName] = {
-      type: this.inferFieldType(fieldValue),
-      value: fieldValue,
-      description: variable.description || `Field: ${fieldName}`
-    };
-  }
+  // private extractNameValuePair(variable: any, customFields: Record<string, CustomField>): void {
+  //   const fieldName = variable.name?.toString().trim();
+  //   const fieldValue = variable.value?.toString().trim();
+  //
+  //   if (!fieldName || !fieldValue) return;
+  //
+  //   console.log(`Extracting name/value: ${fieldName} = "${fieldValue}"`);
+  //
+  //   customFields[fieldName] = {
+  //     type: this.inferFieldType(fieldValue),
+  //     value: fieldValue,
+  //     description: variable.description || `Field: ${fieldName}`
+  //   };
+  // }
 
   // private extractNestedReferences(variable: any, graphMap: Map<string, any>, customFields: Record<string, CustomField>): void {
   //   // Look for nested references in the variable
@@ -675,6 +685,7 @@ export function convertDatasetsToPreviewItems(
     const previewItem: PreviewItem = {
       id: dataset.id,
       name: dataset.name,
+      alternateName: dataset.alternateName,
       type: dataset.genre,
       category: dataset.category || 'Uncategorized',
       categoryColor: dataset.categoryColor || '#666666',
@@ -693,7 +704,8 @@ export function convertDatasetsToPreviewItems(
       dateCreated: dataset.dateCreated || '',
       dateModified: dataset.dateModified || '',
       authorName: dataset.authorName,
-      elabftwMetadata: rawElabFTWMetadata
+      elabftwMetadata: rawElabFTWMetadata,
+      creativeWorkStatus: dataset.creativeWorkStatus
     };
     
     // Validate the item

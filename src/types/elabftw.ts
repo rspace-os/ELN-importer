@@ -1,6 +1,7 @@
 export interface ELabFTWDataset {
   id: string;
   name: string;
+  alternateName: string
   genre: 'experiment' | 'resource';
   dateCreated: string;
   dateModified: string;
@@ -10,8 +11,10 @@ export interface ELabFTWDataset {
   files: string[];
   variableMeasured: PropertyValue[];
   keywords: string[];
-  category?: string;
-  categoryColor?: string;
+  authorName?: string;
+  category: string;
+  categoryColor: string;
+  creativeWorkStatus: string;
 }
 
 export interface PropertyValue {
@@ -28,6 +31,7 @@ export interface HowToStep {
   '@type': string;
   position: number;
   creativeWorkStatus: string;
+  expires?: string;
   itemListElement: {
     '@id': string;
     '@type': string;
@@ -67,6 +71,7 @@ export interface ClassificationResult {
 export interface PreviewItem {
   id: string;
   name: string;
+  alternateName: string;
   type: 'experiment' | 'resource';
   category: string;
   categoryColor: string;
@@ -84,7 +89,9 @@ export interface PreviewItem {
   keywords: string[];
   dateCreated: string;
   dateModified: string;
+  authorName?: string;
   elabftwMetadata?: any; // Raw ELN metadata as JSON blob
+  creativeWorkStatus: string;
 }
 
 export interface ValidationIssue {

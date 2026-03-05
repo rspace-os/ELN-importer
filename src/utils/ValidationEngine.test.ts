@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ValidationEngine } from './ValidationEngine';
-import { PreviewItem } from '../types/eln';
+import { PreviewItem } from '../types/elabftw';
 
 describe('ValidationEngine', () => {
   const engine = new ValidationEngine();

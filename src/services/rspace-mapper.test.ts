@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mapFieldTypeForRSpace, prepareFormFields, prepareDocumentFieldValues, prepareTags } from './rspace-mapper';
-import { PreviewItem, HowToStep } from '../types/eln';
+import { PreviewItem, HowToStep } from '../types/elabftw';
 
 describe('RSpaceMapper', () => {
   describe('mapFieldTypeForRSpace', () => {
