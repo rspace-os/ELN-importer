@@ -1,0 +1,86 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Tests (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Category_customID_status (1)",
+      "tags": "eln-import,experiment,tests,A tag,Running",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Yazmin Harris"
+        },
+        {
+          "name": "Content",
+          "content": "No content"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./35668bd1-3239-48e1-b794-ab0f0fe64d30/"
+        },
+        {
+          "name": "Category",
+          "content": "Tests"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-03-03"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-03-03"
+        }
+      ]
+    }
+  }
+]

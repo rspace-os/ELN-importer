@@ -1,0 +1,171 @@
+[
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "Anti-RFP",
+      "subsample_count": 1,
+      "description": "Imported from ELN: Antibody",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "antibody"
+        },
+        {
+          "value": ""
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./d22a6775-de85-44d2-84a4-91d54a709867/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "Antibody"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2026-02-25T02:52:03+01:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "User",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Resource",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Number of aliquots left",
+          "type": "Number",
+          "mandatory": false
+        },
+        {
+          "name": "Number of aliquots left units:",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "inches",
+            "miles"
+          ],
+          "showAsPickList": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "One more plus",
+      "tags": "eln-import,experiment,uncategorized,",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Norris Kerluke"
+        },
+        {
+          "name": "Content",
+          "content": "No content"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./dcdefc4b-27e8-43e1-9891-b770144801a8/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "User",
+          "content": "11"
+        },
+        {
+          "name": "Resource",
+          "content": "120"
+        },
+        {
+          "name": "Number of aliquots left",
+          "content": "0"
+        },
+        {
+          "name": "Number of aliquots left units:",
+          "content": "miles"
+        }
+      ]
+    }
+  }
+]

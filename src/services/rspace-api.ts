@@ -1,4 +1,6 @@
 import { RetryManager } from '../utils/RetryManager';  // P1: Retry logic
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface RSpaceConfig {
   baseUrl: string;
@@ -31,10 +33,42 @@ interface RSpaceForm {
 export class RSpaceService {
   private config: RSpaceConfig;
   private retryManager: RetryManager;  // P1: Retry manager for network operations
+  private outputDir: string | null = null;
+  private currentInputFile: string | null = null;
 
   constructor(config: RSpaceConfig) {
     this.config = config;
     this.retryManager = new RetryManager();  // P1: Initialize retry manager
+  }
+
+  /**
+   * Set the output directory for integration tests
+   */
+  setIntegrationTestMode(outputDir: string, inputFile: string) {
+    this.outputDir = outputDir;
+    this.currentInputFile = inputFile;
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+  }
+
+  private writeOutput(payload: any) {
+    if (!this.outputDir || !this.currentInputFile) return;
+
+    const baseName = path.basename(this.currentInputFile);
+    const outputPath = path.join(this.outputDir, `${baseName}-output.json`);
+    
+    let existing: any[] = [];
+    if (fs.existsSync(outputPath)) {
+      try {
+        existing = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
+      } catch (e) {
+        existing = [];
+      }
+    }
+    
+    existing.push(payload);
+    fs.writeFileSync(outputPath, JSON.stringify(existing, null, 2));
   }
 
   private async makeRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
@@ -62,6 +96,7 @@ export class RSpaceService {
   }
 
   async testConnection(): Promise<boolean> {
+    if (this.outputDir) return true;
     try {
       const response = await this.makeRequest('/api/v1/status');
       return response.ok;
@@ -145,6 +180,11 @@ export class RSpaceService {
         }))
       };
 
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createForm', data: formData });
+        return 999; // Mock ID
+      }
+
       const response = await this.makeRequest('/api/v1/forms', {
         method: 'POST',
         body: JSON.stringify(formData)
@@ -154,6 +194,8 @@ export class RSpaceService {
       const formId = result.id;
 
       // Publish the form
+      if (this.outputDir) return formId;
+
       await this.makeRequest(`/api/v1/forms/${formId}/publish`, {
         method: 'PUT'
       });
@@ -182,6 +224,11 @@ export class RSpaceService {
         form: { id: formId },
         fields: fieldValues
       };
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createDocument', data: docData });
+        return { id: 888, globalId: 'DOC888', name: name }; // Mock result
+      }
 
       console.log('Creating document:', { name, formId, tags, fieldCount: Object.keys(fieldValues).length });
       console.log('Document data:', JSON.stringify(docData, null, 2));
@@ -243,6 +290,11 @@ export class RSpaceService {
       console.log('Creating inventory sample:', data.name);
       console.log('Sample data:', JSON.stringify(sampleData, null, 2));
 
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createInventorySample', data: sampleData });
+        return { id: '999', globalId: 'SA999', name: data.name, type: 'sample' };
+      }
+
       const response = await this.makeRequest('/api/inventory/v1/samples', {
         method: 'POST',
         body: JSON.stringify(sampleData)
@@ -294,6 +346,11 @@ export class RSpaceService {
 
       console.log('Creating inventory container:', data.name);
       console.log('Container data:', JSON.stringify(containerData, null, 2));
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createInventoryContainer', data: containerData });
+        return { id: '888', globalId: 'IC888', name: data.name, type: 'container' };
+      }
 
       const response = await this.makeRequest('/api/inventory/v1/containers', {
         method: 'POST',

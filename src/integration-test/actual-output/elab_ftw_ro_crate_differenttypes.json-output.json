@@ -1,0 +1,416 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Tests (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "pole1",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "pole2",
+          "type": "Text",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "exp1",
+      "tags": "eln-import,experiment,tests,",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Ova Gislason"
+        },
+        {
+          "name": "Content",
+          "content": "No content"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./2ee656a0-811b-4034-8009-1ae5bb7e51b0/"
+        },
+        {
+          "name": "Category",
+          "content": "Tests"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-24"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-24"
+        },
+        {
+          "name": "pole1",
+          "content": "f1 kfjskjf"
+        },
+        {
+          "name": "pole2",
+          "content": "f2 ’ldf’lf"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "Anti-GFP",
+      "subsample_count": 1,
+      "description": "<p>This antibody recognizes the GFP protein and is commonly used as a reporter in cell biology experiments. It was raised in mouse and has an isotype of IgG2a.</p>",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "antibody"
+        },
+        {
+          "value": ""
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Host",
+          "type": "text",
+          "content": "Mouse"
+        },
+        {
+          "name": "Isotype",
+          "type": "text",
+          "content": "IgG2a"
+        },
+        {
+          "name": "Dilution for IF",
+          "type": "text",
+          "content": "1:1000"
+        },
+        {
+          "name": "Dilution for WB",
+          "type": "text",
+          "content": "1:5000"
+        },
+        {
+          "name": "Storage temperature",
+          "type": "text",
+          "content": "-70°C"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./3e498c90-bdb0-47f3-a1ab-7bb87c1533ba/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "Antibody"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2026-02-24T02:51:59+01:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "step: Step one",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step one_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "step: Step two",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step two_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "step: Step three",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step three_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "A Number",
+          "type": "Number",
+          "mandatory": false
+        },
+        {
+          "name": "A Number units:",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "cm",
+            "light years",
+            "inches"
+          ],
+          "showAsPickList": true
+        },
+        {
+          "name": "A checkbox",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "A compound",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "An Experiment",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Radio buttons",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "a",
+            "b",
+            "c"
+          ]
+        },
+        {
+          "name": "1st extra field",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "A dropdown menu",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "one",
+            "two",
+            "three"
+          ],
+          "showAsPickList": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "A New Experiment",
+      "tags": "eln-import,experiment,uncategorized,demo,test",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Lola Conn"
+        },
+        {
+          "name": "Content",
+          "content": "<p>Some text for my Experiment</p>"
+        },
+        {
+          "name": "step: Step one",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step one_deadline",
+          "content": ""
+        },
+        {
+          "name": "step: Step two",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step two_deadline",
+          "content": "2/24/2027, 5:21:09 PM"
+        },
+        {
+          "name": "step: Step three",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step three_deadline",
+          "content": ""
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./cc22aa5a-aee4-49c0-baee-f17d36b52415/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-24"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-24"
+        },
+        {
+          "name": "A Number",
+          "content": "42"
+        },
+        {
+          "name": "A Number units:",
+          "content": "cm"
+        },
+        {
+          "name": "A checkbox",
+          "content": "No"
+        },
+        {
+          "name": "A compound",
+          "content": "2"
+        },
+        {
+          "name": "An Experiment",
+          "content": "210"
+        },
+        {
+          "name": "Radio buttons",
+          "content": "b"
+        },
+        {
+          "name": "1st extra field",
+          "content": "Blahblah"
+        },
+        {
+          "name": "A dropdown menu",
+          "content": "two"
+        }
+      ]
+    }
+  }
+]

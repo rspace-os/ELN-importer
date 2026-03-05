@@ -1,0 +1,700 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Pealkirjata (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Solid",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Liquid",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Console",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "vnmrs",
+            "AV I",
+            "AV II",
+            "AV III",
+            "AVIII HD",
+            "neo"
+          ],
+          "showAsPickList": true
+        },
+        {
+          "name": "Imaging",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Technic",
+          "type": "Text",
+          "mandatory": "true"
+        },
+        {
+          "name": "Unit id",
+          "type": "Text",
+          "mandatory": "true"
+        },
+        {
+          "name": "main id",
+          "type": "Text",
+          "mandatory": "true"
+        },
+        {
+          "name": "Bore size",
+          "type": "Number",
+          "mandatory": false
+        },
+        {
+          "name": "Bore size description:",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Bore size units:",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "mm"
+          ],
+          "showAsPickList": true
+        },
+        {
+          "name": "1H frequency",
+          "type": "Number",
+          "mandatory": "true"
+        },
+        {
+          "name": "1H frequency units:",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "MHz"
+          ],
+          "showAsPickList": true
+        },
+        {
+          "name": "manufacturer",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "JEOL",
+            "VARIAN",
+            "BRUKER",
+            "AGILENT"
+          ],
+          "showAsPickList": true
+        },
+        {
+          "name": "Plateform name",
+          "type": "Text",
+          "mandatory": "true"
+        },
+        {
+          "name": "Dissolution DNP",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Solid-State DNP",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Hyperpolirized Gas",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "High Pressure Device",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Coupled Instrument IDs",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Chromatography Coupling",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "name": "Console production date",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Sample Preparation Robot",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "UAR_2599_600_main",
+      "tags": "eln-import,experiment,pealkirjata,",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Boris Collins"
+        },
+        {
+          "name": "Content",
+          "content": "AVANCE NEO 600 MHz"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./Pealkirjata - UAR_2599_600_main - 68f2d46c/"
+        },
+        {
+          "name": "Category",
+          "content": "Pealkirjata"
+        },
+        {
+          "name": "Date Created",
+          "content": "2025-09-18"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2025-09-18"
+        },
+        {
+          "name": "Solid",
+          "content": "No"
+        },
+        {
+          "name": "Liquid",
+          "content": "Yes"
+        },
+        {
+          "name": "Console",
+          "content": "neo"
+        },
+        {
+          "name": "Imaging",
+          "content": "No"
+        },
+        {
+          "name": "Technic",
+          "content": "NMR spectroscopy"
+        },
+        {
+          "name": "Unit id",
+          "content": "<p>Description: plateform CNRS identifier</p><br/>UAR_2599",
+          "description": "plateform CNRS identifier"
+        },
+        {
+          "name": "main id",
+          "content": "<p>Description: manufacturer identifier for bruker see Bruker Order\n in  file <TOPSPIN_HOME>-conf-instr-spect-uxnmr.info</p><br/>5050912",
+          "description": "manufacturer identifier for bruker see Bruker Order\n in  file <TOPSPIN_HOME>-conf-instr-spect-uxnmr.info"
+        },
+        {
+          "name": "Bore size",
+          "content": "54"
+        },
+        {
+          "name": "Bore size description:",
+          "content": "Common size: \nStandard bore: 54mm\n Wide bore: 89mm "
+        },
+        {
+          "name": "Bore size units:",
+          "content": "mm"
+        },
+        {
+          "name": "1H frequency",
+          "content": "600"
+        },
+        {
+          "name": "1H frequency units:",
+          "content": "MHz"
+        },
+        {
+          "name": "manufacturer",
+          "content": "BRUKER"
+        },
+        {
+          "name": "Plateform name",
+          "content": "NMR"
+        },
+        {
+          "name": "Dissolution DNP",
+          "content": "No"
+        },
+        {
+          "name": "Solid-State DNP",
+          "content": "No"
+        },
+        {
+          "name": "Hyperpolirized Gas",
+          "content": "No"
+        },
+        {
+          "name": "High Pressure Device",
+          "content": "No"
+        },
+        {
+          "name": "Coupled Instrument IDs",
+          "content": "<p>Description: Identifier of a coupled instrument (ex: gyrotron in the case of DNP)</p><br/>",
+          "description": "Identifier of a coupled instrument (ex: gyrotron in the case of DNP)"
+        },
+        {
+          "name": "Chromatography Coupling",
+          "content": "No"
+        },
+        {
+          "name": "Console production date",
+          "content": "2022-12-08"
+        },
+        {
+          "name": "Sample Preparation Robot",
+          "content": "No"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventoryContainer",
+    "data": {
+      "name": "electronic microscope",
+      "cType": "LIST",
+      "can_store_containers": true,
+      "can_store_samples": true,
+      "description": "Imported from ELN: 🔬 Microscope",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "🔬-microscope"
+        },
+        {
+          "value": "microscopy,biological samples,ecology,species"
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./Microscope - electronic-microscope - 5bf4d5f7/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "🔬 Microscope"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2025-09-12T13:19:57+02:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": "microscopy, biological samples, ecology, species"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "🦠 Cell line",
+      "subsample_count": 1,
+      "description": "Imported from ELN: Cells",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "cells"
+        },
+        {
+          "value": ""
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Species",
+          "type": "text",
+          "content": "Human"
+        },
+        {
+          "name": "Date of acquisition",
+          "type": "text",
+          "content": ""
+        },
+        {
+          "name": "Number of aliquots left",
+          "type": "text",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./Cells - Cell-line - e6aaef0a/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "Cells"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2025-09-16T14:30:33+02:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "Formol",
+      "subsample_count": 1,
+      "description": "Imported from ELN: Reagentes",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "reagentes"
+        },
+        {
+          "value": ""
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Quant",
+          "type": "text",
+          "content": "20"
+        },
+        {
+          "name": "Abertura",
+          "type": "text",
+          "content": "2025-09-06"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./Reagentes - Formol - 4ff9f21d/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "Reagentes"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2025-09-12T13:38:38+02:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "pBAD/Thio-TOPO",
+      "subsample_count": 1,
+      "description": "Imported from ELN: 🧬 Plasmid",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "🧬-plasmid"
+        },
+        {
+          "value": ""
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Source ELN ID",
+          "type": "text",
+          "content": "./Plasmid - Thio-TOPO - d4cd7163/"
+        },
+        {
+          "name": "Category",
+          "type": "text",
+          "content": "🧬 Plasmid"
+        },
+        {
+          "name": "Date Created",
+          "type": "text",
+          "content": "2025-09-11T21:17:11+02:00"
+        },
+        {
+          "name": "Keywords",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Molecular biology (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "step: 1",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "1_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "step: 2",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "2_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "step: 3",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "3_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Cloning (3)",
+      "tags": "eln-import,experiment,molecular-biology,EV",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Felicity Stanton"
+        },
+        {
+          "name": "Content",
+          "content": "<p>test cloning</p>\n<p style=\"line-height:1;\"> </p>\n<p style=\"line-height:1;\"> </p>"
+        },
+        {
+          "name": "step: 1",
+          "content": "unfinished"
+        },
+        {
+          "name": "1_deadline",
+          "content": ""
+        },
+        {
+          "name": "step: 2",
+          "content": "unfinished"
+        },
+        {
+          "name": "2_deadline",
+          "content": ""
+        },
+        {
+          "name": "step: 3",
+          "content": "unfinished"
+        },
+        {
+          "name": "3_deadline",
+          "content": ""
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./Molecular-biology - Cloning - 6300f19f/"
+        },
+        {
+          "name": "Category",
+          "content": "Molecular biology"
+        },
+        {
+          "name": "Date Created",
+          "content": "2025-09-12"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2025-09-19"
+        }
+      ]
+    }
+  }
+]

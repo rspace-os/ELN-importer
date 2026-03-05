@@ -1,0 +1,210 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Synthesis (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Synthesis of Aspirin",
+      "tags": "eln-import,experiment,synthesis,generated from yml,chemistry,has-mathjax,Success",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Shirley Schulist"
+        },
+        {
+          "name": "Content",
+          "content": "<h1>Introduction</h1>\n<p>\nAspirin is a widely used pain-relieving and anti-inflammatory drug. In this experiment, we aimed to synthesize aspirin from salicylic acid and acetic anhydride.\n</p>\n<h2>Experimental Design</h2>\n<p>\nWe mixed salicylic acid and acetic anhydride in the presence of a catalyst, sulfuric acid. The reaction produced aspirin and acetic acid, as shown in the following chemical equation:\n</p>\n<p>\n$<div class=\"rsEquation mceNonEditable\" data-equation=\"\\ce{C7H6O3 + (CH3CO)2O ->[\\text{H2SO4}] C9H8O4 + CH3COOH}\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div><div class=\"rsEquation mceNonEditable\" data-equation=\"\n</p>\n<p>\nAfter the reaction, we purified the aspirin by recrystallization from hot water. The purity of the aspirin was confirmed using thin-layer chromatography (TLC) and melting point analysis.\n</p>\n<h2>Results</h2>\n<p>\nThe yield of aspirin was 80% based on the amount of salicylic acid used. The purity of the aspirin was confirmed using TLC, which showed a single spot corresponding to aspirin. The melting point of the aspirin was 135-136°C, which is consistent with the literature value of 135-136.5°C.\n</p>\n<p>\nThe chemical reaction involved in the synthesis of aspirin can be written as:\n</p>\n<p>\n\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div><div class=\"rsEquation mceNonEditable\" data-equation=\"\\ce{C7H6O3 + (CH3CO)2O ->[\\text{H2SO4}] C9H8O4 + CH3COOH}\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div><div class=\"rsEquation mceNonEditable\" data-equation=\"\n</p>\n<p>\nThe theoretical yield of aspirin can be calculated using the stoichiometry of the reaction. Assuming that all the salicylic acid reacts and no aspirin is lost during the purification process, the theoretical yield is calculated as follows:\n</p>\n<p>\n\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div><div class=\"rsEquation mceNonEditable\" data-equation=\"\\text{Theoretical yield} = \\frac{\\text{moles of salicylic acid used}}{\\text{molar ratio of salicylic acid to aspirin}} \\times \\text{molar mass of aspirin}\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div>$\n</p>\n<p>\nThe actual yield of aspirin can be calculated by dividing the mass of the purified aspirin by the mass of salicylic acid used and multiplying by 100%. The percent yield can be calculated by dividing the actual yield by the theoretical yield and multiplying by 100%.\n</p>\n"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./38394457-3a24-4b17-b68d-962ec1811c0d/"
+        },
+        {
+          "name": "Category",
+          "content": "Synthesis"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-25"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "step: step 1",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "step 1_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "chemistry",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Extra Field Experiment",
+          "type": "Text",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Another",
+      "tags": "eln-import,experiment,uncategorized,",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Norris Kerluke"
+        },
+        {
+          "name": "Content",
+          "content": "<p><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a>qwqqwqwqw<a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a></p>"
+        },
+        {
+          "name": "step: step 1",
+          "content": "finished"
+        },
+        {
+          "name": "step 1_deadline",
+          "content": ""
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./20af3d99-e72e-419a-b2af-fc4dc24a279b/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "chemistry",
+          "content": "2"
+        },
+        {
+          "name": "Extra Field Experiment",
+          "content": "57"
+        }
+      ]
+    }
+  }
+]

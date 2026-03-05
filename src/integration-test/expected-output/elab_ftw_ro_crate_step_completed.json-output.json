@@ -1,0 +1,108 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "elabftw-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "step: step 1",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "step 1_deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Another",
+      "tags": "eln-import,experiment,uncategorized,",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Norris Kerluke"
+        },
+        {
+          "name": "Content",
+          "content": "<p>qwqqwqwqw</p>"
+        },
+        {
+          "name": "step: step 1",
+          "content": "finished"
+        },
+        {
+          "name": "step 1_deadline",
+          "content": ""
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./a1955afa-6187-4da0-ae53-1729a8afce2c/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-02-25"
+        }
+      ]
+    }
+  }
+]
