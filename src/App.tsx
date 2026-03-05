@@ -6,8 +6,8 @@ import { RSpaceConfigProvider, useRSpaceConfig } from './contexts/RSpaceConfigCo
 import { SettingsModal } from './components/SettingsModal';
 import { FileUpload } from './components/FileUpload';
 import { PreviewInterface } from './components/PreviewInterface';
-import { ELNParser, convertDatasetsToPreviewItems } from './utils/eln-parser';
-import { PreviewSession } from './types/eln';
+import { ELabFTWParser, convertDatasetsToPreviewItems } from './utils/elabftw-parser';
+import { PreviewSession } from './types/elabftw';
 import { PreviewSessionService } from './services/preview-session';
 
 type AppState = 'upload' | 'preview';
@@ -28,7 +28,7 @@ function AppContent() {
     try {
       // Parse the ELN file
       console.log('Creating parser...');
-      const parser = new ELNParser();
+      const parser = new ELabFTWParser();
 
       console.log('Parsing ELN file...');
       const { datasets, fileMetadata, fileIndex } = await parser.parseELNFile(file);
