@@ -123,10 +123,11 @@ export class CustomFieldExtractor {
       customFields[field.name] = {
         type: this.mapFieldType(field.type) || 'text',
         value: fieldValue,
-        description: field.description || `Extra field: ${field.name}`,
+        description: field.description,
         required: field.required || false,
         ...(field.options && { options: field.options }),
         ...(field.units && { units: field.units }),
+        ...(field.units && { unitText: field.unit }),
         ...(field.group_id && { group_id: field.group_id })
       };
     }

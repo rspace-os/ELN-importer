@@ -19,7 +19,7 @@ export function mapFieldTypeForRSpace(fieldType: string): string {
     'textarea': 'Text',
     'url': 'Uri',         // Improved: Use Uri type
     'email': 'Uri',       // Improved: Use Uri type
-    'text': 'String'
+    'text': 'Text'
   };
 
   return typeMapping[fieldType] || 'Text';
@@ -95,21 +95,39 @@ export function prepareFormFields(item: PreviewItem) {
 
       const fieldOptions = field.options ||
         (field.type === 'checkbox' ? ['Yes', 'No'] : undefined);
-      let request = {
+      const request = {
         name: getUniqueFieldName(fieldName),
         type: mappedType,
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
         ...(showAsPickList && { showAsPickList: true }),
-      } as any;
+      };
       formFields.push(request);
+      if(field.description && mappedType !== 'Text') {
+        const description = {
+          name: getUniqueFieldName(fieldName+" description:"),
+          type: 'Text',
+          mandatory: false,
+        };
+        formFields.push(description);
+      }
+      if(field.units ) {
+        const units = {
+          name: getUniqueFieldName(fieldName+" units:"),
+          type: 'Radio',
+          mandatory: false,
+          showAsPickList: true,
+          options: field.units.map(unit => unit.toString()),
+        };
+        formFields.push(units);
+      }
     }
   });
 
   return formFields;
 }
 
-export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name:string}[]): Record<string, string> []{
+export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name:string, type:string}[]): Array<{ name: string, content: string, description?: string }> {
   const formatDateForRSpace = (dateString?: string): string => {
     if (!dateString) return '';
     try {
@@ -120,26 +138,28 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
     }
   };
 
-  const fieldValues: Record<string, string>[]= [
+
+  type ObjectWithAtLeastOneString = {
+    [key: string]: string;
+  };
+  const preFieldValues: Array<ObjectWithAtLeastOneString> = [
       {'Owner': item.authorName || ''},
     {'Content': item.textContent || 'No content'},
   ];
 
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
-      fieldValues.push({['step: '+step.itemListElement.text]: step.creativeWorkStatus});
-      fieldValues.push({[step.itemListElement.text+'_deadline']:  step.expires ? new Date(step.expires).toLocaleString():""});
-      // fieldValues[step.itemListElement.text] = step.creativeWorkStatus;
-      // fieldValues[step.itemListElement.text+'_deadline'] = step.expires ? new Date(step.expires).toLocaleString():"";
+      preFieldValues.push({['step: '+step.itemListElement.text]: step.creativeWorkStatus});
+      preFieldValues.push({[step.itemListElement.text+'_deadline']:  step.expires ? new Date(step.expires).toLocaleString():""});
     });
   }
 
-  fieldValues.push({'References' :''});
-  fieldValues.push({'Keywords': item.keywords.join(', ')});
-  fieldValues.push({'Source ELN ID':item.id});  // P1: Generic name
-  fieldValues.push({'Category': item.category});
-  fieldValues.push({'Date Created': formatDateForRSpace(item.dateCreated)});
-  fieldValues.push({'Date Modified': formatDateForRSpace(item.dateModified)});
+  preFieldValues.push({'References' :''});
+  preFieldValues.push({'Keywords': item.keywords.join(', ')});
+  preFieldValues.push({'Source ELN ID':item.id});  // P1: Generic name
+  preFieldValues.push({'Category': item.category});
+  preFieldValues.push({'Date Created': formatDateForRSpace(item.dateCreated)});
+  preFieldValues.push({'Date Modified': formatDateForRSpace(item.dateModified)});
 
   // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
   const metadataFieldsToSkip = new Set([
@@ -159,14 +179,37 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
         const truthy = ['on', 'true', '1', 'checked', 'yes'];
         fieldValue = truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
       }
-      fieldValues.push({[fieldName.substring(0, 50)]: fieldValue});
-      // fieldValues[fieldName.substring(0, 50)] = fieldValue;
+      preFieldValues.push({[fieldName.substring(0, 50)]: fieldValue, description: field.description, unitText: field.unitText});
     }
   });
-  const orderedFieldValues :{name:string,content:string} [] = [];
+  const orderedFieldValues :{name:string,content:string, description?:string} [] = [];
   formFields.forEach(field => {
-    const aValue = fieldValues.find(v=>v[field.name] !== undefined);
-    orderedFieldValues.push({name:field.name,content:aValue?aValue[field.name]:""});
+    const aValue = preFieldValues.find(v=> v[field.name] !== undefined);
+    if(aValue) {
+      const descriptionValue = (aValue['description'] || '').replace('Extra field:', '') ;
+      if(field.type === 'Text' && descriptionValue) {
+        orderedFieldValues.push({
+          name: field.name, content: aValue[field.name],
+          description: (descriptionValue)
+        });
+      } else if (descriptionValue) {
+        orderedFieldValues.push({
+          name: field.name, content: aValue ? aValue[field.name] : ""
+        });
+        orderedFieldValues.push({
+          name: field.name+" description:", content: descriptionValue
+        });
+      } else {
+        orderedFieldValues.push({
+          name: field.name, content: aValue ? aValue[field.name] : ""
+        });
+      }
+      if(aValue.unitText) {
+        orderedFieldValues.push({
+          name: field.name+" units:", content: aValue.unitText
+        });
+      }
+    }
   });
   return orderedFieldValues;
 }

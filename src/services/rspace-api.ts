@@ -168,7 +168,13 @@ export class RSpaceService {
     }
   }
 
-  async createDocument(formId: number, name: string, fieldValues: Record<string, string> [], tags: string[] = []): Promise<RSpaceDocument> {
+  async createDocument(formId: number, name: string, fieldValues: Array<{ name: string, content: string, description?: string }>, tags: string[] = []): Promise<RSpaceDocument> {
+   fieldValues.map(field => {
+     if (field.description) {
+       field.content = "<p>Description: "+field.description+"</p><br/>"+field.content;
+     }
+     return field;
+   })
     try {
       const docData = {
         name,

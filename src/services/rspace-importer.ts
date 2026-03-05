@@ -226,7 +226,6 @@ export class RSpaceImporter {
       if(contentValue) { //there is always a content field
         contentValue.content = (contentValue.content || '') + '\n' + fileLinks;
       }
-      // fieldValues['Content'] = (fieldValues['Content'] || '') + '\n' + fileLinks;
     }
 
     return await this.rspaceService.createDocument(formId, item.name, fieldValues, tags);
