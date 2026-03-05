@@ -1,0 +1,123 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-02T14:16:17+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-02T14:16:17+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.0-alpha",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "howtostep:\/\/caf475cd-e205-4362-b65e-7a545edad6a9",
+      "@type": "HowToStep",
+      "position": 1,
+      "creativeWorkStatus": "unfinished",
+      "temporal": "2026-03-02T13:12:30+01:00",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/8c790c51-a9f1-4bd7-a479-eba6dbb495e1"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/8c790c51-a9f1-4bd7-a479-eba6dbb495e1",
+      "@type": "HowToDirection",
+      "text": "$\\ce{H2O}$"
+    },
+    {
+      "@id": ".\/77a4a157-5c1a-4c53-bcc7-2a8c8b75c850\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/ba217e2769e50f4e5a4bedfb00a3d436725430ba5d171743e5004329afa36189?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-02T12:08:57+01:00",
+      "dateModified": "2026-03-02T14:16:11+01:00",
+      "temporal": "2026-03-02T00:00:00+01:00",
+      "name": "Chemical Equation",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=219",
+      "genre": "experiment",
+      "identifier": "20260302-126572d06d1518c2dbbab078599c426f9acd6d15",
+      "text": "<p style=\"line-height:1;\">\\[\\ce{Zn + 2H+ -&gt; Zn^2+ + H2 ^}\\]<\/p>",
+      "step": [
+        {
+          "@id": "howtostep:\/\/caf475cd-e205-4362-b65e-7a545edad6a9"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "e346a17c-2ca1-4816-a990-ddb1145734eb",
+      "@type": "Dataset",
+      "datePublished": "2026-03-02T14:16:17+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/77a4a157-5c1a-4c53-bcc7-2a8c8b75c850\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/ba217e2769e50f4e5a4bedfb00a3d436725430ba5d171743e5004329afa36189?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Teresa",
+      "familyName": "Batz",
+      "email": "user2@demo.elabftw.net"
+    }
+  ]
+}

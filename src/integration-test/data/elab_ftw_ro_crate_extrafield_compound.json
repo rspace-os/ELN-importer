@@ -1,0 +1,175 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-25T16:50:07+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-25T16:50:07+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/834e0651-224b-4f06-a0df-d701e3269652",
+      "@type": "File",
+      "name": "wombat.png",
+      "alternateName": "c2\/c26004bb-92ec-4f32-82f0-f86470ea9341.png",
+      "creativeWorkStatus": "Normal",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 24205,
+      "sha256": "f197a2ecb5cacb6b475864d6f658afabaee5a0e4f6cbbd1d90d390418cbb9676"
+    },
+    {
+      "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/f8a792c7-ca47-4bcd-a4fd-26d15ca1f270",
+      "@type": "File",
+      "name": "test.xlsx",
+      "alternateName": "8d\/8d4a9c56-31e6-498d-bd8b-dce019135930.xlsx",
+      "creativeWorkStatus": "Normal",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 20213,
+      "sha256": "1057cd4fdc7f45196b705dbd3609cd97029ffc6af704b3bc8411db40c0812605",
+      "description": "Untitled"
+    },
+    {
+      "@id": "pv:\/\/0b050d8d-4133-47d1-8920-56e8e5f328b6",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"chemistry\": {\"type\": \"compounds\", \"value\": 2}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/53d14eda-638c-458d-aa87-3e875891b83d",
+      "propertyID": "chemistry",
+      "valueReference": "compounds",
+      "value": 2
+    },
+    {
+      "@id": "howtostep:\/\/3aabbd8a-4dea-45ee-be8f-338dbca4aa59",
+      "@type": "HowToStep",
+      "position": 1,
+      "creativeWorkStatus": "unfinished",
+      "expires": "2026-02-25T17:42:10+01:00",
+      "temporal": "2026-02-25T16:37:05+01:00",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/cbea0d7c-30e9-476a-b33b-d5b6e648c065"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/cbea0d7c-30e9-476a-b33b-d5b6e648c065",
+      "@type": "HowToDirection",
+      "text": "step 1"
+    },
+    {
+      "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-25T11:02:34+01:00",
+      "dateModified": "2026-02-25T16:50:00+01:00",
+      "temporal": "2026-02-25T00:00:00+01:00",
+      "name": "Another",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=219",
+      "genre": "experiment",
+      "hasPart": [
+        {
+          "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/834e0651-224b-4f06-a0df-d701e3269652"
+        },
+        {
+          "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/f8a792c7-ca47-4bcd-a4fd-26d15ca1f270"
+        }
+      ],
+      "identifier": "20260225-f80c5e7aedd7bf229bcd34d02c546cad676903b9",
+      "text": "<p style=\"line-height:1;\"><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a>qwqqwqwqw<a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><\/p>",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/0b050d8d-4133-47d1-8920-56e8e5f328b6"
+        },
+        {
+          "@id": "pv:\/\/53d14eda-638c-458d-aa87-3e875891b83d"
+        }
+      ],
+      "step": [
+        {
+          "@id": "howtostep:\/\/3aabbd8a-4dea-45ee-be8f-338dbca4aa59"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "139db511-542a-4b3c-9f60-9f1587eebb7a",
+      "@type": "Dataset",
+      "datePublished": "2026-02-25T16:50:07+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Norris",
+      "familyName": "Kerluke",
+      "email": "admin1@demo.elabftw.net"
+    }
+  ]
+}

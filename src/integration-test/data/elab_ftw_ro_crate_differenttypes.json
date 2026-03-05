@@ -1,0 +1,427 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-24T18:47:09+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-24T18:47:09+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": ".\/cc22aa5a-aee4-49c0-baee-f17d36b52415\/389d8b30-ca45-4458-af63-a21b1aaf52ed",
+      "@type": "File",
+      "name": "cubs.jpg",
+      "alternateName": "33\/33dcbc63-ec6f-4ff8-bb9a-a2d023dd25cf.jpg",
+      "creativeWorkStatus": "Normal",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 71994,
+      "sha256": "0f5507ea7c565867a2e638f83d7ac0b7c87bc487e072899eb7b806a361f63aaf"
+    },
+    {
+      "@id": "#category-Tests",
+      "@type": "Thing",
+      "name": "Tests",
+      "color": "23A12C"
+    },
+    {
+      "@id": "pv:\/\/21ee2a02-2425-4137-bbf6-5a290994dd1a",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"pole1\": {\"type\": \"text\", \"value\": \"f1 kfjskjf\"}, \"pole2\": {\"type\": \"text\", \"value\": \"f2 \u2019ldf\u2019lf\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/b0416523-e50e-43ad-bad9-32d17fc8147a",
+      "propertyID": "pole1",
+      "valueReference": "text",
+      "value": "f1 kfjskjf"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/86451ac5-770b-4e31-8000-8c24e87378cb",
+      "propertyID": "pole2",
+      "valueReference": "text",
+      "value": "f2 \u2019ldf\u2019lf"
+    },
+    {
+      "@id": ".\/2ee656a0-811b-4034-8009-1ae5bb7e51b0\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/cb00dc62bbdb919223cfe3d2486e55bb54edb6726fd532f30b5a9fe83d5df3ba?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-24T04:27:31+01:00",
+      "dateModified": "2026-02-24T04:27:31+01:00",
+      "temporal": "2026-02-24T00:00:00+01:00",
+      "name": "exp1",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=210",
+      "genre": "experiment",
+      "identifier": "20260224-1aa2c0010975844f7fd9b09936721306b0527240",
+      "about": {
+        "@id": "#category-Tests"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/21ee2a02-2425-4137-bbf6-5a290994dd1a"
+        },
+        {
+          "@id": "pv:\/\/b0416523-e50e-43ad-bad9-32d17fc8147a"
+        },
+        {
+          "@id": "pv:\/\/86451ac5-770b-4e31-8000-8c24e87378cb"
+        }
+      ]
+    },
+    {
+      "@id": "#category-Antibody",
+      "@type": "Thing",
+      "name": "Antibody",
+      "color": "393DB8"
+    },
+    {
+      "@id": "pv:\/\/aad14bff-ecff-4e93-87f3-abf35fd60340",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"Host\": {\"type\": \"text\", \"value\": \"Mouse\"}, \"Isotype\": {\"type\": \"text\", \"value\": \"IgG2a\"}, \"Dilution for IF\": {\"type\": \"text\", \"value\": \"1:1000\"}, \"Dilution for WB\": {\"type\": \"text\", \"value\": \"1:5000\"}, \"Storage temperature\": {\"type\": \"select\", \"value\": \"-70\u00b0C\", \"options\": [\"+4\u00b0C\", \"-20\u00b0C\", \"-80\u00b0C\"]}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/5ed41ec3-ee26-491a-8073-c3a16e794a0e",
+      "propertyID": "Host",
+      "valueReference": "text",
+      "value": "Mouse"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/9caf990c-0361-4e3c-b5cf-d6ff206ef4a8",
+      "propertyID": "Isotype",
+      "valueReference": "text",
+      "value": "IgG2a"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/ccfc9c90-37f0-4384-a3c9-be60d3bb618d",
+      "propertyID": "Dilution for IF",
+      "valueReference": "text",
+      "value": "1:1000"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/278c4bab-0854-46d6-a4a0-ed58920f7927",
+      "propertyID": "Dilution for WB",
+      "valueReference": "text",
+      "value": "1:5000"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/a6acdd31-2c6d-476a-8eda-d77c130c698c",
+      "propertyID": "Storage temperature",
+      "valueReference": "select",
+      "value": "-70\u00b0C"
+    },
+    {
+      "@id": ".\/3e498c90-bdb0-47f3-a1ab-7bb87c1533ba\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/317f8a365cbbd3d22e5363370a2b63b5fa8bdef52568d45e1ebbf6428e149ae8?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-24T02:51:59+01:00",
+      "dateModified": "2026-02-24T02:51:59+01:00",
+      "temporal": "2025-02-17T00:00:00+01:00",
+      "name": "Anti-GFP",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=120",
+      "genre": "resource",
+      "identifier": "20260224-163053fa3992860fd6c211164a2023b00341f0b9",
+      "text": "<p>This antibody recognizes the GFP protein and is commonly used as a reporter in cell biology experiments. It was raised in mouse and has an isotype of IgG2a.<\/p>",
+      "about": {
+        "@id": "#category-Antibody"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/aad14bff-ecff-4e93-87f3-abf35fd60340"
+        },
+        {
+          "@id": "pv:\/\/5ed41ec3-ee26-491a-8073-c3a16e794a0e"
+        },
+        {
+          "@id": "pv:\/\/9caf990c-0361-4e3c-b5cf-d6ff206ef4a8"
+        },
+        {
+          "@id": "pv:\/\/ccfc9c90-37f0-4384-a3c9-be60d3bb618d"
+        },
+        {
+          "@id": "pv:\/\/278c4bab-0854-46d6-a4a0-ed58920f7927"
+        },
+        {
+          "@id": "pv:\/\/a6acdd31-2c6d-476a-8eda-d77c130c698c"
+        }
+      ]
+    },
+    {
+      "@id": "pv:\/\/2758c080-f3b3-4da8-99bb-4764a3713a30",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"A Number\": {\"type\": \"number\", \"unit\": \"cm\", \"units\": [\"cm\", \"light years\", \"inches\"], \"value\": \"42\"}, \"A checkbox\": {\"type\": \"checkbox\", \"value\": \"\"}, \"A compound\": {\"type\": \"compounds\", \"value\": 2}, \"An Experiment\": {\"type\": \"experiments\", \"value\": 210}, \"Radio buttons\": {\"type\": \"radio\", \"value\": \"b\", \"options\": [\"a\", \"b\", \"c\"]}, \"1st extra field\": {\"type\": \"text\", \"value\": \"Blahblah\"}, \"A dropdown menu\": {\"type\": \"select\", \"value\": \"two\", \"options\": [\"one\", \"two\", \"three\"]}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/b3fe5c08-0567-408f-b9b6-b03506e828c2",
+      "propertyID": "A Number",
+      "valueReference": "number",
+      "value": "42",
+      "unitText": "cm"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/1ef33b46-4c43-41ed-9ddd-9db4074067d2",
+      "propertyID": "A checkbox",
+      "valueReference": "checkbox",
+      "value": ""
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/346869ca-6034-432e-9a04-1f665e9b00b6",
+      "propertyID": "A compound",
+      "valueReference": "compounds",
+      "value": 2
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/7da8fa31-cd68-431c-ae79-371c38b9555f",
+      "propertyID": "An Experiment",
+      "valueReference": "experiments",
+      "value": 210
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/0aa3f2ed-ea50-4e91-a0da-460de330bd0c",
+      "propertyID": "Radio buttons",
+      "valueReference": "radio",
+      "value": "b"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/f7491646-892d-41ac-97f3-0c2b907e9c75",
+      "propertyID": "1st extra field",
+      "valueReference": "text",
+      "value": "Blahblah"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/58d7889c-5c74-4395-861b-6ad4ee51e0b0",
+      "propertyID": "A dropdown menu",
+      "valueReference": "select",
+      "value": "two"
+    },
+    {
+      "@id": "howtostep:\/\/a1358db4-77d7-4cbe-b750-d96e315a4000",
+      "@type": "HowToStep",
+      "position": 1,
+      "creativeWorkStatus": "unfinished",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/77ff82ce-9545-4a0e-9aed-8395a7ba3512"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/77ff82ce-9545-4a0e-9aed-8395a7ba3512",
+      "@type": "HowToDirection",
+      "text": "Step one"
+    },
+    {
+      "@id": "howtostep:\/\/98da028c-e985-4b8e-a920-b15aadf820f1",
+      "@type": "HowToStep",
+      "position": 2,
+      "creativeWorkStatus": "unfinished",
+      "expires": "2027-02-24T18:21:09+01:00",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/ac60872d-79e2-4d86-955f-d2b46c3e6dab"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/ac60872d-79e2-4d86-955f-d2b46c3e6dab",
+      "@type": "HowToDirection",
+      "text": "Step two"
+    },
+    {
+      "@id": "howtostep:\/\/232ffd0c-feec-443c-8eaa-3c844202351b",
+      "@type": "HowToStep",
+      "position": 3,
+      "creativeWorkStatus": "unfinished",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/1f05f4dc-5307-46b2-8bd4-5b61cece1f43"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/1f05f4dc-5307-46b2-8bd4-5b61cece1f43",
+      "@type": "HowToDirection",
+      "text": "Step three"
+    },
+    {
+      "@id": ".\/cc22aa5a-aee4-49c0-baee-f17d36b52415\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/218cf5300b8c444ad94a32aa9c3a8ec605c08b5fae574a914d12160560a20c59?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-24T17:12:10+01:00",
+      "dateModified": "2026-02-24T18:45:58+01:00",
+      "temporal": "2026-02-24T00:00:00+01:00",
+      "name": "A New Experiment",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=237",
+      "genre": "experiment",
+      "hasPart": [
+        {
+          "@id": ".\/cc22aa5a-aee4-49c0-baee-f17d36b52415\/389d8b30-ca45-4458-af63-a21b1aaf52ed"
+        }
+      ],
+      "identifier": "20260224-8c484774dd4da930b3f7add153374687be9a97b4",
+      "keywords": "demo,test",
+      "mentions": [
+        {
+          "@id": ".\/2ee656a0-811b-4034-8009-1ae5bb7e51b0\/"
+        },
+        {
+          "@id": ".\/3e498c90-bdb0-47f3-a1ab-7bb87c1533ba\/"
+        }
+      ],
+      "text": "<p>Some text for my Experiment<\/p>",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/2758c080-f3b3-4da8-99bb-4764a3713a30"
+        },
+        {
+          "@id": "pv:\/\/b3fe5c08-0567-408f-b9b6-b03506e828c2"
+        },
+        {
+          "@id": "pv:\/\/1ef33b46-4c43-41ed-9ddd-9db4074067d2"
+        },
+        {
+          "@id": "pv:\/\/346869ca-6034-432e-9a04-1f665e9b00b6"
+        },
+        {
+          "@id": "pv:\/\/7da8fa31-cd68-431c-ae79-371c38b9555f"
+        },
+        {
+          "@id": "pv:\/\/0aa3f2ed-ea50-4e91-a0da-460de330bd0c"
+        },
+        {
+          "@id": "pv:\/\/f7491646-892d-41ac-97f3-0c2b907e9c75"
+        },
+        {
+          "@id": "pv:\/\/58d7889c-5c74-4395-861b-6ad4ee51e0b0"
+        }
+      ],
+      "step": [
+        {
+          "@id": "howtostep:\/\/a1358db4-77d7-4cbe-b750-d96e315a4000"
+        },
+        {
+          "@id": "howtostep:\/\/98da028c-e985-4b8e-a920-b15aadf820f1"
+        },
+        {
+          "@id": "howtostep:\/\/232ffd0c-feec-443c-8eaa-3c844202351b"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "24e2bd16-119c-4278-a3aa-a4d3516d2ed1",
+      "@type": "Dataset",
+      "datePublished": "2026-02-24T18:47:09+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/cc22aa5a-aee4-49c0-baee-f17d36b52415\/"
+        },
+        {
+          "@id": ".\/2ee656a0-811b-4034-8009-1ae5bb7e51b0\/"
+        },
+        {
+          "@id": ".\/3e498c90-bdb0-47f3-a1ab-7bb87c1533ba\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/cb00dc62bbdb919223cfe3d2486e55bb54edb6726fd532f30b5a9fe83d5df3ba?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Ova",
+      "familyName": "Gislason",
+      "email": "user1@demo.elabftw.net"
+    },
+    {
+      "@id": "person:\/\/317f8a365cbbd3d22e5363370a2b63b5fa8bdef52568d45e1ebbf6428e149ae8?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Keenan",
+      "familyName": "Conn",
+      "email": "id-18673598@yopmail.com"
+    },
+    {
+      "@id": "person:\/\/218cf5300b8c444ad94a32aa9c3a8ec605c08b5fae574a914d12160560a20c59?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Lola",
+      "familyName": "Conn",
+      "email": "admin1@demo.elabftw.net"
+    }
+  ]
+}

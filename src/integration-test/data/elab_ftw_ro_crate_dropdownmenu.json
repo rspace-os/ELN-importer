@@ -1,0 +1,134 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-27T14:02:18+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-27T14:02:18+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "pv:\/\/1a7344f0-7c0a-449f-8844-d1c74dae97c7",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"A dropdown menu\": {\"type\": \"select\", \"value\": \"drop two\", \"options\": [\"drop one\", \"drop two\"]}, \"types of greeting\": {\"type\": \"radio\", \"value\": \"Hello\", \"options\": [\"Hello\", \"Goodbye\", \"See ya\"]}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/d9a51dcc-c181-4ef2-88be-efd28ef25d12",
+      "propertyID": "A dropdown menu",
+      "valueReference": "select",
+      "value": "drop two"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/13a987d8-774f-4d2f-bada-e84aa732badc",
+      "propertyID": "types of greeting",
+      "valueReference": "radio",
+      "value": "Hello"
+    },
+    {
+      "@id": ".\/62066c5c-6102-4648-9277-8e1864ba1cd2\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/34fff75aeca70f454a5ef179f0affdaa639270cbb778848b595b4a7892edcf2a?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-27T09:55:22+01:00",
+      "dateModified": "2026-02-27T14:02:10+01:00",
+      "temporal": "2026-02-27T00:00:00+01:00",
+      "name": "Checking",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=218",
+      "genre": "experiment",
+      "identifier": "20260227-b2a7a2d8369fb7e159b961a3fe7a6347c6fc4a13",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/1a7344f0-7c0a-449f-8844-d1c74dae97c7"
+        },
+        {
+          "@id": "pv:\/\/d9a51dcc-c181-4ef2-88be-efd28ef25d12"
+        },
+        {
+          "@id": "pv:\/\/13a987d8-774f-4d2f-bada-e84aa732badc"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "b4056533-cbc0-4209-831b-3b53f1e73f01",
+      "@type": "Dataset",
+      "datePublished": "2026-02-27T14:02:18+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/62066c5c-6102-4648-9277-8e1864ba1cd2\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/34fff75aeca70f454a5ef179f0affdaa639270cbb778848b595b4a7892edcf2a?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Kristopher",
+      "familyName": "Feeney",
+      "email": "user1@demo.elabftw.net"
+    }
+  ]
+}
