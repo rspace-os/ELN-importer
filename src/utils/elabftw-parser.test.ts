@@ -179,12 +179,4 @@ describe('ELabFTWParser Internal Extractors', () => {
     expect(result[0]).toBe('./ref1');
   });
 
-  it('maps ELabFTW field types correctly', () => {
-    // @ts-ignore private method mapping returns null for unknowns and non-mapped types
-    expect(parser.mapELabFTWFieldType('text')).toBeNull();
-    // @ts-ignore
-    expect(parser.mapELabFTWFieldType('date')).toBe('date');
-    // @ts-ignore
-    expect(parser.mapELabFTWFieldType('unknown')).toBeNull();
-  });
 });

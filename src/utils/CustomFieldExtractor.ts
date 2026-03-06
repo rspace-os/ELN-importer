@@ -25,8 +25,6 @@ export class CustomFieldExtractor {
         }
       }
 
-      // P1 IMPROVEMENT: Generic metadata extraction (supports multiple ELN sources)
-      // Check for source-specific metadata in multiple formats
       const metadataPropertyNames = [
         'elabftw_metadata',    // eLabFTW format
         'source_metadata',     // Generic format
@@ -63,8 +61,6 @@ export class CustomFieldExtractor {
   }
 
   /**
-   * P1 IMPROVEMENT: Renamed from extractFromElabFTWMetadata to extractFromSourceMetadata
-   * Now supports multiple ELN source formats, not just eLabFTW
    *
    * @param metadataValue - Raw metadata value (string or object)
    * @param customFields - Output object for extracted fields
@@ -120,6 +116,9 @@ export class CustomFieldExtractor {
       if (field.options) {
         field.options = field.options.filter(option => option !== undefined && option !== null && option !== "");
       }
+      if (field.type === 'checkbox') {
+        field.options = ['Yes', 'No'];
+      }
       customFields[field.name] = {
         type: this.mapFieldType(field.type) || 'text',
         value: fieldValue,
@@ -167,77 +166,27 @@ export class CustomFieldExtractor {
   }
 
   /**
-   * P1 IMPROVEMENT: Renamed from mapELabFTWFieldType to mapFieldType
-   * Now supports field types from multiple ELN sources
+   * P1 IMPROVEMENT: Renamed parameter from elabftwType to fieldType
+   * Maps field types from any ELN source to RSpace field types
    *
-   * Maps field type names from various ELN systems to our internal type system
-   * @param type - Field type name from source ELN
-   * @returns Normalized field type or null if not recognized
+   * @param fieldType - Field type from source ELN (generic, not eLabFTW-specific)
+   * @returns RSpace-compatible field type
    */
-  private mapFieldType(type: string): string | null {
-    if (!type) return null;
-
+   mapFieldType(fieldType: string): string {
     const typeMapping: Record<string, string> = {
-      // Numeric types
-      'number': 'number',
-      'integer': 'number',
-      'decimal': 'number',
-      'float': 'number',
-      'numeric': 'number',
-
-      // Date/time types
-      'date': 'date',
-      'datetime': 'datetime',
-      'time': 'time',
-      'timestamp': 'datetime',
-
-      // Boolean types
-      'boolean': 'checkbox',
-      'bool': 'checkbox',
-
-      // URL types
-      'url': 'url',
-      'link': 'url',
-      'uri': 'url',
-
-      // Email types
-      'email': 'email',
-      'mail': 'email',
-
-      // Selection types
+      'number': 'Number',
+      'date': 'Date',
+      'datetime': 'Date',
+      'time': 'Time',
+      'checkbox': 'checkbox',  // P0: Checkboxes map to Radio with Yes/No options
       'select': 'select',
-      'dropdown': 'select',
-      'choice': 'select',
-      'radio': 'radio',
-      'checkbox': 'checkbox',
-
-      // Text types
-      'textarea': 'textarea',
-      'text': 'text',
-      'string': 'text',
-      'multiline': 'textarea'
+      'radio': 'Radio',
+      'textarea': 'Text',
+      'url': 'Uri',         // Improved: Use Uri type
+      'email': 'Uri',       // Improved: Use Uri type
+      'text': 'Text'
     };
 
-    return typeMapping[String(type).toLowerCase()] || null;
-  }
-  //Todo - not used and probably not needed
-  private inferFieldType(value: string): string {
-    const trimmedValue = value.trim();
-
-    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)) {
-      return 'date';
-    } else if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(trimmedValue)) {
-      return 'datetime';
-    } else if (/^-?\d+\.?\d*$/.test(trimmedValue)) {
-      return 'number';
-    } else if (/^(true|false)$/i.test(trimmedValue)) {
-      return 'checkbox';
-    } else if (/^https?:\/\//.test(trimmedValue)) {
-      return 'url';
-    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue)) {
-      return 'email';
-    }
-
-    return 'text';
+    return typeMapping[fieldType] || 'Text';
   }
 }

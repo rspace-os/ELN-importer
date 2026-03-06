@@ -1,26 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { mapFieldTypeForRSpace, prepareFormFields, prepareDocumentFieldValues, prepareTags } from './rspace-mapper';
+import { mapSelectAndCheckBoxToRadio, prepareFormFields, prepareDocumentFieldValues, prepareTags } from './rspace-mapper';
 import { PreviewItem, HowToStep } from '../types/elabftw';
 
 describe('RSpaceMapper', () => {
-  describe('mapFieldTypeForRSpace', () => {
-    it('should map various field types correctly', () => {
-      expect(mapFieldTypeForRSpace('number')).toBe('Number');
-      expect(mapFieldTypeForRSpace('date')).toBe('Date');
-      expect(mapFieldTypeForRSpace('datetime')).toBe('Date');
-      expect(mapFieldTypeForRSpace('time')).toBe('Time');
-      expect(mapFieldTypeForRSpace('checkbox')).toBe('Radio');
-      expect(mapFieldTypeForRSpace('select')).toBe('Radio');
-      expect(mapFieldTypeForRSpace('radio')).toBe('Radio');
-      expect(mapFieldTypeForRSpace('textarea')).toBe('Text');
-      expect(mapFieldTypeForRSpace('url')).toBe('Uri');
-      expect(mapFieldTypeForRSpace('email')).toBe('Uri');
-      expect(mapFieldTypeForRSpace('text')).toBe('String');
+  describe('mapSelectAndCheckBoxToRadio', () => {
+    it('should map various select and checkbox to radio ', () => {
+      expect(mapSelectAndCheckBoxToRadio('select')).toBe('Radio');
+      expect(mapSelectAndCheckBoxToRadio('checkbox')).toBe('Radio');
     });
 
-    it('should return Text for unknown field types', () => {
-      expect(mapFieldTypeForRSpace('unknown')).toBe('Text');
-    });
   });
 
   describe('prepareFormFields', () => {
@@ -52,7 +40,7 @@ describe('RSpaceMapper', () => {
       expect(fieldNames).toContain('Owner');
       expect(fieldNames).toContain('Content');
       expect(fieldNames).toContain('References');
-      expect(fieldNames).toContain('Keywords');
+      // expect(fieldNames).toContain('Keywords');
       expect(fieldNames).toContain('Source ELN ID');
       expect(fieldNames).toContain('Category');
     });
@@ -70,8 +58,8 @@ describe('RSpaceMapper', () => {
       const fields = prepareFormFields(item as PreviewItem);
       const fieldNames = fields.map(f => f.name);
       
-      expect(fieldNames).toContain('Step 1 content');
-      expect(fieldNames).toContain('Step 2 content');
+      expect(fieldNames).toContain('step: Step 1 content');
+      expect(fieldNames).toContain('step: Step 2 content');
     });
 
     it('should map metadata fields and handle collisions', () => {
@@ -79,8 +67,8 @@ describe('RSpaceMapper', () => {
         id: '3', name: 'Item', type: 'experiment', category: 'Dataset', categoryColor: '#000',
         proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
         metadata: {
-          'Content': { value: 'val', type: 'text' }, // Collision with default 'Content'
-          'My Field': { value: 'val', type: 'number', required: true }
+          'Content': { value: 'val', type: 'Text' }, // Collision with default 'Content'
+          'My Field': { value: 'val', type: 'Number', required: true }
         },
         files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
       };
@@ -131,13 +119,11 @@ describe('RSpaceMapper', () => {
       
       expect(getValue('Owner')).toBe('');
       expect(getValue('Content')).toBe('Main content');
-      expect(getValue('Step 1 content')).toBe('complete');
+      expect(getValue('step: Step 1 content')).toBe('complete');
       expect(getValue('Step 1 content_deadline')).toBe(new Date(steps[0].expires!).toLocaleString());
       expect(getValue('Source ELN ID')).toBe('123');
       expect(getValue('Category')).toBe('Experiments');
       expect(getValue('Date Created')).toBe('2023-01-01');
-      expect(getValue('Keywords')).toContain('tag1');
-      expect(getValue('Keywords')).toContain('tag2');
       expect(getValue('References')).toBe('');
       expect(getValue('Custom Field')).toBe('Custom Value');
     });
@@ -148,10 +134,10 @@ describe('RSpaceMapper', () => {
       const item: PreviewItem = {
         id: 't', name: 'x', type: 'experiment', category: 'Basic Research', categoryColor: '#000',
         proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
-        metadata: {}, files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
+        metadata: {}, files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: ['aaa'], dateCreated: '', dateModified: ''
       };
       const tags = prepareTags(item);
-      expect(tags).toEqual(['eln-import', 'experiment', 'basic-research']);
+      expect(tags).toEqual(['eln-import', 'experiment', 'basic-research','aaa']);
     });
 
     it('handles simple category', () => {

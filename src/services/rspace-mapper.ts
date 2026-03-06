@@ -1,30 +1,5 @@
 import { PreviewItem } from '../types/elabftw';
 
-/**
- * P1 IMPROVEMENT: Renamed parameter from elabftwType to fieldType
- * Maps field types from any ELN source to RSpace field types
- *
- * @param fieldType - Field type from source ELN (generic, not eLabFTW-specific)
- * @returns RSpace-compatible field type
- */
-export function mapFieldTypeForRSpace(fieldType: string): string {
-  const typeMapping: Record<string, string> = {
-    'number': 'Number',
-    'date': 'Date',
-    'datetime': 'Date',
-    'time': 'Time',
-    'checkbox': 'Radio',  // P0: Checkboxes map to Radio with Yes/No options
-    'select': 'Radio',
-    'radio': 'Radio',
-    'textarea': 'Text',
-    'url': 'Uri',         // Improved: Use Uri type
-    'email': 'Uri',       // Improved: Use Uri type
-    'text': 'Text'
-  };
-
-  return typeMapping[fieldType] || 'Text';
-}
-
 export function prepareFormFields(item: PreviewItem) {
   // P0 FIX: Track used field names to prevent collisions
   const usedFieldNames = new Set<string>();
@@ -90,11 +65,9 @@ export function prepareFormFields(item: PreviewItem) {
 
   Object.entries(item.metadata).forEach(([fieldName, field]) => {
     if (!metadataFieldsToSkip.has(fieldName)) {
-      const mappedType = mapFieldTypeForRSpace(field.type);
+      const mappedType = mapSelectAndCheckBoxToRadio(field.type);
       const showAsPickList = field.type === 'select';
-
-      const fieldOptions = field.options ||
-        (field.type === 'checkbox' ? ['Yes', 'No'] : undefined);
+      const fieldOptions = field.options;
       const request = {
         name: getUniqueFieldName(fieldName),
         type: mappedType,
@@ -125,6 +98,13 @@ export function prepareFormFields(item: PreviewItem) {
   });
 
   return formFields;
+}
+
+export function mapSelectAndCheckBoxToRadio(fieldType: string): string {
+  if (fieldType === 'checkbox' || fieldType === 'select') {
+    return 'Radio';
+  }
+  return fieldType;
 }
 
 export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name:string, type:string}[]): Array<{ name: string, content: string, description?: string }> {
@@ -318,7 +298,9 @@ export function prepareTags(item: PreviewItem): string[] {
   tags.push('eln-import');
   tags.push(item.type);
   tags.push(item.category.toLowerCase().replace(/\s+/g, '-'));
-  tags.push(item.keywords.join(','));
+  if(item.keywords && item.keywords.length > 0) {
+    tags.push(item.keywords.join(','));
+  }
   if (item.creativeWorkStatus) {
     tags.push(item.creativeWorkStatus);
   }
