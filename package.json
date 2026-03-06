@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --exclude 'src/integration-test/**'",
     "integration-test": "vitest run --dir ./src/integration-test"
   },
   "dependencies": {

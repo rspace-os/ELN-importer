@@ -3,7 +3,7 @@ import * as path from 'path';
 import { ELabFTWParser, convertDatasetsToPreviewItems } from '../utils/elabftw-parser';
 import { RSpaceImporter } from '../services/rspace-importer';
 import { RSpaceService } from '../services/rspace-api';
-import { PreviewSession } from '../types/eln';
+import { PreviewSession } from '../types/elabftw';
 
 async function generateExpectedOutput() {
   const dataDir = path.join(process.cwd(), 'src/integration-test/data');
