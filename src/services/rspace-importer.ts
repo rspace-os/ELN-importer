@@ -1,4 +1,4 @@
-import { PreviewItem, PreviewSession } from '../types/elabftw.ts';
+import {FormField, PreviewItem, PreviewSession} from '../types/elabftw.ts';
 import { RSpaceService } from './rspace-api';
 import {
   prepareFormFields,
@@ -211,7 +211,7 @@ export class RSpaceImporter {
 
   private async createRSpaceDocument(item: PreviewItem, uploadedFileIds: number[] = []) {
     const formName = `ELN ${item.category} (${item.type})`;
-    const formFields = prepareFormFields(item);
+    const formFields: FormField[] = prepareFormFields(item);
     const formId = await this.rspaceService.createForm(formName, formFields);
     const fieldValues = prepareDocumentFieldValues(item,formFields);
     const tags = prepareTags(item);

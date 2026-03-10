@@ -7,11 +7,14 @@ import { PreviewSession } from '../types/elabftw';
 
 async function runImport() {
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_differenttypes.json';
-  const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_bores_size_metadata.json';
+  // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_bores_size_metadata.json';
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_chemical_equation_h2o.json';
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate_number_and_units.json';
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate.default_values.json';
   // const filePath = '/Users/neilhanlon/Library/Application Support/JetBrains/IntelliJIdea2025.3/scratches/elab_ftw_ro_crate.category_customID_status.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.json_step_longname.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_experiment_links.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_resource_links.json';
   const apiKey = 'py3n5pPPwvrjq2kRQ2QmEXnc1uSOaIN0';
   const baseUrl = 'http://localhost:8080';
 

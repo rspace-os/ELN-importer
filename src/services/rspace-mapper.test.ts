@@ -58,8 +58,8 @@ describe('RSpaceMapper', () => {
       const fields = prepareFormFields(item as PreviewItem);
       const fieldNames = fields.map(f => f.name);
       
-      expect(fieldNames).toContain('step: Step 1 content');
-      expect(fieldNames).toContain('step: Step 2 content');
+      expect(fieldNames).toContain('Step: Step 1 content');
+      expect(fieldNames).toContain('Step deadline');
     });
 
     it('should map metadata fields and handle collisions', () => {
@@ -82,6 +82,74 @@ describe('RSpaceMapper', () => {
       const myField = fields.find(f => f.name === 'My Field');
       expect(myField?.type).toBe('Number');
       expect(myField?.mandatory).toBe(true);
+    });
+
+    it('should truncate field names longer than MAX_FIELDNAME_LENGTH', () => {
+      const longName = 'A'.repeat(60);
+      const item: PreviewItem = {
+        id: '4', name: 'Item', type: 'experiment', category: 'Dataset', categoryColor: '#000',
+        proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
+        metadata: {
+          [longName]: { value: 'val', type: 'Text' }
+        },
+        files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
+      };
+      const fields = prepareFormFields(item as PreviewItem);
+      const fieldNames = fields.map(f => f.name);
+      
+      const expectedTruncated = 'A'.repeat(50);
+      expect(fieldNames).toContain(expectedTruncated);
+      expect(expectedTruncated.length).toBe(50);
+    });
+
+    it('should handle step names that exceed MAX_FIELDNAME_LENGTH when prefixed', () => {
+      // MAX_FIELDNAME_LENGTH is 50. Prefixed with "Step: " (6 chars)
+      // If step text is 45 chars, total is 51.
+      const longStepText = 'B'.repeat(45);
+      const steps: HowToStep[] = [
+        { '@id': 's1', '@type': 'HowToStep', position: 1, creativeWorkStatus: 'complete', itemListElement: { '@id': 'it1', '@type': 'HowToDirection', text: longStepText } }
+      ];
+      const item: PreviewItem = {
+        id: '5', name: 'Item', type: 'experiment', category: 'Dataset', categoryColor: '#000',
+        proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
+        metadata: {}, files: [], crossReferences: [], validationIssues: [], textContent: '', steps, keywords: [], dateCreated: '', dateModified: ''
+      };
+      const fields = prepareFormFields(item as PreviewItem);
+      const fieldNames = fields.map(f => f.name);
+      
+      // The prefix "Step: " is 6 chars. 
+      // The code uses: getUniqueFieldName("Step: "+step.itemListElement.text,(MAX_FIELDNAME_LENGTH - 6));
+      // Wait, let's look at rspace-mapper.ts line 28:
+      // const stepName = getUniqueFieldName("Step: "+step.itemListElement.text,(MAX_FIELDNAME_LENGTH - 6));
+      // If MAX_FIELDNAME_LENGTH is 50, then maxTotalLength is 44.
+      // "Step: " + "BBBB..." will be truncated to 44 chars?
+      // "Step: " is 6 chars. 44 - 6 = 38 chars of B.
+      
+      const stepField = fields.find(f => f.name.startsWith('Step: '));
+      expect(stepField).toBeDefined();
+      expect(stepField!.name.length).toBeLessThanOrEqual(44); // Based on current code logic
+      expect(stepField!.name).toBe("Step: " + 'B'.repeat(38));
+    });
+
+    it('should handle name collisions with truncated names', () => {
+      const longName1 = 'A'.repeat(60) + '1';
+      const longName2 = 'A'.repeat(60) + '2';
+      const item: PreviewItem = {
+        id: '6', name: 'Item', type: 'experiment', category: 'Dataset', categoryColor: '#000',
+        proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
+        metadata: {
+          [longName1]: { value: 'val1', type: 'Text' },
+          [longName2]: { value: 'val2', type: 'Text' }
+        },
+        files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
+      };
+      const fields = prepareFormFields(item as PreviewItem);
+      const fieldNames = fields.map(f => f.name);
+      
+      const expectedTruncated1 = 'A'.repeat(50);
+      const expectedTruncated2 = 'A'.repeat(48) + '_1';
+      expect(fieldNames).toContain(expectedTruncated1);
+      expect(fieldNames).toContain(expectedTruncated2);
     });
   });
 
@@ -119,8 +187,8 @@ describe('RSpaceMapper', () => {
       
       expect(getValue('Owner')).toBe('');
       expect(getValue('Content')).toBe('Main content');
-      expect(getValue('step: Step 1 content')).toBe('complete');
-      expect(getValue('Step 1 content_deadline')).toBe(new Date(steps[0].expires!).toLocaleString());
+      expect(getValue('Step: Step 1 content')).toBe('complete');
+      expect(getValue('Step deadline')).toBe(new Date(steps[0].expires!).toLocaleString());
       expect(getValue('Source ELN ID')).toBe('123');
       expect(getValue('Category')).toBe('Experiments');
       expect(getValue('Date Created')).toBe('2023-01-01');

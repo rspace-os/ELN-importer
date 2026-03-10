@@ -17,6 +17,17 @@ export interface ELabFTWDataset {
   creativeWorkStatus: string;
 }
 
+export interface FormField {
+  name: string;
+  fullName: string;
+  description?: string;
+  type: string;
+  mandatory: boolean;
+  options?: string[];
+  showAsPickList?: boolean;
+  units?: string[];
+}
+
 export interface PropertyValue {
   '@id': string;
   '@type': string;
@@ -50,6 +61,7 @@ export interface FileMetadata {
 }
 
 export interface CustomField {
+  unitText?: string;
   type: string;
   value: string;
   description?: string;

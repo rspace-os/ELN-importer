@@ -1,0 +1,144 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-06T15:54:14+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-06T15:54:14+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "#category-Demo",
+      "@type": "Thing",
+      "name": "Demo",
+      "color": "3BA0B3"
+    },
+    {
+      "@id": ".\/816be2e4-b4c9-4034-9608-6e8cafc75cf0\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/f815fd87d0ca7a2e3ebca94dc47624c70f63764a5546dc2f99af63c24e5e66d0?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-06T03:02:09+01:00",
+      "dateModified": "2026-03-06T03:02:09+01:00",
+      "temporal": "2025-02-18T00:00:00+01:00",
+      "name": "Quia sed et pariatur qui consequatur cumque odit.",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=173",
+      "genre": "experiment",
+      "creativeWorkStatus": "Success",
+      "identifier": "20260306-8ce2653a7ead39af2863b30e497a09476bb7bfab",
+      "keywords": "Open Source,biological samples,biochemistry,genomic analysis,COVID-24",
+      "text": "YOUR shoes done with?' said the Caterpillar. This was not easy to take out of its voice. 'Back to land again, and all sorts of things--I can't remember half of anger, and tried to open her mouth; but she did not sneeze, were the two sides of it, and yet it was growing, and growing, and very soon found out that one of them at last, they must needs come wriggling down from the Gryphon, with a sigh: 'it's always tea-time, and we've no time to hear the very middle of her voice, and see that queer little toss of her age knew the right distance--but then I wonder who will put on one of the officers: but the wise little Alice and all the players, except the Lizard, who seemed to be treated with respect. 'Cheshire Puss,' she began, rather timidly, as she could not tell whether they were nowhere to be a comfort, one way--never to be no chance of getting her hands up to the beginning of the Lizard's slate-pencil, and the little magic bottle had now had its full effect, and she felt very.",
+      "about": {
+        "@id": "#category-Demo"
+      }
+    },
+    {
+      "@id": ".\/93301f82-c8da-4cc2-8ac0-2b8bdff5582d\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/b30040f786666945fc5bd06bb83220e6a209cb29745519465d37207b17996bd3?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-06T15:52:58+01:00",
+      "dateModified": "2026-03-06T15:54:11+01:00",
+      "temporal": "2026-03-06T00:00:00+01:00",
+      "name": "Experiment_Links",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=234",
+      "genre": "experiment",
+      "identifier": "20260306-c0c37e7fbefc90a00ff9ff0a4c7fe05e64f33f9c",
+      "mentions": [
+        {
+          "@id": ".\/816be2e4-b4c9-4034-9608-6e8cafc75cf0\/"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "9e4019a9-58e6-4237-87b9-87c085ccbcc4",
+      "@type": "Dataset",
+      "datePublished": "2026-03-06T15:54:14+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/93301f82-c8da-4cc2-8ac0-2b8bdff5582d\/"
+        },
+        {
+          "@id": ".\/816be2e4-b4c9-4034-9608-6e8cafc75cf0\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/f815fd87d0ca7a2e3ebca94dc47624c70f63764a5546dc2f99af63c24e5e66d0?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Stan",
+      "familyName": "Treutel",
+      "email": "praesentium-44098771@yopmail.com"
+    },
+    {
+      "@id": "person:\/\/b30040f786666945fc5bd06bb83220e6a209cb29745519465d37207b17996bd3?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Margarette",
+      "familyName": "Hudson",
+      "email": "admin2@demo.elabftw.net"
+    }
+  ]
+}

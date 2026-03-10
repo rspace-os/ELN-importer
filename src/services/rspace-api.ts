@@ -35,6 +35,7 @@ export class RSpaceService {
   private retryManager: RetryManager;  // P1: Retry manager for network operations
   private outputDir: string | null = null;
   private currentInputFile: string | null = null;
+  private MAX_FIELDNAME_LENGTH = 50;
 
   constructor(config: RSpaceConfig) {
     this.config = config;
@@ -169,10 +170,10 @@ export class RSpaceService {
   async createForm(name: string, fields: Array<{ name: string; type: string; mandatory?: boolean; showAsPickList?: boolean; options?: string[] }>): Promise<number> {
     try {
       const formData = {
-        name: name.substring(0, 50),
+        name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         tags: 'elabftw-import',
         fields: fields.map(field => ({
-          name: field.name.substring(0, 50),
+          name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
           mandatory: field.mandatory || false,
           ...(field.options && { options: field.options }),
@@ -375,7 +376,7 @@ export class RSpaceService {
 
   private prepareExtraFields(customFields: Record<string, any>): any[] {
     return Object.entries(customFields).map(([name, value]) => ({
-      name: name.substring(0, 50),
+      name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
       type: typeof value === 'number' ? 'number' : 'text',
       content: String(value)
     }));

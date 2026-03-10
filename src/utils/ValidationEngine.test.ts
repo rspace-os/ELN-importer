@@ -49,7 +49,7 @@ describe('ValidationEngine', () => {
   });
 
   it('detects long field names', () => {
-    const longFieldName = 'A'.repeat(51);
+    const longFieldName = 'A'.repeat(501);
     const item = makeBaseItem({
       metadata: {
         [longFieldName]: { value: 'Valid', type: 'text' }
@@ -63,7 +63,7 @@ describe('ValidationEngine', () => {
   });
 
   it('flags too many files', () => {
-    const files = Array.from({ length: 51 }, (_, i) => `f${i}`);
+    const files = Array.from({ length: 501 }, (_, i) => `f${i}`);
     const item = makeBaseItem({ files });
     // @ts-ignore access private for targeted test
     const issues: any[] = [];

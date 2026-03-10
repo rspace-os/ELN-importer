@@ -1,18 +1,16 @@
-import { PreviewItem } from '../types/elabftw';
+import {FormField, PreviewItem} from '../types/elabftw';
+const MAX_FIELDNAME_LENGTH = 50;
 
-export function prepareFormFields(item: PreviewItem) {
-  // P0 FIX: Track used field names to prevent collisions
+export function prepareFormFields(item: PreviewItem) : FormField[] {
   const usedFieldNames = new Set<string>();
-
-  // Helper function to get unique field name
-  const getUniqueFieldName = (baseName: string): string => {
-    let fieldName = baseName.substring(0, 50);
+  const getUniqueFieldName = (baseName: string, maxTotalLength?: number): string => {
+    let fieldName = baseName.substring(0, (maxTotalLength? maxTotalLength: MAX_FIELDNAME_LENGTH));
     let counter = 1;
 
     // If name already exists, append counter
     while (usedFieldNames.has(fieldName)) {
       const suffix = `_${counter}`;
-      const maxLength = 50 - suffix.length;
+      const maxLength = (maxTotalLength? maxTotalLength: MAX_FIELDNAME_LENGTH) - suffix.length;
       fieldName = baseName.substring(0, maxLength) + suffix;
       counter++;
     }
@@ -20,38 +18,36 @@ export function prepareFormFields(item: PreviewItem) {
     usedFieldNames.add(fieldName);
     return fieldName;
   };
-
-  const formFields = [
-    { name: getUniqueFieldName('Owner'), type: 'String', mandatory: false },
-    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false },
+  const formFields: FormField[] = [
+    { name: getUniqueFieldName('Owner'), type: 'String', mandatory: false, fullName: 'Owner' },
+    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false,  fullName: 'Content' },
   ];
 
-  // Add individual step fields with deduplication
   if (item.steps && item.steps.length > 0) {
-    item.steps.forEach((step, index) => {
-      // P0 FIX: Use index instead of position to avoid duplicate field names
-      const stepName = step.itemListElement.text;
+    item.steps.forEach((step) => {
+      const stepName = getUniqueFieldName("Step: "+step.itemListElement.text,(MAX_FIELDNAME_LENGTH - 6));
       formFields.push({
-        name: 'step: '+stepName,
+        name: stepName,
+        fullName: "Step: "+step.itemListElement.text,
         type: 'Radio',
         mandatory: false,
         options: ['finished','unfinished']
       });
       formFields.push({
-        name: stepName+"_deadline",
-        type: 'String',
+        name: "Step deadline",
+        fullName: step.itemListElement.text+"_deadline",
+        type: 'String',//TODO - make this map to a time or a date instead?
         mandatory: false
       });
     });
   }
 
   formFields.push(
-    { name: getUniqueFieldName('References'), type: 'Text', mandatory: false },
-    // { name: getUniqueFieldName('Keywords'), type: 'Text', mandatory: false },
-    { name: getUniqueFieldName('Source ELN ID'), type: 'String', mandatory: false },  // P1: Generic name
-    { name: getUniqueFieldName('Category'), type: 'String', mandatory: false },
-    { name: getUniqueFieldName('Date Created'), type: 'Date', mandatory: false },
-    { name: getUniqueFieldName('Date Modified'), type: 'Date', mandatory: false }
+    { name: getUniqueFieldName('References'), type: 'Text', mandatory: false, fullName: 'References' },
+    { name: getUniqueFieldName('Source ELN ID'), type: 'String', mandatory: false, fullName: 'Source ELN ID' },  // P1: Generic name
+    { name: getUniqueFieldName('Category'), type: 'String', mandatory: false, fullName: 'Category' },
+    { name: getUniqueFieldName('Date Created'), type: 'Date', mandatory: false, fullName: 'Date Created' },
+    { name: getUniqueFieldName('Date Modified'), type: 'Date', mandatory: false, fullName: 'Date Modified' }
   );
 
   // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
@@ -70,6 +66,7 @@ export function prepareFormFields(item: PreviewItem) {
       const fieldOptions = field.options;
       const request = {
         name: getUniqueFieldName(fieldName),
+        fullName: fieldName,
         type: mappedType,
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
@@ -79,6 +76,7 @@ export function prepareFormFields(item: PreviewItem) {
       if(field.description && mappedType !== 'Text') {
         const description = {
           name: getUniqueFieldName(fieldName+" description:"),
+          fullName: fieldName+" description:",
           type: 'Text',
           mandatory: false,
         };
@@ -87,6 +85,7 @@ export function prepareFormFields(item: PreviewItem) {
       if(field.units ) {
         const units = {
           name: getUniqueFieldName(fieldName+" units:"),
+          fullName: fieldName+" units:",
           type: 'Radio',
           mandatory: false,
           showAsPickList: true,
@@ -96,7 +95,12 @@ export function prepareFormFields(item: PreviewItem) {
       }
     }
   });
-
+  const formFieldsCopy = [...formFields];
+  formFieldsCopy.forEach(field => {
+    if(field.fullName.length > MAX_FIELDNAME_LENGTH) {
+      formFields.splice(formFields.indexOf(field)+1,0,{type: "Text", name:"FullName", fullName:"FullName", mandatory:false});
+    }
+  })
   return formFields;
 }
 
@@ -107,7 +111,7 @@ export function mapSelectAndCheckBoxToRadio(fieldType: string): string {
   return fieldType;
 }
 
-export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name:string, type:string}[]): Array<{ name: string, content: string, description?: string }> {
+export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name: string, fullName:string, type:string}[]): Array<{ name: string, content: string, description?: string }> {
   const formatDateForRSpace = (dateString?: string): string => {
     if (!dateString) return '';
     try {
@@ -129,8 +133,8 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
 
   if (item.steps && item.steps.length > 0) {
     item.steps.forEach((step, index) => {
-      preFieldValues.push({['step: '+step.itemListElement.text]: step.creativeWorkStatus});
-      preFieldValues.push({[step.itemListElement.text+'_deadline']:  step.expires ? new Date(step.expires).toLocaleString():""});
+      preFieldValues.push({["Step: "+step.itemListElement.text]: step.creativeWorkStatus});
+      preFieldValues.push({[step.itemListElement.text+'_deadline']: step.expires ? new Date(step.expires).toLocaleString():""});
     });
   }
 
@@ -159,34 +163,39 @@ export function prepareDocumentFieldValues(item: PreviewItem, formFields: { name
         const truthy = ['on', 'true', '1', 'checked', 'yes'];
         fieldValue = truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
       }
-      preFieldValues.push({[fieldName.substring(0, 50)]: fieldValue, description: field.description, unitText: field.unitText});
+      preFieldValues.push({[fieldName]: fieldValue, description: field.description || '', unitText: field.unitText || ''});
     }
   });
   const orderedFieldValues :{name:string,content:string, description?:string} [] = [];
   formFields.forEach(field => {
-    const aValue = preFieldValues.find(v=> v[field.name] !== undefined);
+    const aValue = preFieldValues.find(v=> v[field.fullName] !== undefined);
     if(aValue) {
       const descriptionValue = (aValue['description'] || '').replace('Extra field:', '') ;
       if(field.type === 'Text' && descriptionValue) {
         orderedFieldValues.push({
-          name: field.name, content: aValue[field.name],
+          name: field.name, content: aValue[field.fullName],
           description: (descriptionValue)
         });
       } else if (descriptionValue) {
         orderedFieldValues.push({
-          name: field.name, content: aValue ? aValue[field.name] : ""
+          name: field.name, content: aValue ? aValue[field.fullName] : ""
         });
         orderedFieldValues.push({
           name: field.name+" description:", content: descriptionValue
         });
       } else {
         orderedFieldValues.push({
-          name: field.name, content: aValue ? aValue[field.name] : ""
+          name: field.name, content: aValue ? aValue[field.fullName] : ""
         });
       }
       if(aValue.unitText) {
         orderedFieldValues.push({
           name: field.name+" units:", content: aValue.unitText
+        });
+      }
+      if(aValue && field.fullName.length > MAX_FIELDNAME_LENGTH) {
+        orderedFieldValues.push({
+          name: "FullName", content: field.fullName
         });
       }
     }
