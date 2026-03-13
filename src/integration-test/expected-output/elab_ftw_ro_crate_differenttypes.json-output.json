@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Tests (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -57,7 +57,7 @@
     "type": "createDocument",
     "data": {
       "name": "exp1",
-      "tags": "eln-import,experiment,tests,",
+      "tags": "eln-import,experiment,tests",
       "form": {
         "id": 999
       },
@@ -102,6 +102,47 @@
     }
   },
   {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN Antibody Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
+      ],
+      "fields": [
+        {
+          "name": "Host",
+          "type": "text"
+        },
+        {
+          "name": "Isotype",
+          "type": "text"
+        },
+        {
+          "name": "Dilution for IF",
+          "type": "text"
+        },
+        {
+          "name": "Dilution for WB",
+          "type": "text"
+        },
+        {
+          "name": "Storage temperature",
+          "type": "radio",
+          "definition": {
+            "options": [
+              "+4°C",
+              "-20°C",
+              "-80°C"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
     "type": "createInventorySample",
     "data": {
       "name": "Anti-GFP",
@@ -116,56 +157,26 @@
         },
         {
           "value": "antibody"
-        },
-        {
-          "value": ""
         }
       ],
-      "extraFields": [
+      "templateId": 777,
+      "fields": [
         {
-          "name": "Host",
-          "type": "text",
           "content": "Mouse"
         },
         {
-          "name": "Isotype",
-          "type": "text",
           "content": "IgG2a"
         },
         {
-          "name": "Dilution for IF",
-          "type": "text",
           "content": "1:1000"
         },
         {
-          "name": "Dilution for WB",
-          "type": "text",
           "content": "1:5000"
         },
         {
-          "name": "Storage temperature",
-          "type": "text",
-          "content": "-70°C"
-        },
-        {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./3e498c90-bdb0-47f3-a1ab-7bb87c1533ba/"
-        },
-        {
-          "name": "Category",
-          "type": "text",
-          "content": "Antibody"
-        },
-        {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2026-02-24T02:51:59+01:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": ""
+          "selectedOptions": [
+            "-70°C"
+          ]
         }
       ]
     }
@@ -174,7 +185,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -187,7 +198,7 @@
           "mandatory": false
         },
         {
-          "name": "step: Step one",
+          "name": "Step: Step one",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -196,12 +207,12 @@
           ]
         },
         {
-          "name": "Step one_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
         {
-          "name": "step: Step two",
+          "name": "Step: Step two",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -210,12 +221,12 @@
           ]
         },
         {
-          "name": "Step two_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
         {
-          "name": "step: Step three",
+          "name": "Step: Step three",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -224,7 +235,7 @@
           ]
         },
         {
-          "name": "Step three_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
@@ -335,27 +346,27 @@
           "content": "<p>Some text for my Experiment</p>"
         },
         {
-          "name": "step: Step one",
+          "name": "Step: Step one",
           "content": "unfinished"
         },
         {
-          "name": "Step one_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {
-          "name": "step: Step two",
+          "name": "Step: Step two",
           "content": "unfinished"
         },
         {
-          "name": "Step two_deadline",
+          "name": "Step deadline",
           "content": "2/24/2027, 5:21:09 PM"
         },
         {
-          "name": "step: Step three",
+          "name": "Step: Step three",
           "content": "unfinished"
         },
         {
-          "name": "Step three_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {

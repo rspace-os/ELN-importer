@@ -26,6 +26,12 @@ export interface FormField {
   options?: string[];
   showAsPickList?: boolean;
   units?: string[];
+  isSecondary?: boolean;
+  descriptionName?: string;
+  unitsName?: string;
+  fullNameName?: string;
+  selectedOptions?: string[];
+  content?: string;
 }
 
 export interface PropertyValue {

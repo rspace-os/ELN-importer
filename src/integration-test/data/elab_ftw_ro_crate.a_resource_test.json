@@ -1,0 +1,127 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-13T12:17:03+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-13T12:17:03+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "pv:\/\/61ad9f0d-550a-48c8-8044-33d0f68f6cd7",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"Amount left of this sample\": {\"type\": \"number\", \"unit\": \"g\", \"units\": [\"g\", \"mg\", \"\u00b5g\", \"ng\"], \"value\": \"\", \"description\": \"Amount left of this sample\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/b6b89750-f202-4b11-bcd4-486d3ec357a8",
+      "propertyID": "Amount left of this sample",
+      "valueReference": "number",
+      "value": "",
+      "description": "Amount left of this sample",
+      "unitText": "g"
+    },
+    {
+      "@id": ".\/b6fef521-c4a9-4aa6-acfa-67b636105fae\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/066243cb0f008e350a343f1278217f19fcc6f8984924a511b31948c772b409cb?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-13T12:06:26+01:00",
+      "dateModified": "2026-03-13T12:17:00+01:00",
+      "temporal": "2026-03-13T00:00:00+01:00",
+      "name": "Resource with number having units",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=322",
+      "genre": "resource",
+      "identifier": "20260313-2b3774b9f5db8bb065f5a09a9829d0cb10fc2929",
+      "text": "<p>A sample that is used up in the lab and the amount left is recorded<\/p>",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/61ad9f0d-550a-48c8-8044-33d0f68f6cd7"
+        },
+        {
+          "@id": "pv:\/\/b6b89750-f202-4b11-bcd4-486d3ec357a8"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "d6dce6dd-60b9-4f73-976b-156725402a17",
+      "@type": "Dataset",
+      "datePublished": "2026-03-13T12:17:03+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/b6fef521-c4a9-4aa6-acfa-67b636105fae\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/066243cb0f008e350a343f1278217f19fcc6f8984924a511b31948c772b409cb?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Christ",
+      "familyName": "Leannon",
+      "email": "user1@demo.elabftw.net"
+    }
+  ]
+}

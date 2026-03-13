@@ -136,7 +136,7 @@
       "@type": "PropertyValue",
       "propertyID": "elabftw_metadata",
       "description": "eLabFTW metadata JSON as string",
-      "value": "{\"extra_fields\": {\"Host\": {\"type\": \"text\", \"value\": \"Mouse\"}, \"Isotype\": {\"type\": \"text\", \"value\": \"IgG2a\"}, \"Dilution for IF\": {\"type\": \"text\", \"value\": \"1:1000\"}, \"Dilution for WB\": {\"type\": \"text\", \"value\": \"1:5000\"}, \"Storage temperature\": {\"type\": \"select\", \"value\": \"-70\u00b0C\", \"options\": [\"+4\u00b0C\", \"-20\u00b0C\", \"-80\u00b0C\"]}}}"
+      "value": "{\"extra_fields\": {\"Host\": {\"type\": \"text\", \"value\": \"Mouse\"}, \"Isotype\": {\"type\": \"text\", \"value\": \"IgG2a\"}, \"Dilution for IF\": {\"type\": \"text\", \"value\": \"1:1000\"}, \"Dilution for WB\": {\"type\": \"text\", \"value\": \"1:5000\"}, \"Storage temperature\": {\"type\": \"select\", \"value\": \"-80\u00b0C\", \"options\": [\"+4\u00b0C\", \"-20\u00b0C\", \"-80\u00b0C\"]}}}"
     },
     {
       "@type": "PropertyValue",
@@ -171,7 +171,7 @@
       "@id": "pv:\/\/a6acdd31-2c6d-476a-8eda-d77c130c698c",
       "propertyID": "Storage temperature",
       "valueReference": "select",
-      "value": "-70\u00b0C"
+      "value": "-80\u00b0C"
     },
     {
       "@id": ".\/3e498c90-bdb0-47f3-a1ab-7bb87c1533ba\/",

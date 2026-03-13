@@ -12,11 +12,13 @@ describe('RSpaceImporter', () => {
     mockRSpaceService = {
       testConnection: vi.fn().mockResolvedValue(true),
       createForm: vi.fn().mockResolvedValue(101),
+      createSampleTemplate: vi.fn().mockResolvedValue(777),
       createDocument: vi.fn().mockResolvedValue({ id: 201, globalId: 'DOC201', name: 'Doc 1' }),
       createInventorySample: vi.fn().mockResolvedValue({ id: 'S301', globalId: 'SA301', name: 'Sample 1' }),
       createInventoryContainer: vi.fn().mockResolvedValue({ id: 'C401', globalId: 'IC401', name: 'Container 1' }),
       uploadFile: vi.fn().mockResolvedValue({ id: '501', globalId: 'GL501', name: 'file.txt' }),
       addInternalLinkToDocument: vi.fn().mockResolvedValue(undefined),
+      attachFileToInventoryItem: vi.fn().mockResolvedValue(undefined),
     };
     importer = new RSpaceImporter(mockRSpaceService as unknown as RSpaceService);
     onProgress = vi.fn();
@@ -101,6 +103,13 @@ describe('RSpaceImporter', () => {
     };
 
     const result = await importer.importSession(session, onProgress, new Set(['item2']));
+    
+    expect(mockRSpaceService.createSampleTemplate).toHaveBeenCalled();
+    expect(mockRSpaceService.createInventorySample).toHaveBeenCalledWith(expect.objectContaining({
+      templateId: 777,
+      fields: expect.any(Array)
+    }));
+
     const last = onProgress.mock.calls[onProgress.mock.calls.length - 1][0];
     expect(last.status).toBe('complete');
     expect(result.results[0].success).toBe(true);

@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Pealkirjata (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -217,7 +217,7 @@
     "type": "createDocument",
     "data": {
       "name": "UAR_2599_600_main",
-      "tags": "eln-import,experiment,pealkirjata,",
+      "tags": "eln-import,experiment,pealkirjata",
       "form": {
         "id": 999
       },
@@ -365,27 +365,45 @@
         {
           "value": "microscopy,biological samples,ecology,species"
         }
+      ]
+    }
+  },
+  {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN Cells Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
       ],
-      "extraFields": [
+      "fields": [
         {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./Microscope - electronic-microscope - 5bf4d5f7/"
+          "name": "Species",
+          "type": "radio",
+          "definition": {
+            "options": [
+              "Human",
+              "Mouse",
+              "Chinese Hamster",
+              "Rat",
+              "African Green Monkey",
+              "Dog",
+              "Horse",
+              "Klingon",
+              "Ewok",
+              "Na’vi"
+            ]
+          }
         },
         {
-          "name": "Category",
-          "type": "text",
-          "content": "🔬 Microscope"
+          "name": "Date of acquisition",
+          "type": "date"
         },
         {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2025-09-12T13:19:57+02:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": "microscopy, biological samples, ecology, species"
+          "name": "Number of aliquots left",
+          "type": "number"
         }
       ]
     }
@@ -405,46 +423,42 @@
         },
         {
           "value": "cells"
-        },
-        {
-          "value": ""
         }
       ],
-      "extraFields": [
+      "templateId": 777,
+      "fields": [
         {
-          "name": "Species",
-          "type": "text",
-          "content": "Human"
+          "selectedOptions": [
+            "Human"
+          ]
         },
         {
-          "name": "Date of acquisition",
-          "type": "text",
           "content": ""
         },
         {
-          "name": "Number of aliquots left",
-          "type": "text",
           "content": ""
+        }
+      ]
+    }
+  },
+  {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN Reagentes Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
+      ],
+      "fields": [
+        {
+          "name": "Quant",
+          "type": "number"
         },
         {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./Cells - Cell-line - e6aaef0a/"
-        },
-        {
-          "name": "Category",
-          "type": "text",
-          "content": "Cells"
-        },
-        {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2025-09-16T14:30:33+02:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": ""
+          "name": "Abertura",
+          "type": "date"
         }
       ]
     }
@@ -464,43 +478,30 @@
         },
         {
           "value": "reagentes"
-        },
-        {
-          "value": ""
         }
       ],
-      "extraFields": [
+      "templateId": 777,
+      "fields": [
         {
-          "name": "Quant",
-          "type": "text",
           "content": "20"
         },
         {
-          "name": "Abertura",
-          "type": "text",
           "content": "2025-09-06"
-        },
-        {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./Reagentes - Formol - 4ff9f21d/"
-        },
-        {
-          "name": "Category",
-          "type": "text",
-          "content": "Reagentes"
-        },
-        {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2025-09-12T13:38:38+02:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": ""
         }
       ]
+    }
+  },
+  {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN 🧬 Plasmid Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
+      ],
+      "fields": []
     }
   },
   {
@@ -518,40 +519,17 @@
         },
         {
           "value": "🧬-plasmid"
-        },
-        {
-          "value": ""
         }
       ],
-      "extraFields": [
-        {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./Plasmid - Thio-TOPO - d4cd7163/"
-        },
-        {
-          "name": "Category",
-          "type": "text",
-          "content": "🧬 Plasmid"
-        },
-        {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2025-09-11T21:17:11+02:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": ""
-        }
-      ]
+      "templateId": 777,
+      "fields": []
     }
   },
   {
     "type": "createForm",
     "data": {
       "name": "ELN Molecular biology (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -564,7 +542,7 @@
           "mandatory": false
         },
         {
-          "name": "step: 1",
+          "name": "Step: 1",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -573,12 +551,12 @@
           ]
         },
         {
-          "name": "1_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
         {
-          "name": "step: 2",
+          "name": "Step: 2",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -587,12 +565,12 @@
           ]
         },
         {
-          "name": "2_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
         {
-          "name": "step: 3",
+          "name": "Step: 3",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -601,7 +579,7 @@
           ]
         },
         {
-          "name": "3_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
@@ -651,27 +629,27 @@
           "content": "<p>test cloning</p>\n<p style=\"line-height:1;\"> </p>\n<p style=\"line-height:1;\"> </p>"
         },
         {
-          "name": "step: 1",
+          "name": "Step: 1",
           "content": "unfinished"
         },
         {
-          "name": "1_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {
-          "name": "step: 2",
+          "name": "Step: 2",
           "content": "unfinished"
         },
         {
-          "name": "2_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {
-          "name": "step: 3",
+          "name": "Step: 3",
           "content": "unfinished"
         },
         {
-          "name": "3_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {

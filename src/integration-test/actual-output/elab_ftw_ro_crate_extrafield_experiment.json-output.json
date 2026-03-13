@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Synthesis (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -87,7 +87,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -100,7 +100,7 @@
           "mandatory": false
         },
         {
-          "name": "step: step 1",
+          "name": "Step: step 1",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -109,7 +109,7 @@
           ]
         },
         {
-          "name": "step 1_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
@@ -155,7 +155,7 @@
     "type": "createDocument",
     "data": {
       "name": "Another",
-      "tags": "eln-import,experiment,uncategorized,",
+      "tags": "eln-import,experiment,uncategorized",
       "form": {
         "id": 999
       },
@@ -169,11 +169,11 @@
           "content": "<p style=\"line-height:1;\"><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a>qwqqwqwqw<a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a></p>"
         },
         {
-          "name": "step: step 1",
+          "name": "Step: step 1",
           "content": "unfinished"
         },
         {
-          "name": "step 1_deadline",
+          "name": "Step deadline",
           "content": "2/25/2026, 4:42:10 PM"
         },
         {

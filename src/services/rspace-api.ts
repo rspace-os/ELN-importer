@@ -1,6 +1,7 @@
 import { RetryManager } from '../utils/RetryManager';  // P1: Retry logic
 import * as fs from 'fs';
 import * as path from 'path';
+import {FormField} from "../types/elabftw.ts";
 
 interface RSpaceConfig {
   baseUrl: string;
@@ -251,11 +252,56 @@ export class RSpaceService {
     }
   }
 
+  async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
+    value: number;
+    unit: string
+  } | undefined): Promise<number> {
+    try {
+
+      const templateData = {
+        name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
+        defaultUnitId: quantityExtract? RSpaceService.getUnitId(quantityExtract.unit):1,// Default to 'dimensionless'
+        tags: [{ value: 'elabftw-import' }],
+        ...(quantityExtract && { quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)} }),
+        fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
+          name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
+          type: field.type,
+          ...(field.content && { content: field.content }),
+          ...(field.options && {
+            definition: {
+              options: field.options,
+              ...(field.multiple !== undefined && { multiple: field.multiple })
+            },
+            selectedOptions: field.selectedOptions
+          })
+        }))
+      };
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createSampleTemplate', data: templateData });
+        return 777; // Mock ID
+      }
+
+      const response = await this.makeRequest('/api/inventory/v1/sampleTemplates', {
+        method: 'POST',
+        body: JSON.stringify(templateData)
+      });
+
+      const result = await response.json();
+      return result.id;
+    } catch (error) {
+      console.error('Sample template creation failed:', error);
+      throw error;
+    }
+  }
+
   async createInventorySample(data: {
     name: string;
     description?: string;
     tags?: string[];
     quantity?: { value: number; unit: string };
+    templateId?: number;
+    fields?: Array<{ content?: string; selectedOptions?: string[] }>;
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
@@ -272,19 +318,27 @@ export class RSpaceService {
         sampleData.tags = data.tags.map(tag => ({ value: tag }));
       }
 
+      if (data.templateId) {
+        sampleData.templateId = data.templateId;
+      }
+
+      if (data.fields) {
+        sampleData.fields = data.fields;
+      }
+
       // Add quantity to the first subsample
       if (data.quantity) {
         sampleData.subSamples = [{
           name: data.name,
           quantity: {
             numericValue: data.quantity.value,
-            unitId: this.getUnitId(data.quantity.unit)
+            unitId: RSpaceService.getUnitId(data.quantity.unit)
           }
         }];
       }
 
-      // Add custom fields as extraFields
-      if (data.customFields && Object.keys(data.customFields).length > 0) {
+      // Add custom fields as extraFields if no template
+      if (!data.templateId && data.customFields && Object.keys(data.customFields).length > 0) {
         sampleData.extraFields = this.prepareExtraFields(data.customFields);
       }
 
@@ -302,18 +356,9 @@ export class RSpaceService {
       });
 
       const result = await response.json();
-      console.log('Sample created:', result);
-      console.log('DEBUG - Sample result keys:', Object.keys(result));
-      console.log('DEBUG - Sample result.id:', result.id);
-      console.log('DEBUG - Sample result.globalId:', result.globalId);
-      console.log('DEBUG - Sample result.subSamples:', result.subSamples);
-
       return { ...result, type: 'sample' as const };
     } catch (error) {
       console.error('Sample creation failed:', error);
-      if (error instanceof Error) {
-        console.error('Error details:', error.message);
-      }
       throw error;
     }
   }
@@ -325,7 +370,7 @@ export class RSpaceService {
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
-      const containerData: any = {
+      const containerData  = {
         name: data.name,
         cType: 'LIST',
         can_store_containers: true,
@@ -381,33 +426,38 @@ export class RSpaceService {
       content: String(value)
     }));
   }
+  // see enum RSUnitDef in RSpace Core Model
+    static unitMap: Record<string, number> = {
+    'items': 1,
+    'µl': 2,
+    'ml': 3,
+    'l': 4,
+    'µg': 5,
+    'mg': 6,
+    'g': 7,
+    'celsius': 8,
+    'Kelvin': 9,
+    'Farenheit': 10,
+    'nmol': 11,
+    'µmol': 12,
+    'mmol': 13,
+    'molar': 14,
+    'µg/µl': 15,
+    'mg/ml': 16,
+    'g/l': 17,
+    'picolitres': 18,
+    'nl': 19,
+    'pg': 20,
+    'ng': 21,
+    'kilo': 22,
+    'mm2': 23,
+    'cm2': 24,
+    'dm2': 25,
+    'm2': 26
+  };
 
-  private getUnitId(unit: string): number {
-    // RSpace unit IDs - common units
-    const unitMap: Record<string, number> = {
-      'ml': 7,
-      'l': 8,
-      'µl': 6,
-      'ul': 6,
-      'g': 1,
-      'mg': 2,
-      'kg': 3,
-      'µg': 4,
-      'ug': 4,
-      'moles': 11,
-      'mmol': 12,
-      'µmol': 13,
-      'umol': 13,
-      'units': 14,
-      'items': 14
-    };
-
-    return unitMap[unit.toLowerCase()] || 14; // Default to 'items'
-  }
-
-  async addCustomFieldsToInventoryItem(itemId: string, customFields: Record<string, any>): Promise<void> {
-    // This method is now deprecated as custom fields are added during creation
-    console.log('Custom fields are now added during item creation');
+   static getUnitId(unit: string): number {
+    return (RSpaceService.unitMap)[unit.toLowerCase()] || 1; // Default to 'items'
   }
 
   /**

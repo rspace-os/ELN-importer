@@ -1,0 +1,313 @@
+[
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "eln-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Step: Define goal",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Step: Define number of samples",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Step: Define procedure and standard",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "Step deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Step: Book devices/machines needed for the e",
+          "type": "Radio",
+          "mandatory": false,
+          "options": [
+            "finished",
+            "unfinished"
+          ]
+        },
+        {
+          "name": "FullName",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Step deadline",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "FullName",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Fatigue Corals",
+      "tags": "eln-import,experiment,uncategorized,fatigue,BioAntiFatigue,FOR 5657,Mechanical testing",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Ashtyn Green"
+        },
+        {
+          "name": "Content",
+          "content": "<p>Fatigue testing of coral samples for the project FOR 5657.</p>\n<p> </p>"
+        },
+        {
+          "name": "Step: Define goal",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step deadline",
+          "content": ""
+        },
+        {
+          "name": "Step: Define number of samples",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step deadline",
+          "content": ""
+        },
+        {
+          "name": "Step: Define procedure and standard",
+          "content": "unfinished"
+        },
+        {
+          "name": "Step deadline",
+          "content": ""
+        },
+        {
+          "name": "Step: Book devices/machines needed for the e",
+          "content": "unfinished"
+        },
+        {
+          "name": "FullName",
+          "content": "Step: Book devices/machines needed for the experiment"
+        },
+        {
+          "name": "Step deadline",
+          "content": ""
+        },
+        {
+          "name": "FullName",
+          "content": "Book devices/machines needed for the experiment_deadline"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./d3f29a30-8f93-43f2-ad81-cdf7d193cb6e/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-03-06"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-03-06"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN Uncategorized Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
+      ],
+      "fields": []
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "Fatigue Machine Zwick Roell LTN1",
+      "subsample_count": 1,
+      "description": "<p style=\"line-height:1;\">2 Zwick Roell machines for fatigue testing</p>\n<p style=\"line-height:1;\">Location: TU Berlin, EB005</p>\n<p style=\"line-height:1;\">Load cell: 1kN</p>\n<p style=\"line-height:1;\">...</p>",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "uncategorized"
+        },
+        {
+          "value": "fatigue,BioAntiFatigue,Mechanical testing,TU Berlin"
+        }
+      ],
+      "templateId": 777,
+      "fields": []
+    }
+  },
+  {
+    "type": "createForm",
+    "data": {
+      "name": "ELN Uncategorized (experiment)",
+      "tags": "eln-import",
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Content",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "References",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "mandatory": false
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "mandatory": false
+        }
+      ]
+    }
+  },
+  {
+    "type": "createDocument",
+    "data": {
+      "name": "Resource_Links",
+      "tags": "eln-import,experiment,uncategorized",
+      "form": {
+        "id": 999
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "content": "Margarette Hudson"
+        },
+        {
+          "name": "Content",
+          "content": "No content"
+        },
+        {
+          "name": "References",
+          "content": ""
+        },
+        {
+          "name": "Source ELN ID",
+          "content": "./c50e9c7a-875a-45f5-afb8-8ed5b5554cdb/"
+        },
+        {
+          "name": "Category",
+          "content": "Uncategorized"
+        },
+        {
+          "name": "Date Created",
+          "content": "2026-03-06"
+        },
+        {
+          "name": "Date Modified",
+          "content": "2026-03-06"
+        }
+      ]
+    }
+  }
+]

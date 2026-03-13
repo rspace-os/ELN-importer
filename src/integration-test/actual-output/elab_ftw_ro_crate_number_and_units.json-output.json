@@ -1,5 +1,18 @@
 [
   {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN Antibody Template",
+      "defaultUnitId": 14,
+      "tags": [
+        {
+          "value": "eln-import"
+        }
+      ],
+      "fields": []
+    }
+  },
+  {
     "type": "createInventorySample",
     "data": {
       "name": "Anti-RFP",
@@ -14,40 +27,17 @@
         },
         {
           "value": "antibody"
-        },
-        {
-          "value": ""
         }
       ],
-      "extraFields": [
-        {
-          "name": "Source ELN ID",
-          "type": "text",
-          "content": "./d22a6775-de85-44d2-84a4-91d54a709867/"
-        },
-        {
-          "name": "Category",
-          "type": "text",
-          "content": "Antibody"
-        },
-        {
-          "name": "Date Created",
-          "type": "text",
-          "content": "2026-02-25T02:52:03+01:00"
-        },
-        {
-          "name": "Keywords",
-          "type": "text",
-          "content": ""
-        }
-      ]
+      "templateId": 777,
+      "fields": []
     }
   },
   {
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -116,7 +106,7 @@
     "type": "createDocument",
     "data": {
       "name": "One more plus",
-      "tags": "eln-import,experiment,uncategorized,",
+      "tags": "eln-import,experiment,uncategorized",
       "form": {
         "id": 999
       },

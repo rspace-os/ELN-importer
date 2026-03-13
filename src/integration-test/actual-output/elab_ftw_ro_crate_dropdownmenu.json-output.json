@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -67,7 +67,7 @@
     "type": "createDocument",
     "data": {
       "name": "Checking",
-      "tags": "eln-import,experiment,uncategorized,",
+      "tags": "eln-import,experiment,uncategorized",
       "form": {
         "id": 999
       },

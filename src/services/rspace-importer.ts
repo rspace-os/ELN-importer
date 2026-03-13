@@ -3,7 +3,6 @@ import { RSpaceService } from './rspace-api';
 import {
   prepareFormFields,
   prepareDocumentFieldValues,
-  prepareInventoryCustomFields,
   extractQuantityFromMetadata,
   isInstrumentResource,
   prepareTags
@@ -233,31 +232,52 @@ export class RSpaceImporter {
 
   private async createRSpaceInventoryItem(item: PreviewItem) {
     const isInstrument = isInstrumentResource(item);
-    const customFields = prepareInventoryCustomFields(item);
     const tags = prepareTags(item);
-
     const description = item.textContent || `Imported from ELN: ${item.category}`;
 
-    const commonData = {
+    // if (isInstrument) {
+    //   // For instruments, we still use containers (don't need templates yet?)
+    //   // Actually, containers don't have templates in RSpace in the same way samples do.
+    //   // They use extraFields.
+    //   // Let's re-add prepareInventoryCustomFields or similar if needed for containers.
+    //   // The requirement specifically mentions SampleTemplates for Samples.
+    //   const customFields: Record<string, any> = {};
+    //   Object.entries(item.metadata).forEach(([fieldName, field]) => {
+    //     if (field.value !== undefined && field.value !== null) {
+    //       customFields[fieldName] = String(field.value);
+    //     }
+    //   });
+    //
+    //   const commonData = {
+    //     name: item.name,
+    //     description,
+    //     tags,
+    //     customFields
+    //   };
+    //   return await this.rspaceService.createInventoryContainer(commonData);
+    // } else {
+      // Create SampleTemplate first
+      const templateName = `ELN ${item.category} Template`;
+      const templateFieldsForm = prepareFormFields(item);
+    // const templateFields = prepareSampleTemplateFields(item);
+    const quantity = extractQuantityFromMetadata(item);
+    const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity);
+
+      // const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFields);
+    // Prepare field values for the sample
+    // const fieldValues = prepareSampleFieldValues(item, templateFields);
+
+    const sampleData = {
       name: item.name,
-      description,
-      tags,
-      customFields
-    };
-
-    let result;
-    if (isInstrument) {
-      result = await this.rspaceService.createInventoryContainer(commonData);
-    } else {
-      const quantity = extractQuantityFromMetadata(item);
-      result = await this.rspaceService.createInventorySample({
-        ...commonData,
+        description,
+        tags,
+      templateId,
+        // fields: fieldValues,
         quantity
-      });
-    }
+      };
 
-    // Custom fields are now added during item creation
-    return result;
+      return await this.rspaceService.createInventorySample(sampleData);
+    // }
   }
 
   private async uploadFilesBeforeDocument(

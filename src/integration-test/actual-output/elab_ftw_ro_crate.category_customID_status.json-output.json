@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Tests (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",

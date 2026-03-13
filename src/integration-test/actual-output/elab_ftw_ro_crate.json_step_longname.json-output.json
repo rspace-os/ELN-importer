@@ -16,7 +16,7 @@
           "mandatory": false
         },
         {
-          "name": "Step: step 1",
+          "name": "Step: Long step name and perhaps a too long ",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -25,8 +25,18 @@
           ]
         },
         {
+          "name": "FullName",
+          "type": "Text",
+          "mandatory": false
+        },
+        {
           "name": "Step deadline",
           "type": "String",
+          "mandatory": false
+        },
+        {
+          "name": "FullName",
+          "type": "Text",
           "mandatory": false
         },
         {
@@ -52,11 +62,6 @@
         {
           "name": "Date Modified",
           "type": "Date",
-          "mandatory": false
-        },
-        {
-          "name": "chemistry",
-          "type": "Text",
           "mandatory": false
         }
       ]
@@ -65,7 +70,7 @@
   {
     "type": "createDocument",
     "data": {
-      "name": "Another",
+      "name": "LongStepName",
       "tags": "eln-import,experiment,uncategorized",
       "form": {
         "id": 999
@@ -73,19 +78,27 @@
       "fields": [
         {
           "name": "Owner",
-          "content": "Norris Kerluke"
+          "content": "Margarette Hudson"
         },
         {
           "name": "Content",
-          "content": "<p style=\"line-height:1;\"><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a>qwqqwqwqw<a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1</a></p>"
+          "content": "No content"
         },
         {
-          "name": "Step: step 1",
+          "name": "Step: Long step name and perhaps a too long ",
           "content": "unfinished"
         },
         {
+          "name": "FullName",
+          "content": "Step: Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name "
+        },
+        {
           "name": "Step deadline",
-          "content": "2/25/2026, 4:42:10 PM"
+          "content": ""
+        },
+        {
+          "name": "FullName",
+          "content": "Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name _deadline"
         },
         {
           "name": "References",
@@ -93,7 +106,7 @@
         },
         {
           "name": "Source ELN ID",
-          "content": "./d1285d0f-cdfa-46d4-b015-78ef1a6f4d7c/"
+          "content": "./0b789baf-c448-4e5b-881a-819626370855/"
         },
         {
           "name": "Category",
@@ -101,15 +114,11 @@
         },
         {
           "name": "Date Created",
-          "content": "2026-02-25"
+          "content": "2026-03-06"
         },
         {
           "name": "Date Modified",
-          "content": "2026-02-25"
-        },
-        {
-          "name": "chemistry",
-          "content": "2"
+          "content": "2026-03-06"
         }
       ]
     }

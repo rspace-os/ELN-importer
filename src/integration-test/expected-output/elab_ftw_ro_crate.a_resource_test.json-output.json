@@ -1,0 +1,51 @@
+[
+  {
+    "type": "createInventoryContainer",
+    "data": {
+      "name": "A resource test",
+      "cType": "LIST",
+      "can_store_containers": true,
+      "can_store_samples": true,
+      "description": "<p style=\"line-height:1;\">The main text of this microscope</p>",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "🔬-microscope"
+        },
+        {
+          "value": "DNA sequencing,Reso"
+        },
+        {
+          "value": "Maintenance mode"
+        }
+      ],
+      "extraFields": [
+        {
+          "name": "Species",
+          "type": "text",
+          "content": "Human"
+        },
+        {
+          "name": "Radio buttons",
+          "type": "text",
+          "content": "one"
+        },
+        {
+          "name": "Date of acquisition",
+          "type": "text",
+          "content": ""
+        },
+        {
+          "name": "Number of aliquots left",
+          "type": "text",
+          "content": ""
+        }
+      ]
+    }
+  }
+]

@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "elabftw-import",
+      "tags": "eln-import",
       "fields": [
         {
           "name": "Owner",
@@ -16,7 +16,7 @@
           "mandatory": false
         },
         {
-          "name": "step: $\\ce{H2O}$",
+          "name": "Step: $\\ce{H2O}$",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -25,7 +25,7 @@
           ]
         },
         {
-          "name": "$\\ce{H2O}$_deadline",
+          "name": "Step deadline",
           "type": "String",
           "mandatory": false
         },
@@ -61,7 +61,7 @@
     "type": "createDocument",
     "data": {
       "name": "Chemical Equation",
-      "tags": "eln-import,experiment,uncategorized,",
+      "tags": "eln-import,experiment,uncategorized",
       "form": {
         "id": 999
       },
@@ -75,11 +75,11 @@
           "content": "<p style=\"line-height:1;\"><div class=\"rsEquation mceNonEditable\" data-equation=\"\\ce{Zn + 2H+ -> Zn^2+ + H2 ^}\"> <a class=\"rsEquationClickableWrapper\"> click here to insert latex data </a></div></p>"
         },
         {
-          "name": "step: $\\ce{H2O}$",
+          "name": "Step: $\\ce{H2O}$",
           "content": "unfinished"
         },
         {
-          "name": "$\\ce{H2O}$_deadline",
+          "name": "Step deadline",
           "content": ""
         },
         {
