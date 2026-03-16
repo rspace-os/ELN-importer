@@ -3,9 +3,7 @@ import {
   mapSelectAndCheckBoxToRadio,
   prepareFormFields,
   prepareDocumentFieldValues,
-  prepareTags,
-  prepareSampleTemplateFields,
-  prepareSampleFieldValues
+  prepareTags
 } from './rspace-mapper';
 import { PreviewItem, HowToStep } from '../types/elabftw';
 
@@ -66,7 +64,7 @@ describe('RSpaceMapper', () => {
       const fieldNames = fields.map(f => f.name);
       
       expect(fieldNames).toContain('Step: Step 1 content');
-      expect(fieldNames).toContain('Step deadline');
+      expect(fieldNames).toContain('Deadline: Step 1 content');
     });
 
     it('should map metadata fields and handle collisions', () => {
@@ -125,17 +123,13 @@ describe('RSpaceMapper', () => {
       const fieldNames = fields.map(f => f.name);
       
       // The prefix "Step: " is 6 chars. 
-      // The code uses: getUniqueFieldName("Step: "+step.itemListElement.text,(MAX_FIELDNAME_LENGTH - 6));
-      // Wait, let's look at rspace-mapper.ts line 28:
-      // const stepName = getUniqueFieldName("Step: "+step.itemListElement.text,(MAX_FIELDNAME_LENGTH - 6));
-      // If MAX_FIELDNAME_LENGTH is 50, then maxTotalLength is 44.
-      // "Step: " + "BBBB..." will be truncated to 44 chars?
-      // "Step: " is 6 chars. 44 - 6 = 38 chars of B.
+      // If MAX_FIELDNAME_LENGTH is 50, then maxTotalLength is 50.
+      // "Step: " + "BBBB..." will be truncated to 50 chars.
       
       const stepField = fields.find(f => f.name.startsWith('Step: '));
       expect(stepField).toBeDefined();
-      expect(stepField!.name.length).toBeLessThanOrEqual(44); // Based on current code logic
-      expect(stepField!.name).toBe("Step: " + 'B'.repeat(38));
+      expect(stepField!.name.length).toBe(50);
+      expect(stepField!.name).toBe("Step: " + 'B'.repeat(44));
     });
 
     it('should handle name collisions with truncated names', () => {
@@ -195,7 +189,7 @@ describe('RSpaceMapper', () => {
       expect(getValue('Owner')).toBe('');
       expect(getValue('Content')).toBe('Main content');
       expect(getValue('Step: Step 1 content')).toBe('complete');
-      expect(getValue('Step deadline')).toBe(new Date(steps[0].expires!).toLocaleString());
+      expect(getValue('Deadline: Step 1 content')).toBe(new Date(steps[0].expires!).toLocaleString());
       expect(getValue('Source ELN ID')).toBe('123');
       expect(getValue('Category')).toBe('Experiments');
       expect(getValue('Date Created')).toBe('2023-01-01');
@@ -225,91 +219,5 @@ describe('RSpaceMapper', () => {
       expect(tags).toEqual(['eln-import', 'resource', 'reagents']);
     });
   });
-  describe('prepareSampleTemplateFields', () => {
-    it('should prepare template fields for inventory items', () => {
-      const item: PreviewItem = {
-        id: '1',
-        name: 'Sample',
-        type: 'resource',
-        category: 'Reagents',
-        categoryColor: '#000',
-        proposedClassification: 'inventory',
-        userClassification: null,
-        confidence: 'high',
-        justification: '',
-        reasons: [],
-        metadata: {
-          'Concentration': { value: '10', type: 'Number', units: ['mg/ml'] },
-          'Storage': { value: '-20', type: 'Select', options: ['-20', '+4'] },
-          'Is Valid': { value: 'true', type: 'Checkbox' }
-        },
-        files: [],
-        crossReferences: [],
-        validationIssues: [],
-        textContent: '',
-        steps: [],
-        keywords: [],
-        dateCreated: '',
-        dateModified: '',
-        creativeWorkStatus: ''
-      };
 
-      const fields = prepareSampleTemplateFields(item);
-      expect(fields).toHaveLength(3);
-      
-      const concentration = fields.find(f => f.name === 'Concentration');
-      expect(concentration?.type).toBe('number');
-
-      const storage = fields.find(f => f.name === 'Storage');
-      expect(storage?.type).toBe('radio');
-      expect(storage?.options).toEqual(['-20', '+4']);
-
-      const isValid = fields.find(f => f.name === 'Is Valid');
-      expect(isValid?.type).toBe('choice');
-      expect(isValid?.multiple).toBe(true);
-    });
-  });
-
-  describe('prepareSampleFieldValues', () => {
-    it('should prepare field values for samples based on template', () => {
-      const item: PreviewItem = {
-        id: '1',
-        name: 'Sample',
-        type: 'resource',
-        category: 'Reagents',
-        categoryColor: '#000',
-        proposedClassification: 'inventory',
-        userClassification: null,
-        confidence: 'high',
-        justification: '',
-        reasons: [],
-        metadata: {
-          'Concentration': { value: '10', type: 'Number' },
-          'Storage': { value: '-20', type: 'Select' },
-          'Is Valid': { value: 'true, false', type: 'Checkbox' }
-        },
-        files: [],
-        crossReferences: [],
-        validationIssues: [],
-        textContent: '',
-        steps: [],
-        keywords: [],
-        dateCreated: '',
-        dateModified: '',
-        creativeWorkStatus: ''
-      };
-
-      const templateFields = [
-        { name: 'Concentration', type: 'number' },
-        { name: 'Storage', type: 'radio' },
-        { name: 'Is Valid', type: 'choice' }
-      ];
-
-      const values = prepareSampleFieldValues(item, templateFields);
-      expect(values).toHaveLength(3);
-      expect(values[0]).toEqual({ content: '10' });
-      expect(values[1]).toEqual({ selectedOptions: ['-20'] });
-      expect(values[2]).toEqual({ selectedOptions: ['true', 'false'] });
-    });
-  });
 });

@@ -70,6 +70,7 @@ export class RSpaceImporter {
       for (let i = 0; i < itemsToImport.length; i++) {
         const item = itemsToImport[i];
         const classification = item.userClassification || item.proposedClassification;
+        const quantity = extractQuantityFromMetadata(item.metadata);
 
         progress.current = i + 1;
         progress.currentItem = item.name;
@@ -101,7 +102,7 @@ export class RSpaceImporter {
             });
           } else {
             // Create inventory item
-            const result = await this.createRSpaceInventoryItem(item);
+            const result = await this.createRSpaceInventoryItem(item, quantity);
             rspaceId = result.globalId || result.id;
             numericId = parseInt(result.id);
 
@@ -230,42 +231,15 @@ export class RSpaceImporter {
     return await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
   }
 
-  private async createRSpaceInventoryItem(item: PreviewItem) {
-    const isInstrument = isInstrumentResource(item);
+  private async createRSpaceInventoryItem(item: PreviewItem, quantity: { value: number; unit: string }) {
     const tags = prepareTags(item);
     const description = item.textContent || `Imported from ELN: ${item.category}`;
 
-    // if (isInstrument) {
-    //   // For instruments, we still use containers (don't need templates yet?)
-    //   // Actually, containers don't have templates in RSpace in the same way samples do.
-    //   // They use extraFields.
-    //   // Let's re-add prepareInventoryCustomFields or similar if needed for containers.
-    //   // The requirement specifically mentions SampleTemplates for Samples.
-    //   const customFields: Record<string, any> = {};
-    //   Object.entries(item.metadata).forEach(([fieldName, field]) => {
-    //     if (field.value !== undefined && field.value !== null) {
-    //       customFields[fieldName] = String(field.value);
-    //     }
-    //   });
-    //
-    //   const commonData = {
-    //     name: item.name,
-    //     description,
-    //     tags,
-    //     customFields
-    //   };
-    //   return await this.rspaceService.createInventoryContainer(commonData);
-    // } else {
       // Create SampleTemplate first
       const templateName = `ELN ${item.category} Template`;
       const templateFieldsForm = prepareFormFields(item);
-    // const templateFields = prepareSampleTemplateFields(item);
-    const quantity = extractQuantityFromMetadata(item);
     const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity);
 
-      // const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFields);
-    // Prepare field values for the sample
-    // const fieldValues = prepareSampleFieldValues(item, templateFields);
 
     const sampleData = {
       name: item.name,
@@ -273,7 +247,7 @@ export class RSpaceImporter {
         tags,
       templateId,
         // fields: fieldValues,
-        quantity
+       quantity
       };
 
       return await this.rspaceService.createInventorySample(sampleData);

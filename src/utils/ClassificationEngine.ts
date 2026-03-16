@@ -1,4 +1,5 @@
 import { ELabFTWDataset, CustomField, ClassificationResult } from '../types/elabftw';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";
 
 export class ClassificationEngine {
   classifyDataset(dataset: ELabFTWDataset, customFields: Record<string, CustomField>): ClassificationResult {
@@ -10,7 +11,23 @@ export class ClassificationEngine {
         reasons: ['Item type: experiment', 'Contains experimental procedures and results']
       };
     }
-
+    const quantity = extractQuantityFromMetadata(customFields);
+    // only units that are volume or mass can be handled by Inventory.
+    if(quantity && (quantity.category === 'volume' || quantity.category === 'mass'||quantity.category === 'dimensionless')) {
+      return {
+        proposed: 'inventory',
+        confidence: 'high',
+        justification: 'This resource has a quantity field and is classified as inventory.',
+        reasons: ['Item type: resource', 'Contains a quantity field that maps to Inventory']
+      };
+    } else if (quantity?.category){
+      return {
+        proposed: 'document',
+        confidence: 'high',
+        justification: 'This resource has a quantity field that cannot be mapped to Inventory. Inventory can only handle volume, mass, and dimensionless quantities. It is classified as document.',
+        reasons: ['Item type: resource', 'Contains a quantity field that does not maps to Inventory. Inventory can only handle volume, mass, and dimensionless quantities.']
+      };
+    }
     const isInstrument = this.isInstrumentResource(dataset, customFields);
 
     const reasons: string[] = [];
@@ -36,6 +53,12 @@ export class ClassificationEngine {
       );
       reasons.push(`Contains instrument-specific fields: ${matchingFields.join(', ')}`);
       confidence = 'high';
+      return {
+        proposed: 'document',
+        confidence: 'high',
+        justification: 'This resource appears to be an instrument. Inventory will handle instruments in a future release.',
+        reasons: ['Item type: resource', 'This resource appears to be an instrument. Inventory will handle instruments in a future release.']
+      };
     }
 
     const materialIndicators = ['reagent', 'chemical', 'cell', 'plasmid', 'sample', 'compound'];

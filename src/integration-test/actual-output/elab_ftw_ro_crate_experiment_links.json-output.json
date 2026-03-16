@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Demo (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -87,7 +87,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",

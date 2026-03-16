@@ -16,8 +16,10 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_experiment_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_resource_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_test.json';
-  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_having_units.json';
-  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_with_value_having_units.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_no_value_having_units.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
   const apiKey = 'py3n5pPPwvrjq2kRQ2QmEXnc1uSOaIN0';
   const baseUrl = 'http://localhost:8080';
 

@@ -1,0 +1,126 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-16T12:29:54+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-16T12:29:54+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.2",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "pv:\/\/91e1dc58-f6f4-4bc7-bc3d-515f4f302271",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"A numeric field\": {\"type\": \"number\", \"unit\": \"mg\", \"units\": [\"g\", \"mg\", \"kg\"], \"value\": \"\", \"description\": \"A numeric field\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/2dea5ebd-e6dc-46f8-838b-a3e568d915f1",
+      "propertyID": "A numeric field",
+      "valueReference": "number",
+      "value": "",
+      "description": "A numeric field",
+      "unitText": "mg"
+    },
+    {
+      "@id": ".\/a1359173-9abf-4ba1-b30c-29792ddaf9a1\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-16T12:29:00+01:00",
+      "dateModified": "2026-03-16T12:29:47+01:00",
+      "temporal": "2026-03-16T00:00:00+01:00",
+      "name": "A quantity",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=319",
+      "genre": "resource",
+      "identifier": "20260316-d5495713efd235b51ac1e504afc338cb4e76f85e",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/91e1dc58-f6f4-4bc7-bc3d-515f4f302271"
+        },
+        {
+          "@id": "pv:\/\/2dea5ebd-e6dc-46f8-838b-a3e568d915f1"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "488eb210-ac12-4dc0-9c92-5899fccf6a60",
+      "@type": "Dataset",
+      "datePublished": "2026-03-16T12:29:54+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/a1359173-9abf-4ba1-b30c-29792ddaf9a1\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Matt",
+      "familyName": "Dibbert",
+      "email": "user1@demo.elabftw.net"
+    }
+  ]
+}

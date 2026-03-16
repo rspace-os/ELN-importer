@@ -3,13 +3,39 @@
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN Antibody Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
-      "fields": []
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "content": "Ervin McGlynn"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./d22a6775-de85-44d2-84a4-91d54a709867/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "Antibody"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2026-02-25"
+        }
+      ]
     }
   },
   {
@@ -29,15 +55,14 @@
           "value": "antibody"
         }
       ],
-      "templateId": 777,
-      "fields": []
+      "templateId": 777
     }
   },
   {
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -90,7 +115,7 @@
           "mandatory": false
         },
         {
-          "name": "Number of aliquots left units:",
+          "name": "Units: Number of aliquots left",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -152,7 +177,7 @@
           "content": "0"
         },
         {
-          "name": "Number of aliquots left units:",
+          "name": "Units: Number of aliquots left",
           "content": "miles"
         }
       ]

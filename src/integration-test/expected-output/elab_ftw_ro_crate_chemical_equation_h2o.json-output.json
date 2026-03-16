@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -25,7 +25,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: $\\ce{H2O}$",
           "type": "String",
           "mandatory": false
         },
@@ -79,7 +79,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: $\\ce{H2O}$",
           "content": ""
         },
         {

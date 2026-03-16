@@ -260,7 +260,7 @@ export class RSpaceService {
 
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
-        defaultUnitId: quantityExtract? RSpaceService.getUnitId(quantityExtract.unit):1,// Default to 'dimensionless'
+        defaultUnitId: quantityExtract? RSpaceService.getUnitId(quantityExtract.unit):1,// any templates without units will be rejected by the Inventory API, this is intentional - they should be classified as documents for now.
         tags: [{ value: 'elabftw-import' }],
         ...(quantityExtract && { quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)} }),
         fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
@@ -427,37 +427,37 @@ export class RSpaceService {
     }));
   }
   // see enum RSUnitDef in RSpace Core Model
-    static unitMap: Record<string, number> = {
-    'items': 1,
-    'µl': 2,
-    'ml': 3,
-    'l': 4,
-    'µg': 5,
-    'mg': 6,
-    'g': 7,
-    'celsius': 8,
-    'Kelvin': 9,
-    'Farenheit': 10,
-    'nmol': 11,
-    'µmol': 12,
-    'mmol': 13,
-    'molar': 14,
-    'µg/µl': 15,
-    'mg/ml': 16,
-    'g/l': 17,
-    'picolitres': 18,
-    'nl': 19,
-    'pg': 20,
-    'ng': 21,
-    'kilo': 22,
-    'mm2': 23,
-    'cm2': 24,
-    'dm2': 25,
-    'm2': 26
+    static unitMap: Record<string, {unitNumber:number, category:string  }> = {
+    'items': {unitNumber:1, category:'dimensionless'},
+    'µl': {unitNumber:2,category:'volume'},
+    'ml': {unitNumber:3,category:'volume'},
+    'l': {unitNumber:4,category:'volume'},
+    'µg': {unitNumber:5,category:'mass'},
+    'mg': {unitNumber:6,category:'mass'},
+    'g': {unitNumber:7,category:'mass'},
+    'celsius': {unitNumber:8,category:'temperature'},
+    'Kelvin': {unitNumber:9,category:'temperature'},
+    'Farenheit': {unitNumber:10,category:'temperature'},
+    'nmol': {unitNumber:11,category:'molarity'},
+    'µmol': {unitNumber:12,category:'molarity'},
+    'mmol': {unitNumber:13,category:'molarity'},
+    'molar': {unitNumber:14,category:'molarity'},
+    'µg/µl': {unitNumber:15,category:'concentration'},
+    'mg/ml': {unitNumber:16,category:'concentration'},
+    'g/l': {unitNumber:17,category:'concentration'},
+    'picolitres': {unitNumber:18,category:'volume'},
+    'nl': {unitNumber:19,category:'volume'},
+    'pg': {unitNumber:20,category:'mass'},
+    'ng':{unitNumber: 21,category:'mass'},
+    'kilo': {unitNumber:22,category:'mass'},
+    'mm2': {unitNumber:23,category:'volume'},
+    'cm2': {unitNumber:24,category:'volume'},
+    'dm2': {unitNumber:25,category:'volume'},
+    'm2': {unitNumber:26, category:'volume'}
   };
 
    static getUnitId(unit: string): number {
-    return (RSpaceService.unitMap)[unit.toLowerCase()] || 1; // Default to 'items'
+    return (RSpaceService.unitMap)[unit.toLowerCase()]?.unitNumber;
   }
 
   /**

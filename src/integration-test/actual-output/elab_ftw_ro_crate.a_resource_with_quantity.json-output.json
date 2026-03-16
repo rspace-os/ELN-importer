@@ -1,0 +1,124 @@
+[
+  {
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN 🧬 Plasmid Template",
+      "defaultUnitId": 5,
+      "tags": [
+        {
+          "value": "elabftw-import"
+        }
+      ],
+      "quanity": {
+        "numericValue": 100,
+        "unitId": 5
+      },
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "content": "Christ Leannon"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./580fbb0a-8786-4b89-bcd0-a554cc069a82/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "🧬 Plasmid"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2026-03-13"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2026-03-13"
+        },
+        {
+          "name": "Concentration",
+          "type": "Number"
+        },
+        {
+          "name": "Description: Concentration",
+          "type": "Text",
+          "content": "in μg"
+        },
+        {
+          "name": "Vector backbone",
+          "type": "Text"
+        },
+        {
+          "name": "Growth temperature",
+          "type": "Text"
+        },
+        {
+          "name": "Bacterial resistance",
+          "type": "Radio",
+          "definition": {
+            "options": [
+              "Ampicillin",
+              "Kanamycin",
+              "Tetracyclin",
+              "Chloramphenicol",
+              "Gentamicin",
+              "Streptomycin"
+            ]
+          },
+          "selectedOptions": [
+            "Kanamycin"
+          ]
+        },
+        {
+          "name": "Mammalian resistance",
+          "type": "Radio",
+          "definition": {
+            "options": [
+              "Neomycin",
+              "Hygromycin",
+              "Puromycin",
+              "Blasticidin",
+              "Zeocin"
+            ]
+          },
+          "selectedOptions": [
+            "Neomycin"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
+    "data": {
+      "name": "A plasmid",
+      "subsample_count": 1,
+      "description": "<p style=\"line-height:1;\">This is a plasmid and it has a quantity field - 'concentration'</p>",
+      "tags": [
+        {
+          "value": "eln-import"
+        },
+        {
+          "value": "resource"
+        },
+        {
+          "value": "🧬-plasmid"
+        }
+      ],
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "A plasmid",
+          "quantity": {
+            "numericValue": 100,
+            "unitId": 5
+          }
+        }
+      ]
+    }
+  }
+]

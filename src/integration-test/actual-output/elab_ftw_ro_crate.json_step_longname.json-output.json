@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -16,7 +16,7 @@
           "mandatory": false
         },
         {
-          "name": "Step: Long step name and perhaps a too long ",
+          "name": "Step: Long step name and perhaps a too long step n",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -25,18 +25,13 @@
           ]
         },
         {
-          "name": "FullName",
+          "name": "FullName: Step: Long step name and perhaps a too l",
           "type": "Text",
           "mandatory": false
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Long step name and perhaps a too long st",
           "type": "String",
-          "mandatory": false
-        },
-        {
-          "name": "FullName",
-          "type": "Text",
           "mandatory": false
         },
         {
@@ -85,20 +80,16 @@
           "content": "No content"
         },
         {
-          "name": "Step: Long step name and perhaps a too long ",
+          "name": "Step: Long step name and perhaps a too long step n",
           "content": "unfinished"
         },
         {
-          "name": "FullName",
+          "name": "FullName: Step: Long step name and perhaps a too l",
           "content": "Step: Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name "
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Long step name and perhaps a too long st",
           "content": ""
-        },
-        {
-          "name": "FullName",
-          "content": "Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name and perhaps a too long step name?Long step name _deadline"
         },
         {
           "name": "References",

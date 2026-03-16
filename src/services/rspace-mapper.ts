@@ -1,4 +1,4 @@
-import {FormField, PreviewItem} from '../types/elabftw';
+import {CustomField, FormField, PreviewItem} from '../types/elabftw';
 import {RSpaceService} from "./rspace-api.ts";
 const MAX_FIELDNAME_LENGTH = 50;
 
@@ -76,6 +76,7 @@ export function prepareFormFields(item: PreviewItem) : FormField[] {
         ...(fieldOptions && { options: fieldOptions }),
         ...(fieldOptions && field.value && {'selectedOptions': [field.value]}),
         ...(showAsPickList && { showAsPickList: true }),
+        content: field.value,
       };
       formFields.push(primaryFormField);
       if(field.description && mappedType !== 'Text') {
@@ -99,7 +100,7 @@ export function prepareFormFields(item: PreviewItem) : FormField[] {
           showAsPickList: true,
           isSecondary:true,
           options: field.units.map(unit => unit.toString()),
-          selectedOptions: [field.value ? field.value: field.unitText],
+          selectedOptions: [field.unitText],
         };
         primaryFormField.unitsName = units.name;
         formFields.push(units);
@@ -218,80 +219,11 @@ type ObjectWithAtLeastOneString = {
   return orderedFieldValues;
 }
 
-export function prepareSampleTemplateFields(item: PreviewItem): Array<{ name: string; type: string; options?: string[]; multiple?: boolean }> {
-  const fields: Array<{ name: string; type: string; options?: string[]; multiple?: boolean }> = [];
-  const metadataFieldsToSkip = new Set([
-    'elabftw_metadata',
-    'source_metadata',
-    'extra_fields',
-    'custom_fields',
-    '_internal'
-  ]);
-
-  Object.entries(item.metadata).forEach(([fieldName, field]) => {
-    if (!metadataFieldsToSkip.has(fieldName)) {
-      const type = mapFieldTypeForInventory(field.type);
-      fields.push({
-        name: fieldName,
-        type: type,
-        ...(field.options && { options: field.options }),
-        ...(field.type.toLowerCase() === 'checkbox' && { multiple: true })
-      });
-    }
-  });
-
-  return fields;
-}
-
-export function prepareSampleFieldValues(item: PreviewItem, templateFields: Array<{ name: string; type: string }>): Array<{ content?: string; selectedOptions?: string[] }> {
-  const metadataFieldsToSkip = new Set([
-    'elabftw_metadata',
-    'source_metadata',
-    'extra_fields',
-    'custom_fields',
-    '_internal'
-  ]);
-
-  return templateFields.map(templateField => {
-    const field = item.metadata[templateField.name];
-    if (!field || field.value === undefined || field.value === null) {
-      return {};
-    }
-
-    if (templateField.type === 'choice' || templateField.type === 'radio') {
-      const value = String(field.value);
-      // For choice/checkbox, value might be comma-separated or a single string
-      const options = value.split(',').map(v => v.trim()).filter(Boolean);
-      return { selectedOptions: options.length > 0 ? options : [value] };
-    }
-
-    return { content: String(field.value) };
-  });
-}
-
-function mapFieldTypeForInventory(fieldType: string): string {
-  const mapping: Record<string, string> = {
-    'text': 'text',
-    'textarea': 'text',
-    'string': 'string',
-    'number': 'number',
-    'date': 'date',
-    'datetime': 'date',
-    'time': 'time',
-    'checkbox': 'choice',
-    'select': 'radio',
-    'radio': 'radio',
-    'url': 'uri',
-    'email': 'uri'
-  };
-  return mapping[fieldType.toLowerCase()] || 'string';
-}
-
-export function extractQuantityFromMetadata(item: PreviewItem): { value: number; unit: string } | undefined {
-  const quantityFields = Object.entries(item.metadata).find(([fieldName, field]) =>
-    ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration'].some(q =>
+export function extractQuantityFromMetadata(metadata: Record<string, CustomField>): { value: number; unit: string, category: string } | undefined {
+  const quantityFields = Object.entries(metadata).find(([fieldName, field]) =>
+    ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration', 'numeric'].some(q =>
       fieldName.toLowerCase().includes(q)
-    ) && field.value
+    )
   );
 
   if (quantityFields) {
@@ -301,7 +233,7 @@ export function extractQuantityFromMetadata(item: PreviewItem): { value: number;
         const descriptionParts = description.split(' ');
         descriptionParts.forEach((part) => {
           const testValue = part.toLowerCase().replaceAll("μ", "µ");
-          if (RSpaceService.unitMap[testValue]) {
+          if (RSpaceService.unitMap[testValue]?.unitNumber) {
             unitValue =  testValue;
           }
         })
@@ -312,7 +244,8 @@ export function extractQuantityFromMetadata(item: PreviewItem): { value: number;
     const numericValue = parseFloat(field.value);
     if (!isNaN(numericValue)) {
       const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
-      return { value: numericValue, unit };
+      const category = RSpaceService.unitMap[unit]?.category;
+      return {value: numericValue, unit: unit, category: category || ''};
     }
   }
 

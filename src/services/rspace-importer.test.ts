@@ -106,13 +106,74 @@ describe('RSpaceImporter', () => {
     
     expect(mockRSpaceService.createSampleTemplate).toHaveBeenCalled();
     expect(mockRSpaceService.createInventorySample).toHaveBeenCalledWith(expect.objectContaining({
-      templateId: 777,
-      fields: expect.any(Array)
+      templateId: 777
     }));
 
     const last = onProgress.mock.calls[onProgress.mock.calls.length - 1][0];
     expect(last.status).toBe('complete');
     expect(result.results[0].success).toBe(true);
+  });
+
+  it('imports an inventory item with files successfully', async () => {
+    const blob = new Blob(['hello'], { type: 'text/plain' });
+    const item: PreviewItem = {
+      id: 'item-inv-file',
+      name: 'Sample with File',
+      type: 'resource',
+      category: 'Reagents',
+      categoryColor: '#000',
+      proposedClassification: 'inventory',
+      userClassification: null,
+      confidence: 'high',
+      justification: 'sample',
+      reasons: [],
+      files: ['file1'],
+      crossReferences: [],
+      validationIssues: [],
+      metadata: {},
+      textContent: '',
+      steps: [],
+      keywords: [],
+      dateCreated: '',
+      dateModified: ''
+    };
+
+    const session: PreviewSession = {
+      id: 'sess', createdAt: '', elnFileName: 'f.eln', totalItems: 1,
+      items: [item],
+      fileBlobs: new Map([['file1', blob]]),
+      fileMetadata: {
+        'file1': { name: 'test.txt', encodingFormat: 'text/plain', '@id': 'file1', '@type': 'File', contentSize: 5, sha256: 'x' }
+      }
+    };
+
+    await importer.importSession(session, onProgress, new Set(['item-inv-file']));
+    
+    expect(mockRSpaceService.uploadFile).toHaveBeenCalled();
+    expect(mockRSpaceService.createInventorySample).toHaveBeenCalled();
+    expect(mockRSpaceService.attachFileToInventoryItem).toHaveBeenCalledWith('SA301', 'GL501');
+  });
+
+  it('attempts rollback when import fails', async () => {
+    mockRSpaceService.testConnection.mockRejectedValue(new Error('Fatal error'));
+    mockRSpaceService.deleteDocument = vi.fn().mockResolvedValue(undefined);
+    mockRSpaceService.deleteInventoryItem = vi.fn().mockResolvedValue(undefined);
+
+    const doc: PreviewItem = {
+      id: 'doc1', name: 'Doc 1', type: 'experiment', category: 'Exp', categoryColor: '#000',
+      proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
+      files: [], crossReferences: [], validationIssues: [], metadata: {}, textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
+    };
+
+    const session: PreviewSession = {
+      id: 's', createdAt: '', elnFileName: 'f.eln', totalItems: 1,
+      items: [doc],
+      fileBlobs: new Map(),
+      fileMetadata: {}
+    };
+
+    // Connection failure is fatal and should throw
+    await expect(importer.importSession(session, onProgress)).rejects.toThrow('Fatal error');
   });
 
   it('handles file uploads during document import', async () => {

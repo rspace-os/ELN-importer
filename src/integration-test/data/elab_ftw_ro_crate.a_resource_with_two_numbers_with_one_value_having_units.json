@@ -10,7 +10,7 @@
       "conformsTo": {
         "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
       },
-      "dateCreated": "2026-03-13T12:10:07+01:00",
+      "dateCreated": "2026-03-16T16:06:25+01:00",
       "sdPublisher": {
         "@id": "#publisher"
       },
@@ -44,7 +44,7 @@
         "@id": ".\/"
       },
       "name": "RO-Crate created",
-      "endTime": "2026-03-13T12:10:07+01:00",
+      "endTime": "2026-03-16T16:06:25+01:00",
       "instrument": {
         "@id": "https:\/\/www.elabftw.net"
       },
@@ -56,57 +56,68 @@
       "@id": "https:\/\/www.elabftw.net",
       "@type": "SoftwareApplication",
       "name": "eLabFTW",
-      "version": "5.4.3",
+      "version": "5.5.3",
       "identifier": "https:\/\/www.elabftw.net"
     },
     {
-      "@id": "pv:\/\/decd1e32-79d8-4a1d-93f8-09bd3c4a355e",
+      "@id": "pv:\/\/bc8e19ea-307b-4c42-b0a5-a0a963572db4",
       "@type": "PropertyValue",
       "propertyID": "elabftw_metadata",
       "description": "eLabFTW metadata JSON as string",
-      "value": "{\"extra_fields\": {\"Amount left of this sample\": {\"type\": \"number\", \"unit\": \"g\", \"units\": [\"g\", \"mg\", \"\u00b5g\", \"ng\"], \"value\": \"\", \"description\": \"Amount left of this sample\"}}}"
+      "value": "{\"extra_fields\": {\"First field\": {\"type\": \"number\", \"unit\": \"mg\", \"units\": [\"mg\", \"g\"], \"value\": \"\", \"description\": \"First field\"}, \"Second field\": {\"type\": \"number\", \"unit\": \"cm\", \"units\": [\"cm\", \"m\"], \"value\": \"2\", \"description\": \"second field\"}}}"
     },
     {
       "@type": "PropertyValue",
-      "@id": "pv:\/\/f08bafb4-667d-464e-aceb-525f7e8c37a3",
-      "propertyID": "Amount left of this sample",
+      "@id": "pv:\/\/3390ac73-07e3-44cf-9d6d-b68ec9c02650",
+      "propertyID": "First field",
       "valueReference": "number",
       "value": "",
-      "description": "Amount left of this sample",
-      "unitText": "g"
+      "description": "First field",
+      "unitText": "mg"
     },
     {
-      "@id": ".\/f47ffad5-4ace-434e-a7a9-e5a588f5d3d0\/",
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/adac4410-03ba-4f66-b4bb-884361b09d8c",
+      "propertyID": "Second field",
+      "valueReference": "number",
+      "value": "2",
+      "description": "second field",
+      "unitText": "cm"
+    },
+    {
+      "@id": ".\/82cb82b2-6421-437d-9f60-af7aaf9320df\/",
       "@type": "Dataset",
       "author": {
-        "@id": "person:\/\/066243cb0f008e350a343f1278217f19fcc6f8984924a511b31948c772b409cb?hash_algo=sha256"
+        "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256"
       },
-      "dateCreated": "2026-03-13T12:06:26+01:00",
-      "dateModified": "2026-03-13T12:10:03+01:00",
-      "temporal": "2026-03-13T00:00:00+01:00",
-      "name": "Resource with number having units",
+      "dateCreated": "2026-03-16T16:05:03+01:00",
+      "dateModified": "2026-03-16T16:06:18+01:00",
+      "temporal": "2026-03-16T00:00:00+01:00",
+      "name": "Two numeric fields",
       "encodingFormat": "text\/html",
-      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=322",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=321",
       "genre": "resource",
-      "identifier": "20260313-2b3774b9f5db8bb065f5a09a9829d0cb10fc2929",
-      "text": "<p>A sample that is used up in the lab and the amount left is recorded<\/p>",
+      "identifier": "20260316-890d2a8026a177bc1f35e8caeb56492355df7be4",
       "variableMeasured": [
         {
-          "@id": "pv:\/\/decd1e32-79d8-4a1d-93f8-09bd3c4a355e"
+          "@id": "pv:\/\/bc8e19ea-307b-4c42-b0a5-a0a963572db4"
         },
         {
-          "@id": "pv:\/\/f08bafb4-667d-464e-aceb-525f7e8c37a3"
+          "@id": "pv:\/\/3390ac73-07e3-44cf-9d6d-b68ec9c02650"
+        },
+        {
+          "@id": "pv:\/\/adac4410-03ba-4f66-b4bb-884361b09d8c"
         }
       ]
     },
     {
       "@id": ".\/",
-      "identifier": "bce409af-efdf-4f51-b215-96a75e4d5ab6",
+      "identifier": "d7b0d295-0a03-4cb2-bf7d-0b6062195987",
       "@type": "Dataset",
-      "datePublished": "2026-03-13T12:10:07+01:00",
+      "datePublished": "2026-03-16T16:06:25+01:00",
       "hasPart": [
         {
-          "@id": ".\/f47ffad5-4ace-434e-a7a9-e5a588f5d3d0\/"
+          "@id": ".\/82cb82b2-6421-437d-9f60-af7aaf9320df\/"
         }
       ],
       "name": "eLabFTW export",
@@ -117,10 +128,10 @@
       }
     },
     {
-      "@id": "person:\/\/066243cb0f008e350a343f1278217f19fcc6f8984924a511b31948c772b409cb?hash_algo=sha256",
+      "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256",
       "@type": "Person",
-      "givenName": "Christ",
-      "familyName": "Leannon",
+      "givenName": "Matt",
+      "familyName": "Dibbert",
       "email": "user1@demo.elabftw.net"
     }
   ]

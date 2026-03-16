@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Pealkirjata (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -102,12 +102,12 @@
           "mandatory": false
         },
         {
-          "name": "Bore size description:",
+          "name": "Description: Bore size",
           "type": "Text",
           "mandatory": false
         },
         {
-          "name": "Bore size units:",
+          "name": "Units: Bore size",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -121,7 +121,7 @@
           "mandatory": "true"
         },
         {
-          "name": "1H frequency units:",
+          "name": "Units: 1H frequency",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -285,11 +285,11 @@
           "content": "54"
         },
         {
-          "name": "Bore size description:",
+          "name": "Description: Bore size",
           "content": "Common size: \nStandard bore: 54mm\n Wide bore: 89mm "
         },
         {
-          "name": "Bore size units:",
+          "name": "Units: Bore size",
           "content": "mm"
         },
         {
@@ -297,7 +297,7 @@
           "content": "600"
         },
         {
-          "name": "1H frequency units:",
+          "name": "Units: 1H frequency",
           "content": "MHz"
         },
         {
@@ -345,12 +345,49 @@
     }
   },
   {
-    "type": "createInventoryContainer",
+    "type": "createSampleTemplate",
+    "data": {
+      "name": "ELN 🔬 Microscope Template",
+      "defaultUnitId": 1,
+      "tags": [
+        {
+          "value": "elabftw-import"
+        }
+      ],
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "content": "Felicity Stanton"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./Microscope - electronic-microscope - 5bf4d5f7/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "🔬 Microscope"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2025-09-12"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2025-09-17"
+        }
+      ]
+    }
+  },
+  {
+    "type": "createInventorySample",
     "data": {
       "name": "electronic microscope",
-      "cType": "LIST",
-      "can_store_containers": true,
-      "can_store_samples": true,
+      "subsample_count": 1,
       "description": "Imported from ELN: 🔬 Microscope",
       "tags": [
         {
@@ -365,23 +402,49 @@
         {
           "value": "microscopy,biological samples,ecology,species"
         }
-      ]
+      ],
+      "templateId": 777
     }
   },
   {
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN Cells Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
       "fields": [
         {
+          "name": "Owner",
+          "type": "String",
+          "content": "Boris Collins"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./Cells - Cell-line - e6aaef0a/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "Cells"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2025-09-16"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2025-09-16"
+        },
+        {
           "name": "Species",
-          "type": "radio",
+          "type": "Radio",
           "definition": {
             "options": [
               "Human",
@@ -395,15 +458,23 @@
               "Ewok",
               "Na’vi"
             ]
-          }
+          },
+          "selectedOptions": [
+            "Human"
+          ]
+        },
+        {
+          "name": "Description: Species",
+          "type": "Text",
+          "content": "What species is it from?"
         },
         {
           "name": "Date of acquisition",
-          "type": "date"
+          "type": "Date"
         },
         {
           "name": "Number of aliquots left",
-          "type": "number"
+          "type": "Number"
         }
       ]
     }
@@ -425,40 +496,57 @@
           "value": "cells"
         }
       ],
-      "templateId": 777,
-      "fields": [
-        {
-          "selectedOptions": [
-            "Human"
-          ]
-        },
-        {
-          "content": ""
-        },
-        {
-          "content": ""
-        }
-      ]
+      "templateId": 777
     }
   },
   {
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN Reagentes Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
       "fields": [
         {
+          "name": "Owner",
+          "type": "String",
+          "content": "Boris Collins"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./Reagentes - Formol - 4ff9f21d/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "Reagentes"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2025-09-12"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2025-09-12"
+        },
+        {
           "name": "Quant",
-          "type": "number"
+          "type": "Number"
         },
         {
           "name": "Abertura",
-          "type": "date"
+          "type": "Date"
+        },
+        {
+          "name": "Description: Abertura",
+          "type": "Text",
+          "content": "Data de abertura da nova embalagem"
         }
       ]
     }
@@ -480,28 +568,46 @@
           "value": "reagentes"
         }
       ],
-      "templateId": 777,
-      "fields": [
-        {
-          "content": "20"
-        },
-        {
-          "content": "2025-09-06"
-        }
-      ]
+      "templateId": 777
     }
   },
   {
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN 🧬 Plasmid Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
-      "fields": []
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "content": "Rosie Mayer"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./Plasmid - Thio-TOPO - d4cd7163/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "🧬 Plasmid"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2025-09-11"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2025-09-11"
+        }
+      ]
     }
   },
   {
@@ -521,15 +627,14 @@
           "value": "🧬-plasmid"
         }
       ],
-      "templateId": 777,
-      "fields": []
+      "templateId": 777
     }
   },
   {
     "type": "createForm",
     "data": {
       "name": "ELN Molecular biology (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -551,7 +656,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 1",
           "type": "String",
           "mandatory": false
         },
@@ -565,7 +670,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 2",
           "type": "String",
           "mandatory": false
         },
@@ -579,7 +684,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 3",
           "type": "String",
           "mandatory": false
         },
@@ -633,7 +738,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 1",
           "content": ""
         },
         {
@@ -641,7 +746,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 2",
           "content": ""
         },
         {
@@ -649,7 +754,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: 3",
           "content": ""
         },
         {

@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Synthesis (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -87,7 +87,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -109,7 +109,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: step 1",
           "type": "String",
           "mandatory": false
         },
@@ -173,7 +173,7 @@
           "content": "finished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: step 1",
           "content": ""
         },
         {

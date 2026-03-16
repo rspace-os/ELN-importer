@@ -3,7 +3,7 @@
     "type": "createForm",
     "data": {
       "name": "ELN Tests (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -105,39 +105,67 @@
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN Antibody Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
       "fields": [
         {
+          "name": "Owner",
+          "type": "String",
+          "content": "Keenan Conn"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./3e498c90-bdb0-47f3-a1ab-7bb87c1533ba/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "Antibody"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2026-02-24"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2026-02-24"
+        },
+        {
           "name": "Host",
-          "type": "text"
+          "type": "Text"
         },
         {
           "name": "Isotype",
-          "type": "text"
+          "type": "Text"
         },
         {
           "name": "Dilution for IF",
-          "type": "text"
+          "type": "Text"
         },
         {
           "name": "Dilution for WB",
-          "type": "text"
+          "type": "Text"
         },
         {
           "name": "Storage temperature",
-          "type": "radio",
+          "type": "Radio",
           "definition": {
             "options": [
               "+4°C",
               "-20°C",
               "-80°C"
             ]
-          }
+          },
+          "selectedOptions": [
+            "-80°C"
+          ]
         }
       ]
     }
@@ -159,33 +187,14 @@
           "value": "antibody"
         }
       ],
-      "templateId": 777,
-      "fields": [
-        {
-          "content": "Mouse"
-        },
-        {
-          "content": "IgG2a"
-        },
-        {
-          "content": "1:1000"
-        },
-        {
-          "content": "1:5000"
-        },
-        {
-          "selectedOptions": [
-            "-70°C"
-          ]
-        }
-      ]
+      "templateId": 777
     }
   },
   {
     "type": "createForm",
     "data": {
       "name": "ELN Uncategorized (experiment)",
-      "tags": "eln-import",
+      "tags": "elabftw-import",
       "fields": [
         {
           "name": "Owner",
@@ -207,7 +216,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step one",
           "type": "String",
           "mandatory": false
         },
@@ -221,7 +230,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step two",
           "type": "String",
           "mandatory": false
         },
@@ -235,7 +244,7 @@
           ]
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step three",
           "type": "String",
           "mandatory": false
         },
@@ -270,7 +279,7 @@
           "mandatory": false
         },
         {
-          "name": "A Number units:",
+          "name": "Units: A Number",
           "type": "Radio",
           "mandatory": false,
           "options": [
@@ -350,7 +359,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step one",
           "content": ""
         },
         {
@@ -358,7 +367,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step two",
           "content": "2/24/2027, 5:21:09 PM"
         },
         {
@@ -366,7 +375,7 @@
           "content": "unfinished"
         },
         {
-          "name": "Step deadline",
+          "name": "Deadline: Step three",
           "content": ""
         },
         {
@@ -394,7 +403,7 @@
           "content": "42"
         },
         {
-          "name": "A Number units:",
+          "name": "Units: A Number",
           "content": "cm"
         },
         {

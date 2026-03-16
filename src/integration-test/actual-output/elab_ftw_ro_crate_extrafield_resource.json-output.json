@@ -3,13 +3,39 @@
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN Antibody Template",
-      "defaultUnitId": 14,
+      "defaultUnitId": 1,
       "tags": [
         {
-          "value": "eln-import"
+          "value": "elabftw-import"
         }
       ],
-      "fields": []
+      "fields": [
+        {
+          "name": "Owner",
+          "type": "String",
+          "content": "Ervin McGlynn"
+        },
+        {
+          "name": "Source ELN ID",
+          "type": "String",
+          "content": "./e4fca05a-64d9-4d72-8478-3b7d5c7dc07a/"
+        },
+        {
+          "name": "Category",
+          "type": "String",
+          "content": "Antibody"
+        },
+        {
+          "name": "Date Created",
+          "type": "Date",
+          "content": "2026-02-25"
+        },
+        {
+          "name": "Date Modified",
+          "type": "Date",
+          "content": "2026-02-25"
+        }
+      ]
     }
   },
   {
@@ -29,8 +55,7 @@
           "value": "antibody"
         }
       ],
-      "templateId": 777,
-      "fields": []
+      "templateId": 777
     }
   }
 ]
