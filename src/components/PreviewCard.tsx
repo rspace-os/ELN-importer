@@ -75,16 +75,17 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                             setSelectedQuantity(e.target.value);
                           }}
                       >
-                        <option key = "Items" value="Items">(Items)</option>
                         {Object.entries(item.metadata)
                         .filter(([fieldName, _]) => {
                           const indicators = ['quantity','amount','volume','mass','weight','concentration','numeric'];
                           const looksLikeQuantity = indicators.some(q => fieldName.toLowerCase().includes(q));
                           return looksLikeQuantity && extractQuantityFromMetadata(item.metadata, fieldName)?.length>0;
                         })
-                        .map(([fieldName]) => (
-                            <option key={fieldName} value={fieldName}>{fieldName}</option>
-                        ))}
+                        .map(([fieldName]) => {
+                          item.chosenQuantityName = fieldName;
+                          return <option key={fieldName} value={fieldName}>{fieldName}</option>
+                        })}
+                        <option key = "Items" value="Items">(Items)</option>
                       </select>
                     </div>
                   </div>
