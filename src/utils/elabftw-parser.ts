@@ -435,6 +435,7 @@ export function convertDatasetsToPreviewItems(
       dateModified: dataset.dateModified || '',
       authorName: dataset.authorName,
       elabftwMetadata: rawElabFTWMetadata,
+      chosenQuantityName: 'Items',
       creativeWorkStatus: dataset.creativeWorkStatus
     };
     

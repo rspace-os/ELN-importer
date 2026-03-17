@@ -255,14 +255,14 @@ export class RSpaceService {
   async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
     value: number;
     unit: string
-  } | undefined): Promise<number> {
+  }): Promise<number> {
     try {
 
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
-        defaultUnitId: quantityExtract? RSpaceService.getUnitId(quantityExtract.unit):1,// any templates without units will be rejected by the Inventory API, this is intentional - they should be classified as documents for now.
+        defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
         tags: [{ value: 'elabftw-import' }],
-        ...(quantityExtract && { quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)} }),
+        quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
         fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
@@ -427,33 +427,25 @@ export class RSpaceService {
     }));
   }
   // see enum RSUnitDef in RSpace Core Model
-    static unitMap: Record<string, {unitNumber:number, category:string  }> = {
-    'items': {unitNumber:1, category:'dimensionless'},
-    'µl': {unitNumber:2,category:'volume'},
-    'ml': {unitNumber:3,category:'volume'},
-    'l': {unitNumber:4,category:'volume'},
-    'µg': {unitNumber:5,category:'mass'},
-    'mg': {unitNumber:6,category:'mass'},
-    'g': {unitNumber:7,category:'mass'},
-    'celsius': {unitNumber:8,category:'temperature'},
-    'Kelvin': {unitNumber:9,category:'temperature'},
-    'Farenheit': {unitNumber:10,category:'temperature'},
-    'nmol': {unitNumber:11,category:'molarity'},
-    'µmol': {unitNumber:12,category:'molarity'},
-    'mmol': {unitNumber:13,category:'molarity'},
-    'molar': {unitNumber:14,category:'molarity'},
-    'µg/µl': {unitNumber:15,category:'concentration'},
-    'mg/ml': {unitNumber:16,category:'concentration'},
-    'g/l': {unitNumber:17,category:'concentration'},
-    'picolitres': {unitNumber:18,category:'volume'},
-    'nl': {unitNumber:19,category:'volume'},
-    'pg': {unitNumber:20,category:'mass'},
-    'ng':{unitNumber: 21,category:'mass'},
-    'kilo': {unitNumber:22,category:'mass'},
-    'mm2': {unitNumber:23,category:'volume'},
-    'cm2': {unitNumber:24,category:'volume'},
-    'dm2': {unitNumber:25,category:'volume'},
-    'm2': {unitNumber:26, category:'volume'}
+  static unitMap: Record<string, { unitNumber: number, category: string }> = {
+    'items': {unitNumber: 1, category: 'dimensionless'},
+    'µl': {unitNumber: 2, category: 'volume'},
+    'ml': {unitNumber: 3, category: 'volume'},
+    'l': {unitNumber: 4, category: 'volume'},
+    'µg': {unitNumber: 5, category: 'mass'},
+    'mg': {unitNumber: 6, category: 'mass'},
+    'g': {unitNumber: 7, category: 'mass'},
+    'picolitres': {unitNumber: 18, category: 'volume'},
+    'pl': {unitNumber: 18, category: 'volume'},
+    'nl': {unitNumber: 19, category: 'volume'},
+    'pg': {unitNumber: 20, category: 'mass'},
+    'ng': {unitNumber: 21, category: 'mass'},
+    'kilo': {unitNumber: 22, category: 'mass'},
+    'kg': {unitNumber: 22, category: 'mass'},
+    'mm3': {unitNumber: 23, category: 'volume'},
+    'cm3': {unitNumber: 24, category: 'volume'},
+    'dm3': {unitNumber: 25, category: 'volume'},
+    'm3': {unitNumber: 26, category: 'volume'}
   };
 
    static getUnitId(unit: string): number {

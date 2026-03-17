@@ -13,7 +13,7 @@ export class ClassificationEngine {
     }
     const quantity = extractQuantityFromMetadata(customFields);
     // only units that are volume or mass can be handled by Inventory.
-    if(quantity && (quantity.category === 'volume' || quantity.category === 'mass'||quantity.category === 'dimensionless')) {
+    if(quantity && (quantity.category === 'volume' || quantity.category === 'mass')) {
       return {
         proposed: 'inventory',
         confidence: 'high',

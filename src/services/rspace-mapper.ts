@@ -219,37 +219,67 @@ type ObjectWithAtLeastOneString = {
   return orderedFieldValues;
 }
 
-export function extractQuantityFromMetadata(metadata: Record<string, CustomField>): { value: number; unit: string, category: string } | undefined {
-  const quantityFields = Object.entries(metadata).find(([fieldName, field]) =>
-    ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration', 'numeric'].some(q =>
-      fieldName.toLowerCase().includes(q)
-    )
-  );
-
-  if (quantityFields) {
-    const parseDescriptionForUnits  = (description?: string) => {
-      let unitValue = '';
-      if(description) {
-        const descriptionParts = description.split(' ');
-        descriptionParts.forEach((part) => {
-          const testValue = part.toLowerCase().replaceAll("μ", "µ");
-          if (RSpaceService.unitMap[testValue]?.unitNumber) {
-            unitValue =  testValue;
-          }
-        })
-      }
-      return unitValue;
+export function extractQuantityFromMetadata(metadata: Record<string, CustomField>, chosenQuantityName?: string): Array<{ value: number; unit: string, category: string }> {
+  // Helper to try to infer unit from description text when unitText is missing
+  const parseDescriptionForUnits  = (description?: string) => {
+    let unitValue = '';
+    if(description) {
+      const descriptionParts = description.split(' ');
+      descriptionParts.forEach((part) => {
+        const testValue = part.toLowerCase().replaceAll("μ", "µ");
+        // If unit is known, use it (unitMap is a simple map in our service)
+        if (RSpaceService.unitMap[testValue]) {
+          unitValue =  testValue;
+        }
+      })
     }
-    const [_, field] = quantityFields;
-    const numericValue = parseFloat(field.value);
-    if (!isNaN(numericValue)) {
-      const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
-      const category = RSpaceService.unitMap[unit]?.category;
-      return {value: numericValue, unit: unit, category: category || ''};
+    return unitValue;
+  };
+
+  const entries = Object.entries(metadata);
+
+  if (chosenQuantityName) {
+    if (chosenQuantityName === 'Items') {//this is the default when no quantity is specified is of category volume or mass
+      return [{value: 1, unit: 'items', category: 'dimensionless'}];
+    }
+    const match = entries.find(([name]) => name === chosenQuantityName);
+    const [, field] = match;
+    const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
+    if (!RSpaceService.getUnitId(unit)) {
+      return [];
+    }
+    let numericValue = parseFloat(field.value);
+    if (isNaN(numericValue)) {
+      numericValue = 1;
+    }
+    const category = '';
+    return [{value: numericValue, unit, category}];
+  }
+  else {
+    const quantityFields = entries.filter(([fieldName, _field]) =>
+        ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration', 'numeric'].some(q =>
+            fieldName.toLowerCase().includes(q)
+        )
+    );
+    if (quantityFields.length > 0) {
+      const quantities = []
+      for (const qf of quantityFields ){
+        const [_, field] = qf;
+        const numericValue = parseFloat(field.value);
+        if (!isNaN(numericValue)) {
+          const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
+          const category = '';
+          //check that the unit is valid
+          if (RSpaceService.getUnitId(unit)) {
+            quantities.push({value: numericValue, unit, category});
+          }
+        }
+      }
+      return quantities;
     }
   }
 
-  return undefined;
+  return [];
 }
 
 export function isInstrumentResource(item: PreviewItem): boolean {

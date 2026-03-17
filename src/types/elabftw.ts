@@ -108,6 +108,8 @@ export interface PreviewItem {
   dateCreated: string;
   dateModified: string;
   authorName?: string;
+  // Name of the metadata field chosen by the user to represent quantity for inventory items
+  chosenQuantityName: string;
   elabftwMetadata?: any; // Raw ELN metadata as JSON blob
   creativeWorkStatus: string;
 }

@@ -70,7 +70,7 @@ export class RSpaceImporter {
       for (let i = 0; i < itemsToImport.length; i++) {
         const item = itemsToImport[i];
         const classification = item.userClassification || item.proposedClassification;
-        const quantity = extractQuantityFromMetadata(item.metadata);
+        const quantity = extractQuantityFromMetadata(item.metadata, item.chosenQuantityName)[0];
 
         progress.current = i + 1;
         progress.currentItem = item.name;
@@ -231,7 +231,7 @@ export class RSpaceImporter {
     return await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
   }
 
-  private async createRSpaceInventoryItem(item: PreviewItem, quantity: { value: number; unit: string }) {
+  private async createRSpaceInventoryItem(item: PreviewItem, quantity: { value: number; unit: string, category: string }) {
     const tags = prepareTags(item);
     const description = item.textContent || `Imported from ELN: ${item.category}`;
 
