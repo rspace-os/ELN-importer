@@ -214,6 +214,7 @@ export class RSpaceImporter {
   }> {
     const formName = `${item.name} ELN ${item.category} (${item.type})`;
     const formFields: FormField[] = prepareFormFields(item, false);
+    const matchingFormExistsWithID = localStorage.getItem(JSON.stringify(formFields));
 
     function addAttachedFiles(fields) {
       // Add file references to the Content field if files were uploaded
@@ -230,8 +231,14 @@ export class RSpaceImporter {
     }
 
     addAttachedFiles(formFields);
-    const formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
-    if (isDocumentTemplate) {
+    let formId;
+    if (matchingFormExistsWithID) {
+      formId = Number(matchingFormExistsWithID);
+    } else {
+      formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
+      localStorage.setItem(JSON.stringify(formFields),""+formId);
+    }
+    if (isDocumentTemplate && uploadedFileIds.length === 0) {//forms cannot have attached files; we will continue and create a document for that
       return {rspaceId: "FM" + formId, numericId: formId};
     }
     else {
@@ -257,8 +264,15 @@ export class RSpaceImporter {
     // Create SampleTemplate first
     const templateName = `${item.name} ELN ${item.category} Template`;
     const templateFieldsForm = prepareFormFields(item, false);
-    const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
-    if (isTemplate) {
+    const matchingFormExistsWithID = localStorage.getItem(JSON.stringify(templateFieldsForm));
+    let templateId:number;
+    if (matchingFormExistsWithID) {
+      templateId = Number(matchingFormExistsWithID);
+    } else {
+      templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
+      localStorage.setItem(JSON.stringify(templateFieldsForm), ""+templateId);
+    }
+    if (isTemplate && uploadedFileIds.length === 0) {//sampleTemplates cannot have attached files; we will continue and create a sample for that
       return {rspaceId: "IT" + templateId, numericId: templateId};
     } else {
       const sampleData = {
