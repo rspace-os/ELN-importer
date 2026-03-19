@@ -31,3 +31,5 @@ test_output2.txt
 test_output3.txt
 test_output_final.txt
 src/components/*.bak
+src/integration-test/actual-output
+src/integration-test/expected-output
