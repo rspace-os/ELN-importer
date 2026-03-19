@@ -168,6 +168,18 @@ export class RSpaceService {
     }
   }
 
+  async formExists(formId: number): Promise<boolean> {
+    if (this.outputDir) return formId === 999;
+    try {
+      const response = await this.makeRequest(`/api/v1/forms/${formId}`);
+      return response.ok;
+    } catch (error) {
+      // If makeRequest throws on non-ok status, we catch it here.
+      // A 404 would be thrown by makeRequest as an error.
+      return false;
+    }
+  }
+
   async createForm(name: string, fields: Array<{
     name: string;
     type: string;

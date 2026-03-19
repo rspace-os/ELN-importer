@@ -101,4 +101,32 @@ describe('RSpaceService', () => {
       );
     });
   });
+
+  describe('formExists', () => {
+    it('returns true if form exists', async () => {
+      (global.fetch as any).mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => ({ id: 123, name: 'Form 123' })
+      });
+
+      const exists = await service.formExists(123);
+      expect(exists).toBe(true);
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/api/v1/forms/123'),
+        expect.any(Object)
+      );
+    });
+
+    it('returns false if form does not exist', async () => {
+      (global.fetch as any).mockResolvedValue({
+        ok: false,
+        status: 404,
+        text: async () => 'Not Found'
+      });
+
+      const exists = await service.formExists(456);
+      expect(exists).toBe(false);
+    });
+  });
 });

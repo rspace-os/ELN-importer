@@ -232,7 +232,7 @@ export class RSpaceImporter {
 
     addAttachedFiles(formFields);
     let formId;
-    if (matchingFormExistsWithID) {
+    if (matchingFormExistsWithID && await this.rspaceService.formExists(Number(matchingFormExistsWithID))) {
       formId = Number(matchingFormExistsWithID);
     } else {
       formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
@@ -266,7 +266,7 @@ export class RSpaceImporter {
     const templateFieldsForm = prepareFormFields(item, false);
     const matchingFormExistsWithID = localStorage.getItem(JSON.stringify(templateFieldsForm));
     let templateId:number;
-    if (matchingFormExistsWithID) {
+    if (matchingFormExistsWithID && await this.rspaceService.formExists(Number(matchingFormExistsWithID))) {
       templateId = Number(matchingFormExistsWithID);
     } else {
       templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
