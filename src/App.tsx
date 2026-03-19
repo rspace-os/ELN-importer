@@ -8,7 +8,6 @@ import { FileUpload } from './components/FileUpload';
 import { PreviewInterface } from './components/PreviewInterface';
 import { ELabFTWParser, convertDatasetsToPreviewItems } from './utils/elabftw-parser';
 import { PreviewSession } from './types/elabftw';
-import { PreviewSessionService } from './services/preview-session';
 
 type AppState = 'upload' | 'preview';
 
@@ -77,7 +76,6 @@ function AppContent() {
       console.log('Session created:', session.id);
 
       // Save session
-      PreviewSessionService.saveSession(session);
       setCurrentSession(session);
       setCurrentState('preview');
       
@@ -107,7 +105,6 @@ function AppContent() {
     };
     
     setCurrentSession(updatedSession);
-    PreviewSessionService.saveSession(updatedSession);
   };
 
   const handleImport = async (session: PreviewSession) => {
