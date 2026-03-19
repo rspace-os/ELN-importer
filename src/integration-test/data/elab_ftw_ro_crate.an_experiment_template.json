@@ -1,0 +1,124 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-18T10:14:39+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-18T10:14:39+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "#category-Demo",
+      "@type": "Thing",
+      "name": "Demo",
+      "color": "3EBBB3"
+    },
+    {
+      "@id": "pv:\/\/b360a1fd-b705-429f-bb4e-8f3ad578f7ee",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{}"
+    },
+    {
+      "@id": ".\/b267d9fb-73bd-4093-9308-d37fdf525c50\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/b8960aa6a9e3575a597a5e68c227fbefd7a837dfdf398c1f456c7410c7e564c6?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-18T03:00:57+01:00",
+      "dateModified": "2026-03-18T03:00:57+01:00",
+      "temporal": "2026-03-18T00:00:00+01:00",
+      "name": "Aliquot antibody",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/templates.php?mode=view&id=27",
+      "genre": "experiment template",
+      "creativeWorkStatus": "Success",
+      "text": "<h1>Materials<\/h1>\n<ol>\n<li>Antibody stock solution<\/li>\n<li>Sterile microcentrifuge tubes or aliquot vials<\/li>\n<li>Micropipettes (adjustable volume) and corresponding tips<\/li>\n<li>Sterile gloves<\/li>\n<li>Benchtop centrifuge (optional but useful for initial antibody stock preparation)<\/li>\n<li>Labels and marker pen<\/li>\n<li>Ice bucket or refrigerated centrifuge (optional but helpful for maintaining antibody stability during aliquoting)<\/li>\n<\/ol>\n<h2>Procedure<\/h2>\n<ol>\n<li>\n<p>Preparation: a. Ensure a clean and sterile work area. Wear sterile gloves throughout the procedure to prevent contamination. b. If the antibody stock has been stored frozen, thaw it by gently swirling or tapping the vial, and then briefly centrifuge it to collect any droplets. c. Keep the antibody stock on ice or in a refrigerated centrifuge throughout the procedure to maintain its stability.<\/p>\n<\/li>\n<li>\n<p>Prepare Aliquot Tubes: a. Label sterile microcentrifuge tubes or aliquot vials with necessary information such as antibody name, concentration, date, and any other relevant details. b. Arrange the tubes in a rack or holder for easy access during aliquoting.<\/p>\n<\/li>\n<li>\n<p>Calculate Aliquot Volume: a. Determine the desired volume for each aliquot based on your experimental needs and the concentration of the antibody stock. b. Ensure the total volume of the aliquots does not exceed the original volume of the antibody stock.<\/p>\n<\/li>\n<li>\n<p>Aliquoting: a. Using a micropipette, set the volume to the calculated amount for each aliquot. b. Carefully aspirate the appropriate volume of the antibody stock and dispense it into the labeled microcentrifuge tubes or aliquot vials. Avoid introducing bubbles. c. Be precise and consistent in aliquoting to ensure uniform volumes in each aliquot.<\/p>\n<\/li>\n<li>\n<p>Sealing and Storage: a. Securely cap each aliquot tube or vial to prevent evaporation or contamination. b. Store aliquots appropriately, considering factors like stability and sensitivity to temperature. Typically, store aliquots at recommended temperatures (e.g., -20\u00b0C or -80\u00b0C for long-term storage) unless otherwise specified by the manufacturer. c. If needed, note down the storage conditions on the labels.<\/p>\n<\/li>\n<li>\n<p>Cleanup: a. Discard any unused or excess antibody stock according to laboratory waste disposal guidelines. b. Decontaminate work surfaces and dispose of any used materials properly.<\/p>\n<\/li>\n<li>\n<p>Record Keeping: a. Maintain a record detailing the antibody aliquoting process, including the number of aliquots, volumes, concentrations, and storage locations. b. Store this information in a logbook or electronic database for future reference.<\/p>\n<\/li>\n<\/ol>\n<h1>Safety Precautions<\/h1>\n<ul>\n<li>Handle antibodies <span style=\"text-decoration:underline;\"><span style=\"background-color:rgb(241,196,15);\">with care<\/span><\/span> to avoid contamination.<\/li>\n<li>Use sterile techniques to maintain the integrity of the antibody aliquots.<\/li>\n<li>Dispose of waste according to laboratory safety guidelines.<\/li>\n<\/ul>\n",
+      "about": {
+        "@id": "#category-Demo"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/b360a1fd-b705-429f-bb4e-8f3ad578f7ee"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "a3830efa-d4a4-4bed-9ea3-150c9aeef3ba",
+      "@type": "Dataset",
+      "datePublished": "2026-03-18T10:14:39+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/b267d9fb-73bd-4093-9308-d37fdf525c50\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/b8960aa6a9e3575a597a5e68c227fbefd7a837dfdf398c1f456c7410c7e564c6?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Alexandrine",
+      "familyName": "Huel",
+      "email": "consequatur-31714537@yopmail.com"
+    }
+  ]
+}

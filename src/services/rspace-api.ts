@@ -168,7 +168,14 @@ export class RSpaceService {
     }
   }
 
-  async createForm(name: string, fields: Array<{ name: string; type: string; mandatory?: boolean; showAsPickList?: boolean; options?: string[] }>): Promise<number> {
+  async createForm(name: string, fields: Array<{
+    name: string;
+    type: string;
+    mandatory?: boolean;
+    showAsPickList?: boolean;
+    options?: string[],
+    content?: string;
+  }>, isDocumentTemplate: boolean = false): Promise<number> {
     try {
       const formData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
@@ -176,6 +183,7 @@ export class RSpaceService {
         fields: fields.map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
+          ...(field.content && isDocumentTemplate &&{ defaultValue: field.content }),
           mandatory: field.mandatory || false,
           ...(field.options && { options: field.options }),
           ...(field.showAsPickList && { showAsPickList: true }),
@@ -255,13 +263,13 @@ export class RSpaceService {
   async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
     value: number;
     unit: string
-  }): Promise<number> {
+  }, tags: Array<{ value: string }>): Promise<number> {
     try {
 
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
-        tags: [{ value: 'elabftw-import' }],
+        tags: [{ value: ('elabftw-import,'+tags.join(',')) }],
         quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
         fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
@@ -450,6 +458,9 @@ export class RSpaceService {
 
    static getUnitId(unit: string): number {
     return (RSpaceService.unitMap)[unit.toLowerCase()]?.unitNumber;
+  }
+  static getCategory(unit: string): string {
+    return (RSpaceService.unitMap)[unit.toLowerCase()]?.category;
   }
 
   /**
@@ -641,7 +652,10 @@ export class RSpaceService {
         // This creates a smart link that RSpace tracks in its metadata and shows in "Linked Documents"
         linkHtml = `<p>See also: <docId=${linkedId}></p>`;
       }
-
+      if(this.outputDir){
+        this.writeOutput({ type: 'addInternalLinkToDocument', data: { documentId, linkedId, linkText, linkHtml } });
+        return;
+      }
       await this.updateDocumentField(documentId, 'References', linkHtml);
     } catch (error) {
       console.warn(`Failed to add internal link to document ${documentId}:`, error);

@@ -2,7 +2,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Pealkirjata (experiment)",
+      "name": "UAR_2599_600_main ELN Pealkirjata (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -354,6 +354,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -403,7 +407,16 @@
           "value": "microscopy,biological samples,ecology,species"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "electronic microscope",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
@@ -416,6 +429,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -445,6 +462,7 @@
         {
           "name": "Species",
           "type": "Radio",
+          "content": "Human",
           "definition": {
             "options": [
               "Human",
@@ -496,7 +514,16 @@
           "value": "cells"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "🦠 Cell line",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
@@ -509,6 +536,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -537,11 +568,13 @@
         },
         {
           "name": "Quant",
-          "type": "Number"
+          "type": "Number",
+          "content": "20"
         },
         {
           "name": "Abertura",
-          "type": "Date"
+          "type": "Date",
+          "content": "2025-09-06"
         },
         {
           "name": "Description: Abertura",
@@ -568,7 +601,16 @@
           "value": "reagentes"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "Formol",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
@@ -581,6 +623,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -627,13 +673,22 @@
           "value": "🧬-plasmid"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "pBAD/Thio-TOPO",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Molecular biology (experiment)",
+      "name": "Cloning ELN Molecular biology (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -778,6 +833,51 @@
           "content": "2025-09-19"
         }
       ]
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": 888,
+      "linkText": "Link to ./Pealkirjata - UAR_2599_600_main - 68f2d46c/",
+      "linkHtml": "<p>See also: <docId=888></p>"
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./Microscope - electronic-microscope - 5bf4d5f7/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./Microscope - electronic-microscope - 5bf4d5f7/</a></p>"
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./Cells - Cell-line - e6aaef0a/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./Cells - Cell-line - e6aaef0a/</a></p>"
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./Reagentes - Formol - 4ff9f21d/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./Reagentes - Formol - 4ff9f21d/</a></p>"
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./Plasmid - Thio-TOPO - d4cd7163/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./Plasmid - Thio-TOPO - d4cd7163/</a></p>"
     }
   }
 ]

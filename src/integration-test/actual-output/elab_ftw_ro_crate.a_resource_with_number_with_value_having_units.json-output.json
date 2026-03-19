@@ -2,7 +2,7 @@
   {
     "type": "createSampleTemplate",
     "data": {
-      "name": "ELN 🧬 Plasmid Template",
+      "name": "ELN Uncategorized Template",
       "defaultUnitId": 1,
       "tags": [
         {
@@ -22,12 +22,12 @@
         {
           "name": "Source ELN ID",
           "type": "String",
-          "content": "./580fbb0a-8786-4b89-bcd0-a554cc069a82/"
+          "content": "./f47ffad5-4ace-434e-a7a9-e5a588f5d3d0/"
         },
         {
           "name": "Category",
           "type": "String",
-          "content": "🧬 Plasmid"
+          "content": "Uncategorized"
         },
         {
           "name": "Date Created",
@@ -40,58 +40,28 @@
           "content": "2026-03-13"
         },
         {
-          "name": "Concentration",
+          "name": "Amount left of this sample",
           "type": "Number",
-          "content": "100"
+          "content": "1"
         },
         {
-          "name": "Description: Concentration",
+          "name": "Description: Amount left of this sample",
           "type": "Text",
-          "content": "in μg"
+          "content": "Amount left of this sample"
         },
         {
-          "name": "Vector backbone",
-          "type": "Text",
-          "content": "The vector backbone"
-        },
-        {
-          "name": "Growth temperature",
-          "type": "Text",
-          "content": "29"
-        },
-        {
-          "name": "Bacterial resistance",
+          "name": "Units: Amount left of this sample",
           "type": "Radio",
-          "content": "Kanamycin",
           "definition": {
             "options": [
-              "Ampicillin",
-              "Kanamycin",
-              "Tetracyclin",
-              "Chloramphenicol",
-              "Gentamicin",
-              "Streptomycin"
+              "g",
+              "mg",
+              "µg",
+              "ng"
             ]
           },
           "selectedOptions": [
-            "Kanamycin"
-          ]
-        },
-        {
-          "name": "Mammalian resistance",
-          "type": "Radio",
-          "content": "Neomycin",
-          "definition": {
-            "options": [
-              "Neomycin",
-              "Hygromycin",
-              "Puromycin",
-              "Blasticidin",
-              "Zeocin"
-            ]
-          },
-          "selectedOptions": [
-            "Neomycin"
+            "g"
           ]
         }
       ]
@@ -100,9 +70,9 @@
   {
     "type": "createInventorySample",
     "data": {
-      "name": "A plasmid",
+      "name": "Resource with number having units",
       "subsample_count": 1,
-      "description": "<p style=\"line-height:1;\">This is a plasmid and it has a quantity field - 'concentration'</p>",
+      "description": "<p>A sample that is used up in the lab and the amount left is recorded</p>",
       "tags": [
         {
           "value": "eln-import"
@@ -111,13 +81,13 @@
           "value": "resource"
         },
         {
-          "value": "🧬-plasmid"
+          "value": "uncategorized"
         }
       ],
       "templateId": 777,
       "subSamples": [
         {
-          "name": "A plasmid",
+          "name": "Resource with number having units",
           "quantity": {
             "numericValue": 1,
             "unitId": 1

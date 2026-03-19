@@ -19,6 +19,7 @@ describe('End-to-End Import Integration', () => {
 
   it.each(files)('should correctly process %s', async (file) => {
     const filePath = path.join(dataDir, file);
+    console.log(`Processing ${file}...`);
     const crateContent = fs.readFileSync(filePath, 'utf8');
     const crateData = JSON.parse(crateContent);
 

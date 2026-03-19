@@ -2,7 +2,7 @@ import {CustomField, FormField, PreviewItem} from '../types/elabftw';
 import {RSpaceService} from "./rspace-api.ts";
 const MAX_FIELDNAME_LENGTH = 50;
 
-export function prepareFormFields(item: PreviewItem) : FormField[] {
+export function prepareFormFields(item: PreviewItem, isDocumentTemplate:boolean) : FormField[] {
   const usedFieldNames = new Set<string>();
   const getUniqueFieldName = (baseName: string, maxTotalLength?: number): string => {
     let fieldName = baseName.substring(0, (maxTotalLength? maxTotalLength: MAX_FIELDNAME_LENGTH));
@@ -21,7 +21,7 @@ export function prepareFormFields(item: PreviewItem) : FormField[] {
   };
   const formFields: FormField[] = [
     { name: getUniqueFieldName('Owner'), type: 'String', mandatory: false, fullName: 'Owner', content: item.authorName },
-    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false,  fullName: 'Content' },
+    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false,  fullName: 'Content', content: item.textContent },
   ];
 
   if (item.steps && item.steps.length > 0) {
@@ -235,51 +235,27 @@ export function extractQuantityFromMetadata(metadata: Record<string, CustomField
     }
     return unitValue;
   };
-
+  const quantities = [];
+  if (chosenQuantityName === 'Items') {//this is the default when no quantity is specified is of category volume or mass
+    return [{value: 1, unit: 'items', category: 'dimensionless'}];
+  }
   const entries = Object.entries(metadata);
-
-  if (chosenQuantityName) {
-    if (chosenQuantityName === 'Items') {//this is the default when no quantity is specified is of category volume or mass
-      return [{value: 1, unit: 'items', category: 'dimensionless'}];
-    }
-    const match = entries.find(([name]) => name === chosenQuantityName);
-    const [, field] = match;
-    const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
-    if (!RSpaceService.getUnitId(unit)) {
-      return [];
-    }
+  for(const [fieldName, field] of entries) {
     let numericValue = parseFloat(field.value);
     if (isNaN(numericValue)) {
       numericValue = 1;
     }
-    const category = '';
-    return [{value: numericValue, unit, category}];
-  }
-  else {
-    const quantityFields = entries.filter(([fieldName, _field]) =>
-        ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration', 'numeric'].some(q =>
-            fieldName.toLowerCase().includes(q)
-        )
-    );
-    if (quantityFields.length > 0) {
-      const quantities = []
-      for (const qf of quantityFields ){
-        const [_, field] = qf;
-        const numericValue = parseFloat(field.value);
-        if (!isNaN(numericValue)) {
-          const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
-          const category = '';
-          //check that the unit is valid
-          if (RSpaceService.getUnitId(unit)) {
-            quantities.push({value: numericValue, unit, category});
-          }
-        }
+    const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
+    const category = RSpaceService.getCategory(unit);
+    if (RSpaceService.getUnitId(unit)) {
+      if (chosenQuantityName && fieldName.toLowerCase() === chosenQuantityName.toLowerCase()) {
+        quantities.push({value: numericValue, unit, category});
+      }  else if (!chosenQuantityName) {
+        quantities.push({value: numericValue, unit, category});
       }
-      return quantities;
     }
   }
-
-  return [];
+  return quantities;
 }
 
 export function isInstrumentResource(item: PreviewItem): boolean {
@@ -288,7 +264,6 @@ export function isInstrumentResource(item: PreviewItem): boolean {
 }
 
 /**
- * P1 IMPROVEMENT: Changed from 'elabftw-import' to generic 'eln-import' tag
  * Prepares tags for RSpace items based on classification and metadata
  *
  * @param item - Preview item to generate tags for
@@ -296,7 +271,7 @@ export function isInstrumentResource(item: PreviewItem): boolean {
  */
 export function prepareTags(item: PreviewItem): string[] {
   const tags: string[] = [];
-  tags.push('eln-import');
+  tags.push('elabftw-import');
   tags.push(item.type);
   tags.push(item.category.toLowerCase().replace(/\s+/g, '-'));
   if(item.keywords && item.keywords.length > 0) {

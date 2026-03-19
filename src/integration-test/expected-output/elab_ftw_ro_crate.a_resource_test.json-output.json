@@ -9,6 +9,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -79,7 +83,16 @@
           "value": "uncategorized"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "Resource with number having units",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   }
 ]

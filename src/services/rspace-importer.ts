@@ -70,7 +70,7 @@ export class RSpaceImporter {
       for (let i = 0; i < itemsToImport.length; i++) {
         const item = itemsToImport[i];
         const classification = item.userClassification || item.proposedClassification;
-        const quantity = extractQuantityFromMetadata(item.metadata, item.chosenQuantityName)[0];
+        const quantity = extractQuantityFromMetadata(item.metadata, item.chosenQuantityName)[0];//chosenQuantityName defaults to 'Items' if not set in the UI
 
         progress.current = i + 1;
         progress.currentItem = item.name;
@@ -80,7 +80,6 @@ export class RSpaceImporter {
           let rspaceId: string;
           let numericId: number;
 
-          // BUG FIX: Upload files for ALL item types (documents AND inventory items)
           let uploadedFiles: Array<{ numericId: number; globalId: string }> = [];
           if (item.files && item.files.length > 0) {
             progress.status = 'uploading_files';
@@ -88,23 +87,23 @@ export class RSpaceImporter {
             uploadedFiles = await this.uploadFilesBeforeDocument(item, session);
           }
 
+          // either type of template can be assigned by the user to 'document'
+          const isTemplate = item.type.toLowerCase() === 'experiment template' || item.type.toLowerCase() === 'resource template';
+          const uploadedFileIds = uploadedFiles.map(f => f.numericId);
           if (classification === 'document') {
             // Extract numeric IDs for document creation
-            const uploadedFileIds = uploadedFiles.map(f => f.numericId);
-            const result = await this.createRSpaceDocument(item, uploadedFileIds);
-            rspaceId = result.globalId || result.id.toString();
-            numericId = result.id;
-
-            // P0 FIX: Track created document for potential rollback
+            const result = await this.createRSpaceDocument(item, uploadedFileIds,isTemplate);
+            rspaceId = result.rspaceId;
+            numericId = result.numericId;
             this.currentTransaction!.createdDocuments.push({
               id: numericId,
               name: item.name
             });
           } else {
             // Create inventory item
-            const result = await this.createRSpaceInventoryItem(item, quantity);
-            rspaceId = result.globalId || result.id;
-            numericId = parseInt(result.id);
+            const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds);
+            rspaceId = result.rspaceId;
+            numericId = result.numericId;
 
             // Try attaching files directly to inventory item using sample's globalId
             if (uploadedFiles.length > 0) {
@@ -209,49 +208,70 @@ export class RSpaceImporter {
     }
   }
 
-  private async createRSpaceDocument(item: PreviewItem, uploadedFileIds: number[] = []) {
-    const formName = `ELN ${item.category} (${item.type})`;
-    const formFields: FormField[] = prepareFormFields(item);
-    const formId = await this.rspaceService.createForm(formName, formFields);
-    const fieldValues = prepareDocumentFieldValues(item,formFields);
-    const tags = prepareTags(item);
+  private async createRSpaceDocument (item: PreviewItem, uploadedFileIds: number[] = [], isDocumentTemplate: boolean = false):Promise<{
+    rspaceId: string,
+    numericId: number
+  }> {
+    const formName = `${item.name} ELN ${item.category} (${item.type})`;
+    const formFields: FormField[] = prepareFormFields(item, false);
 
-    // Add file references to the Content field if files were uploaded
-    // Use RSpace's special <fileId=ID> syntax which it will automatically render as proper links
-    if (uploadedFileIds.length > 0) {
-      const fileLinks = uploadedFileIds.map(fileId =>
-        `<p><fileId=${fileId}></p>`
-      ).join('\n');
-      const contentValue = fieldValues.find(a=> a.name ==='Content');
-      if(contentValue) { //there is always a content field
-        contentValue.content = (contentValue.content || '') + '\n' + fileLinks;
+    function addAttachedFiles(fields) {
+      // Add file references to the Content field if files were uploaded
+      // Use RSpace's special <fileId=ID> syntax which it will automatically render as proper links
+      if (uploadedFileIds.length > 0) {
+        const fileLinks = uploadedFileIds.map(fileId =>
+            `<p><fileId=${fileId}></p>`
+        ).join('\n');
+        const contentValue = fields.find(a => a.name === 'Content');
+        if (contentValue) { //there is always a content field
+          contentValue.content = (contentValue.content || '') + '\n' + fileLinks;
+        }
       }
     }
 
-    return await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
+    addAttachedFiles(formFields);
+    const formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
+    if (isDocumentTemplate) {
+      return {rspaceId: "FM" + formId, numericId: formId};
+    }
+    else {
+      const fieldValues = prepareDocumentFieldValues(item, formFields);
+      addAttachedFiles(fieldValues);
+      const tags = prepareTags(item);
+      const result =  await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
+      return {rspaceId: result.globalId || result.id.toString(), numericId: result.id};
+    }
   }
 
-  private async createRSpaceInventoryItem(item: PreviewItem, quantity: { value: number; unit: string, category: string }) {
+  private async createRSpaceInventoryItem(item: PreviewItem, quantity: {
+    value: number;
+    unit: string,
+    category: string
+  }, isTemplate: boolean = false, uploadedFileIds: number[] = []): Promise<{
+    rspaceId: string,
+    numericId: number
+  }> {
     const tags = prepareTags(item);
     const description = item.textContent || `Imported from ELN: ${item.category}`;
 
-      // Create SampleTemplate first
-      const templateName = `ELN ${item.category} Template`;
-      const templateFieldsForm = prepareFormFields(item);
-    const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity);
-
-
-    const sampleData = {
-      name: item.name,
+    // Create SampleTemplate first
+    const templateName = `${item.name} ELN ${item.category} Template`;
+    const templateFieldsForm = prepareFormFields(item, false);
+    const templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
+    if (isTemplate) {
+      return {rspaceId: "IT" + templateId, numericId: templateId};
+    } else {
+      const sampleData = {
+        name: item.name,
         description,
         tags,
-      templateId,
-        // fields: fieldValues,
-       quantity
+        templateId,
+        quantity
       };
 
-      return await this.rspaceService.createInventorySample(sampleData);
-    // }
+      const result = await this.rspaceService.createInventorySample(sampleData);
+      return {rspaceId: result.globalId || result.id, numericId: parseInt(result.id)};
+    }
   }
 
   private async uploadFilesBeforeDocument(

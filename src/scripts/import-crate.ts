@@ -4,6 +4,7 @@ import { ELabFTWParser, convertDatasetsToPreviewItems } from '../utils/elabftw-p
 import { RSpaceService } from '../services/rspace-api';
 import { RSpaceImporter } from '../services/rspace-importer';
 import { PreviewSession } from '../types/elabftw';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";
 
 async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_differenttypes.json';
@@ -17,9 +18,11 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_resource_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_test.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_with_value_having_units.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_tags_category_and_status.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_no_value_having_units.json';
-  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_template.json';
   const apiKey = 'py3n5pPPwvrjq2kRQ2QmEXnc1uSOaIN0';
   const baseUrl = 'http://localhost:8080';
 
@@ -41,6 +44,13 @@ async function runImport() {
   const fileMetadata = parser.extractFileMetadata(crateData);
 
   const previewItems = convertDatasetsToPreviewItems(datasets, fileMetadata, crateData);
+  previewItems.forEach(item => {
+    Object.entries(item.metadata).forEach(([fieldName, _]) => {
+      if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
+        item.chosenQuantityName = fieldName;
+      }
+    })
+  })
 
   const session: PreviewSession = {
     id: 'script-session-' + Date.now(),

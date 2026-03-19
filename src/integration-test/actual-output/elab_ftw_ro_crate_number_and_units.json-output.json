@@ -9,6 +9,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -55,13 +59,22 @@
           "value": "antibody"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "Anti-RFP",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Uncategorized (experiment)",
+      "name": "One more plus ELN Uncategorized (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -181,6 +194,15 @@
           "content": "miles"
         }
       ]
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./d22a6775-de85-44d2-84a4-91d54a709867/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./d22a6775-de85-44d2-84a4-91d54a709867/</a></p>"
     }
   }
 ]

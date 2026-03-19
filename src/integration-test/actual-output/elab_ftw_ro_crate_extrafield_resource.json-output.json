@@ -9,6 +9,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -55,7 +59,16 @@
           "value": "antibody"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "Anti-RFP",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   }
 ]

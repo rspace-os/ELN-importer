@@ -2,7 +2,7 @@ export interface ELabFTWDataset {
   id: string;
   name: string;
   alternateName: string
-  genre: 'experiment' | 'resource';
+  genre: 'experiment' |'experiment template'| 'resource'|'resource template';
   dateCreated: string;
   dateModified: string;
   textContent: string;
@@ -32,6 +32,7 @@ export interface FormField {
   fullNameName?: string;
   selectedOptions?: string[];
   content?: string;
+  defaultValue?: string;
 }
 
 export interface PropertyValue {
@@ -82,7 +83,6 @@ export interface ClassificationResult {
   proposed: 'document' | 'inventory';
   confidence: 'high' | 'medium' | 'low';
   justification: string;
-  isInstrument?: boolean;
   reasons: string[];
 }
 

@@ -2,7 +2,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Demo (experiment)",
+      "name": "Quia sed et pariatur qui consequatur cumque odit. ",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -86,7 +86,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Uncategorized (experiment)",
+      "name": "Experiment_Links ELN Uncategorized (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -165,6 +165,15 @@
           "content": "2026-03-06"
         }
       ]
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": 888,
+      "linkText": "Link to ./816be2e4-b4c9-4034-9608-6e8cafc75cf0/",
+      "linkHtml": "<p>See also: <docId=888></p>"
     }
   }
 ]

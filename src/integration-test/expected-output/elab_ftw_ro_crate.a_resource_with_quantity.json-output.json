@@ -3,15 +3,15 @@
     "type": "createSampleTemplate",
     "data": {
       "name": "ELN 🧬 Plasmid Template",
-      "defaultUnitId": 5,
+      "defaultUnitId": 1,
       "tags": [
         {
           "value": "elabftw-import"
         }
       ],
       "quanity": {
-        "numericValue": 100,
-        "unitId": 5
+        "numericValue": 1,
+        "unitId": 1
       },
       "fields": [
         {
@@ -41,7 +41,8 @@
         },
         {
           "name": "Concentration",
-          "type": "Number"
+          "type": "Number",
+          "content": "100"
         },
         {
           "name": "Description: Concentration",
@@ -50,15 +51,18 @@
         },
         {
           "name": "Vector backbone",
-          "type": "Text"
+          "type": "Text",
+          "content": "The vector backbone"
         },
         {
           "name": "Growth temperature",
-          "type": "Text"
+          "type": "Text",
+          "content": "29"
         },
         {
           "name": "Bacterial resistance",
           "type": "Radio",
+          "content": "Kanamycin",
           "definition": {
             "options": [
               "Ampicillin",
@@ -76,6 +80,7 @@
         {
           "name": "Mammalian resistance",
           "type": "Radio",
+          "content": "Neomycin",
           "definition": {
             "options": [
               "Neomycin",
@@ -114,8 +119,8 @@
         {
           "name": "A plasmid",
           "quantity": {
-            "numericValue": 100,
-            "unitId": 5
+            "numericValue": 1,
+            "unitId": 1
           }
         }
       ]

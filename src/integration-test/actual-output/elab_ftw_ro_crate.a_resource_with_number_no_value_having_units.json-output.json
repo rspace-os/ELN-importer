@@ -9,16 +9,20 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
           "type": "String",
-          "content": "Christ Leannon"
+          "content": "Matt Dibbert"
         },
         {
           "name": "Source ELN ID",
           "type": "String",
-          "content": "./f47ffad5-4ace-434e-a7a9-e5a588f5d3d0/"
+          "content": "./a1359173-9abf-4ba1-b30c-29792ddaf9a1/"
         },
         {
           "name": "Category",
@@ -28,35 +32,34 @@
         {
           "name": "Date Created",
           "type": "Date",
-          "content": "2026-03-13"
+          "content": "2026-03-16"
         },
         {
           "name": "Date Modified",
           "type": "Date",
-          "content": "2026-03-13"
+          "content": "2026-03-16"
         },
         {
-          "name": "Amount left of this sample",
+          "name": "A numeric field",
           "type": "Number"
         },
         {
-          "name": "Description: Amount left of this sample",
+          "name": "Description: A numeric field",
           "type": "Text",
-          "content": "Amount left of this sample"
+          "content": "A numeric field"
         },
         {
-          "name": "Units: Amount left of this sample",
+          "name": "Units: A numeric field",
           "type": "Radio",
           "definition": {
             "options": [
               "g",
               "mg",
-              "µg",
-              "ng"
+              "kg"
             ]
           },
           "selectedOptions": [
-            "g"
+            "mg"
           ]
         }
       ]
@@ -65,9 +68,9 @@
   {
     "type": "createInventorySample",
     "data": {
-      "name": "Resource with number having units",
+      "name": "A quantity",
       "subsample_count": 1,
-      "description": "<p>A sample that is used up in the lab and the amount left is recorded</p>",
+      "description": "Imported from ELN: Uncategorized",
       "tags": [
         {
           "value": "eln-import"
@@ -79,7 +82,16 @@
           "value": "uncategorized"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "A quantity",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Synthesis (experiment)",
+      "name": "Synthesis of Aspirin ELN Synthesis (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -86,7 +86,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Uncategorized (experiment)",
+      "name": "Another ELN Uncategorized (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -205,6 +205,15 @@
           "content": "57"
         }
       ]
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": 888,
+      "linkText": "Link to ./382f0560-a631-4766-9e81-6effde4ecb6d/",
+      "linkHtml": "<p>See also: <docId=888></p>"
     }
   }
 ]

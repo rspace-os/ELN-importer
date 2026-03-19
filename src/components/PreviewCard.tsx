@@ -60,7 +60,7 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                 </span>
               </div>
               {/* Quantity selector for Inventory items */}
-              {(item.userClassification || item.proposedClassification) === 'inventory' && extractQuantityFromMetadata(item.metadata) && (
+              {(item.userClassification || item.proposedClassification) === 'inventory'&& (
                   <div className="mt-2 ml-12 mr-4 p-3 bg-purple-50 border border-purple-200 rounded-md">
                     <div className="flex items-center justify-between">
                       <label className="text-sm font-medium text-purple-900" htmlFor={`qty-${item.id}`}>
@@ -77,9 +77,7 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                       >
                         {Object.entries(item.metadata)
                         .filter(([fieldName, _]) => {
-                          const indicators = ['quantity','amount','volume','mass','weight','concentration','numeric'];
-                          const looksLikeQuantity = indicators.some(q => fieldName.toLowerCase().includes(q));
-                          return looksLikeQuantity && extractQuantityFromMetadata(item.metadata, fieldName)?.length>0;
+                          return extractQuantityFromMetadata(item.metadata, fieldName)?.length>0;
                         })
                         .map(([fieldName]) => {
                           item.chosenQuantityName = fieldName;

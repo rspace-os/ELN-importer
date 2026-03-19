@@ -2,7 +2,7 @@
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Uncategorized (experiment)",
+      "name": "Fatigue Corals ELN Uncategorized (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -190,6 +190,10 @@
           "value": "elabftw-import"
         }
       ],
+      "quanity": {
+        "numericValue": 1,
+        "unitId": 1
+      },
       "fields": [
         {
           "name": "Owner",
@@ -239,13 +243,22 @@
           "value": "fatigue,BioAntiFatigue,Mechanical testing,TU Berlin"
         }
       ],
-      "templateId": 777
+      "templateId": 777,
+      "subSamples": [
+        {
+          "name": "Fatigue Machine Zwick Roell LTN1",
+          "quantity": {
+            "numericValue": 1,
+            "unitId": 1
+          }
+        }
+      ]
     }
   },
   {
     "type": "createForm",
     "data": {
-      "name": "ELN Uncategorized (experiment)",
+      "name": "Resource_Links ELN Uncategorized (experiment)",
       "tags": "elabftw-import",
       "fields": [
         {
@@ -324,6 +337,15 @@
           "content": "2026-03-06"
         }
       ]
+    }
+  },
+  {
+    "type": "addInternalLinkToDocument",
+    "data": {
+      "documentId": 888,
+      "linkedId": "SA999",
+      "linkText": "Link to ./e52fb9b4-5052-43fb-a063-4da3a0e85171/",
+      "linkHtml": "<p>See also: <a href=\"http://localhost:8080/globalId/SA999\">Link to ./e52fb9b4-5052-43fb-a063-4da3a0e85171/</a></p>"
     }
   }
 ]
