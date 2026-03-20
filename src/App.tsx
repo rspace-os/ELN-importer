@@ -30,7 +30,7 @@ function AppContent() {
       const parser = new ELabFTWParser();
 
       console.log('Parsing ELN file...');
-      const { datasets, fileMetadata, fileIndex } = await parser.parseELNFile(file);
+      const { datasets, fileMetadata, fileIndex, rawJson } = await parser.parseELNFile(file);
 
       console.log('Parsed datasets:', datasets.length);
       console.log('File metadata:', Object.keys(fileMetadata).length);
@@ -70,7 +70,8 @@ function AppContent() {
         totalItems: previewItems.length,
         items: previewItems,
         fileMetadata,
-        fileBlobs
+        fileBlobs,
+        rawJson
       };
 
       console.log('Session created:', session.id);

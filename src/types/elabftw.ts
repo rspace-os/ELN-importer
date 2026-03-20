@@ -129,6 +129,7 @@ export interface PreviewSession {
   items: PreviewItem[];
   fileMetadata: Record<string, FileMetadata>;
   fileBlobs: Map<string, Blob>;
+  rawJson?: string;
 }
 
 export interface ROCrateData {

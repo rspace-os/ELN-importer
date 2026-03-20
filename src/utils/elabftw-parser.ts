@@ -33,6 +33,7 @@ export class ELabFTWParser {
     datasets: ELabFTWDataset[];
     fileMetadata: Record<string, FileMetadata>;
     fileIndex: Map<string, Blob>;
+    rawJson: string;
   }> {
     console.log('=== STARTING ELN FILE PARSING ===');
     console.log('File name:', file.name);
@@ -126,7 +127,7 @@ export class ELabFTWParser {
     console.log('Datasets:', datasets);
     console.log('File metadata:', fileMetadata);
     
-    return { datasets, fileMetadata, fileIndex: this.fileIndex };
+    return { datasets, fileMetadata, fileIndex: this.fileIndex, rawJson: crateContent };
   }
 
   private extractDatasets(crateData: ROCrateData | null | undefined): ELabFTWDataset[] {

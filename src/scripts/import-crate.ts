@@ -60,7 +60,8 @@ async function runImport() {
     totalItems: previewItems.length,
     items: previewItems,
     fileMetadata: fileMetadata as any,
-    fileBlobs: new Map() // No actual blobs in this scratch file
+    fileBlobs: new Map(), // No actual blobs in this scratch file
+    rawJson: rawData
   };
 
   console.log(`Parsed ${previewItems.length} items from RO-Crate`);

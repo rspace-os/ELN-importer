@@ -31,7 +31,8 @@ export class RSpaceImporter {
   async importSession(
     session: PreviewSession,
     onProgress: (progress: ImportProgress) => void,
-    itemIdsToImport?: Set<string>
+    itemIdsToImport?: Set<string>,
+    rocJsonFileId?: number | null
   ): Promise<ImportProgress> {
     // Filter items if specific IDs provided
     const itemsToImport = itemIdsToImport
@@ -92,7 +93,7 @@ export class RSpaceImporter {
           const uploadedFileIds = uploadedFiles.map(f => f.numericId);
           if (classification === 'document') {
             // Extract numeric IDs for document creation
-            const result = await this.createRSpaceDocument(item, uploadedFileIds,isTemplate);
+            const result = await this.createRSpaceDocument(item, uploadedFileIds, isTemplate, rocJsonFileId);
             rspaceId = result.rspaceId;
             numericId = result.numericId;
             this.currentTransaction!.createdDocuments.push({
@@ -101,7 +102,7 @@ export class RSpaceImporter {
             });
           } else {
             // Create inventory item
-            const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds);
+            const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds, rocJsonFileId);
             rspaceId = result.rspaceId;
             numericId = result.numericId;
 
@@ -115,6 +116,13 @@ export class RSpaceImporter {
                   console.error(`Failed to attach file ${file.globalId} to item ${rspaceId}:`, error);
                   // Continue with other files even if one fails
                 }
+              }
+            }
+            if(rocJsonFileId){
+              try {
+                await this.rspaceService.attachFileToInventoryItem(rspaceId, "GL"+rocJsonFileId);
+              } catch (error) {
+                console.error(`Failed to attach file json metadata from ${"GL"+rocJsonFileId} to item ${rspaceId}:`, error);
               }
             }
 
@@ -208,7 +216,12 @@ export class RSpaceImporter {
     }
   }
 
-  private async createRSpaceDocument (item: PreviewItem, uploadedFileIds: number[] = [], isDocumentTemplate: boolean = false):Promise<{
+  private async createRSpaceDocument (
+    item: PreviewItem,
+    uploadedFileIds: number[] = [],
+    isDocumentTemplate: boolean = false,
+    rocJsonFileId?: number | null
+  ):Promise<{
     rspaceId: string,
     numericId: number
   }> {
@@ -217,11 +230,11 @@ export class RSpaceImporter {
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
     const matchingFormExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(formFields)) : null;
 
-    function addAttachedFiles(fields) {
+    function addAttachedFiles(fields, isRawJson: boolean = false) {
       // Add file references to the Content field if files were uploaded
       // Use RSpace's special <fileId=ID> syntax which it will automatically render as proper links
-      if (uploadedFileIds.length > 0) {
-        const fileLinks = uploadedFileIds.map(fileId =>
+      if (uploadedFileIds.length > 0 || isRawJson) {
+        const fileLinks = isRawJson ? `<p><fileId=${rocJsonFileId}></p>\n`:uploadedFileIds.map(fileId =>
             `<p><fileId=${fileId}></p>`
         ).join('\n');
         const contentValue = fields.find(a => a.name === 'Content');
@@ -246,17 +259,26 @@ export class RSpaceImporter {
     else {
       const fieldValues = prepareDocumentFieldValues(item, formFields);
       addAttachedFiles(fieldValues);
+      if(rocJsonFileId) {
+        addAttachedFiles(fieldValues, true);
+      }
       const tags = prepareTags(item);
       const result =  await this.rspaceService.createDocument(formId, item.name + (item.alternateName ? ` (${item.alternateName})` : ''), fieldValues, tags);
       return {rspaceId: result.globalId || result.id.toString(), numericId: result.id};
     }
   }
 
-  private async createRSpaceInventoryItem(item: PreviewItem, quantity: {
-    value: number;
-    unit: string,
-    category: string
-  }, isTemplate: boolean = false, uploadedFileIds: number[] = []): Promise<{
+  private async createRSpaceInventoryItem(
+    item: PreviewItem,
+    quantity: {
+      value: number;
+      unit: string,
+      category: string
+    },
+    isTemplate: boolean = false,
+    uploadedFileIds: number[] = [],
+    rocJsonFileId?: number | null
+  ): Promise<{
     rspaceId: string,
     numericId: number
   }> {
