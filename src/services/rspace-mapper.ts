@@ -72,6 +72,7 @@ export function prepareFormFields(item: PreviewItem, isDocumentTemplate:boolean)
         name: getUniqueFieldName(fieldName),
         fullName: fieldName,
         type: mappedType,
+        ...(mappedType === 'Time' && {defaultValue: 1}),
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
         ...(fieldOptions && field.value && {'selectedOptions': [field.value]}),

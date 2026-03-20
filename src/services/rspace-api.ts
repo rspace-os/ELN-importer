@@ -196,6 +196,7 @@ export class RSpaceService {
     type: string;
     mandatory?: boolean;
     showAsPickList?: boolean;
+    defaultValue?: string;
     options?: string[],
     content?: string;
   }>, isDocumentTemplate: boolean = false): Promise<number> {
@@ -207,6 +208,7 @@ export class RSpaceService {
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
           ...(field.content && isDocumentTemplate &&{ defaultValue: field.content }),
+          ...(field.defaultValue && !isDocumentTemplate &&{ defaultValue: field.defaultValue }),
           mandatory: field.mandatory || false,
           ...(field.options && { options: field.options }),
           ...(field.showAsPickList && { showAsPickList: true }),
