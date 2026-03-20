@@ -16,15 +16,8 @@ export interface ImportProgress {
   results: Array<{ item: string; success: boolean; error?: string; rspaceId?: string }>;
 }
 
-// P0 FIX: Transaction tracking for rollback support
-interface ImportTransaction {
-  createdDocuments: Array<{ id: number; name: string }>;
-  createdInventoryItems: Array<{ id: string; name: string }>;
-  uploadedFiles: Array<{ id: number; name: string }>;
-}
 
 export class RSpaceImporter {
-  private currentTransaction: ImportTransaction | null = null;
 
   constructor(private rspaceService: RSpaceService) {}
 
@@ -51,12 +44,6 @@ export class RSpaceImporter {
 
     const itemIdMap = new Map<string, { rspaceId: string; numericId: number; type: 'document' | 'inventory' }>();
 
-    // P0 FIX: Initialize transaction for rollback support
-    this.currentTransaction = {
-      createdDocuments: [],
-      createdInventoryItems: [],
-      uploadedFiles: []
-    };
 
     try {
       const connectionOk = await this.rspaceService.testConnection();
@@ -96,10 +83,6 @@ export class RSpaceImporter {
             const result = await this.createRSpaceDocument(item, uploadedFileIds, isTemplate, rocJsonFileId);
             rspaceId = result.rspaceId;
             numericId = result.numericId;
-            this.currentTransaction!.createdDocuments.push({
-              id: numericId,
-              name: item.name
-            });
           } else {
             // Create inventory item
             const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds, rocJsonFileId);
@@ -126,11 +109,6 @@ export class RSpaceImporter {
               }
             }
 
-            // P0 FIX: Track created inventory item for potential rollback
-            this.currentTransaction!.createdInventoryItems.push({
-              id: rspaceId,
-              name: item.name
-            });
           }
 
           itemIdMap.set(item.id, { rspaceId, numericId, type: classification });
@@ -184,32 +162,10 @@ export class RSpaceImporter {
       progress.status = 'complete';
       onProgress(progress);
 
-      // P0 FIX: Clear transaction on success
-      this.currentTransaction = null;
 
       return progress;
     } catch (error) {
       console.error('Import failed:', error);
-
-      // P0 FIX: Attempt rollback on error
-      if (this.currentTransaction && (
-        this.currentTransaction.createdDocuments.length > 0 ||
-        this.currentTransaction.createdInventoryItems.length > 0
-      )) {
-        console.warn('Import failed - attempting rollback...');
-        progress.status = 'rolling_back';
-        onProgress(progress);
-
-        try {
-          await this.rollbackTransaction(this.currentTransaction);
-          console.log('Rollback completed successfully');
-        } catch (rollbackError) {
-          console.error('Rollback failed:', rollbackError);
-          // Continue to throw original error
-        }
-      }
-
-      this.currentTransaction = null;
       progress.status = 'error';
       onProgress(progress);
       throw error;
@@ -457,44 +413,5 @@ export class RSpaceImporter {
     } catch (error) {
       console.error(`Failed to add cross-references for inventory item ${item.name}:`, error);
     }
-  }
-
-  // P0 FIX: Rollback transaction by deleting all created items
-  private async rollbackTransaction(transaction: ImportTransaction): Promise<void> {
-    const deletionErrors: Array<{ item: string; error: string }> = [];
-
-    // Delete documents in reverse order (last created first)
-    for (const doc of [...transaction.createdDocuments].reverse()) {
-      try {
-        console.log(`Deleting document: ${doc.name} (ID: ${doc.id})`);
-        await this.rspaceService.deleteDocument(doc.id);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        console.error(`Failed to delete document ${doc.name}:`, errorMessage);
-        deletionErrors.push({ item: doc.name, error: errorMessage });
-      }
-    }
-
-    // Delete inventory items in reverse order
-    for (const item of [...transaction.createdInventoryItems].reverse()) {
-      try {
-        console.log(`Deleting inventory item: ${item.name} (ID: ${item.id})`);
-        await this.rspaceService.deleteInventoryItem(item.id);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        console.error(`Failed to delete inventory item ${item.name}:`, errorMessage);
-        deletionErrors.push({ item: item.name, error: errorMessage });
-      }
-    }
-
-    if (deletionErrors.length > 0) {
-      console.warn(`Rollback completed with ${deletionErrors.length} errors:`, deletionErrors);
-      throw new Error(
-        `Partial rollback: ${deletionErrors.length} items could not be deleted. ` +
-        `Please manually delete: ${deletionErrors.map(e => e.item).join(', ')}`
-      );
-    }
-
-    console.log('Rollback completed successfully - all items deleted');
   }
 }
