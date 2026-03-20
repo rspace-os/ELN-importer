@@ -85,7 +85,7 @@ export class RSpaceImporter {
             numericId = result.numericId;
           } else {
             // Create inventory item
-            const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds, rocJsonFileId);
+            const result = await this.createRSpaceInventoryItem(item, quantity, isTemplate, uploadedFileIds);
             rspaceId = result.rspaceId;
             numericId = result.numericId;
 
@@ -232,8 +232,7 @@ export class RSpaceImporter {
       category: string
     },
     isTemplate: boolean = false,
-    uploadedFileIds: number[] = [],
-    rocJsonFileId?: number | null
+    uploadedFileIds: number[] = []
   ): Promise<{
     rspaceId: string,
     numericId: number
@@ -245,12 +244,12 @@ export class RSpaceImporter {
     const templateName = `${item.name} ELN ${item.category} Template`;
     const templateFieldsForm = prepareFormFields(item, false);
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
-    const matchingFormExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(templateFieldsForm)) : null;
+    const matchingSTExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(templateFieldsForm)) : null;
     let templateId:number;
-    if (matchingFormExistsWithID && await this.rspaceService.formExists(Number(matchingFormExistsWithID))) {
-      templateId = Number(matchingFormExistsWithID);
+    if (matchingSTExistsWithID && await this.rspaceService.sampleTemplateExists(Number(matchingSTExistsWithID))) {
+      templateId = Number(matchingSTExistsWithID);
     } else {
-      templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
+      templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags, description);
       if(isBrowser) {
         localStorage.setItem(JSON.stringify(templateFieldsForm), ""+templateId);
       }

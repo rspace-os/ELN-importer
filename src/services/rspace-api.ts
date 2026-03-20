@@ -179,6 +179,17 @@ export class RSpaceService {
       return false;
     }
   }
+  async sampleTemplateExists(templateID: number): Promise<boolean> {
+    if (this.outputDir) return templateID === 999;
+    try {
+      const response = await this.makeRequest(`/api/inventory/v1/sampleTemplates/${templateID}`);
+      return response.ok;
+    } catch (error) {
+      // If makeRequest throws on non-ok status, we catch it here.
+      // A 404 would be thrown by makeRequest as an error.
+      return false;
+    }
+  }
 
   async createForm(name: string, fields: Array<{
     name: string;
@@ -275,15 +286,17 @@ export class RSpaceService {
   async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
     value: number;
     unit: string
-  }, tags: Array<{ value: string }>): Promise<number> {
+  }, tags: Array<{ value: string }>, description:string): Promise<number> {
     try {
-
+      const isLongDescription = description?.length > 250;
+      const filterTerm = isLongDescription? 'References' : 'Content';
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
         tags: [{ value: ('elabftw-import,' + (tags || []).join(',')) }],
         quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
-        fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
+        description: isLongDescription ? description.substring(0,250): description,
+        fields: fields.filter((field) => field.name !=='References' && field.name !==filterTerm).map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
           ...(field.content && { content: field.content }),
@@ -325,13 +338,15 @@ export class RSpaceService {
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
+      const isLongDescription = data.description?.length > 250;
+      const filterTerm = isLongDescription? 'References' : 'Content';
       const sampleData: any = {
         name: data.name,
         subsample_count: 1
       };
 
       if (data.description) {
-        sampleData.description = data.description;
+        sampleData.description = isLongDescription ? data.description.substring(0,250): data.description;
       }
 
       if (data.tags) {
