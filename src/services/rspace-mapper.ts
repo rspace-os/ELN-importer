@@ -62,7 +62,13 @@ export function prepareFormFields(item: PreviewItem, isDocumentTemplate:boolean)
     'custom_fields',      // Already extracted
     '_internal'           // Internal fields
   ]);
-
+  const getFieldValueAndCheckBoxValueToRadio = (field: CustomField) => {
+    if (field.type === 'checkbox') {
+      const truthy = ['on', 'true', '1', 'checked', 'yes'];
+      return truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
+    }
+    return field.value;
+  }
   Object.entries(item.metadata).forEach(([fieldName, field]) => {
     if (!metadataFieldsToSkip.has(fieldName)) {
       const mappedType = mapSelectAndCheckBoxToRadio(field.type);
@@ -75,7 +81,7 @@ export function prepareFormFields(item: PreviewItem, isDocumentTemplate:boolean)
         ...(mappedType === 'Time' && {defaultValue: 1}),
         mandatory: field.required || false,
         ...(fieldOptions && { options: fieldOptions }),
-        ...(fieldOptions && field.value && {'selectedOptions': [field.value]}),
+        ...(fieldOptions && field.value && {'selectedOptions': [getFieldValueAndCheckBoxValueToRadio(field)]}),
         ...(showAsPickList && { showAsPickList: true }),
         content: field.value,
       };

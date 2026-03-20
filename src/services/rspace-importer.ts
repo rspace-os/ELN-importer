@@ -172,6 +172,18 @@ export class RSpaceImporter {
     }
   }
 
+   simpleStringHash = (str) => {
+    let hash = 0x811c9dc5;
+
+    for (let i = 0; i < str.length; i++) {
+      hash ^= str.charCodeAt(i);
+      hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+    }
+
+    // Convert to unsigned 32-bit
+    return (hash >>> 0).toString(16);
+  }
+
   private async createRSpaceDocument (
     item: PreviewItem,
     uploadedFileIds: number[] = [],
@@ -184,7 +196,7 @@ export class RSpaceImporter {
     const formName = `${item.name} ELN ${item.category} (${item.type})`;
     const formFields: FormField[] = prepareFormFields(item, false);
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
-    const matchingFormExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(formFields)) : null;
+    const matchingFormExistsWithID = isBrowser ? localStorage.getItem(this.simpleStringHash(JSON.stringify(formFields))) : null;
 
     function addAttachedFiles(fields, isRawJson: boolean = false) {
       // Add file references to the Content field if files were uploaded
@@ -206,7 +218,7 @@ export class RSpaceImporter {
     } else {
       formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
       if(isBrowser) {
-        localStorage.setItem(JSON.stringify(formFields), "" + formId);
+        localStorage.setItem(this.simpleStringHash(JSON.stringify(formFields)), "" + formId);
       }
     }
     if (isDocumentTemplate && uploadedFileIds.length === 0) {//forms cannot have attached files; elabftw templates *can* have attached files. In that case,we will continue and create a document, attaching the files to the document itself
@@ -244,14 +256,14 @@ export class RSpaceImporter {
     const templateName = `${item.name} ELN ${item.category} Template`;
     const templateFieldsForm = prepareFormFields(item, false);
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
-    const matchingSTExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(templateFieldsForm)) : null;
+    const matchingSTExistsWithID = isBrowser ? localStorage.getItem(this.simpleStringHash(JSON.stringify(templateFieldsForm))) : null;
     let templateId:number;
     if (matchingSTExistsWithID && await this.rspaceService.sampleTemplateExists(Number(matchingSTExistsWithID))) {
       templateId = Number(matchingSTExistsWithID);
     } else {
       templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags, description);
       if(isBrowser) {
-        localStorage.setItem(JSON.stringify(templateFieldsForm), ""+templateId);
+        localStorage.setItem(this.simpleStringHash(JSON.stringify(templateFieldsForm)), ""+templateId);
       }
     }
     if (isTemplate && uploadedFileIds.length === 0) {//sampleTemplates cannot have attached files; we will continue and create a sample for that

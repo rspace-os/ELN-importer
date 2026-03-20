@@ -8,7 +8,7 @@ import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";
 
 async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_differenttypes.json';
-  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_bores_size_metadata.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_bores_size_metadata.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_chemical_equation_h2o.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_number_and_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.default_values.json';
@@ -23,7 +23,8 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_template.json';
-  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_with_time.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_with_time.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with checkbox.json';
   const apiKey = 'py3n5pPPwvrjq2kRQ2QmEXnc1uSOaIN0';
   const baseUrl = 'http://localhost:8080';
 

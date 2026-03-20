@@ -1,0 +1,170 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-20T20:47:27+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-20T20:47:27+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "#category-Cat \ud83d\ude3a",
+      "@type": "Thing",
+      "name": "Cat \ud83d\ude3a",
+      "color": "373835"
+    },
+    {
+      "@id": "pv:\/\/6c2da29f-f49f-4909-bbe4-d8a2a2bcc03e",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"Sex\": {\"type\": \"radio\", \"value\": \"Male (\u2642)\", \"options\": [\"Male (\u2642)\", \"Something in-between (\u26a5)\", \"Female (\u2640)\"]}, \"Color\": {\"type\": \"select\", \"value\": \"Ginger\", \"options\": [\"Black and white\", \"Black\", \"Ginger\", \"Cream\", \"Fawn\", \"Calico\"], \"required\": true, \"description\": \"What color is that cat?\"}, \"Birthday\": {\"type\": \"date\", \"value\": \"2019-03-12\"}, \"Is sterilized\": {\"type\": \"checkbox\", \"value\": \"on\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/e720587a-9b1c-403f-a839-5eba202fdd7c",
+      "propertyID": "Sex",
+      "valueReference": "radio",
+      "value": "Male (\u2642)"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/9a81dc41-2452-43b5-808c-085d2d314234",
+      "propertyID": "Color",
+      "valueReference": "select",
+      "value": "Ginger",
+      "description": "What color is that cat?"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/c3f10c85-021c-4f99-a5b5-55baafb05c20",
+      "propertyID": "Birthday",
+      "valueReference": "date",
+      "value": "2019-03-12"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/23e6b28f-b1a9-4c69-9ffd-174a211b0e47",
+      "propertyID": "Is sterilized",
+      "valueReference": "checkbox",
+      "value": "on"
+    },
+    {
+      "@id": ".\/16a05346-89d6-4f13-8557-fa5682c8b687\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/348e2de5c24e3f7aecf5736b654e8e0ba922854fda2e99f236d00ce87699f546?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-20T03:01:57+01:00",
+      "dateModified": "2026-03-20T03:01:57+01:00",
+      "temporal": "2025-09-10T00:00:00+02:00",
+      "name": "Quark",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=217",
+      "genre": "resource",
+      "identifier": "20260320-787f0f4f47a5498e2c72495957085e3e3af468ae",
+      "about": {
+        "@id": "#category-Cat \ud83d\ude3a"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/6c2da29f-f49f-4909-bbe4-d8a2a2bcc03e"
+        },
+        {
+          "@id": "pv:\/\/e720587a-9b1c-403f-a839-5eba202fdd7c"
+        },
+        {
+          "@id": "pv:\/\/9a81dc41-2452-43b5-808c-085d2d314234"
+        },
+        {
+          "@id": "pv:\/\/c3f10c85-021c-4f99-a5b5-55baafb05c20"
+        },
+        {
+          "@id": "pv:\/\/23e6b28f-b1a9-4c69-9ffd-174a211b0e47"
+        }
+      ],
+      "aggregateRating": {
+        "@id": "rating:\/\/05339af1-9c95-46de-8305-a5b4c3874075",
+        "@type": "AggregateRating",
+        "ratingValue": 5,
+        "reviewCount": 1
+      }
+    },
+    {
+      "@id": ".\/",
+      "identifier": "c1db3ac7-42d6-48d3-9bdb-691cfee1cd86",
+      "@type": "Dataset",
+      "datePublished": "2026-03-20T20:47:27+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/16a05346-89d6-4f13-8557-fa5682c8b687\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/348e2de5c24e3f7aecf5736b654e8e0ba922854fda2e99f236d00ce87699f546?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Tommie",
+      "familyName": "Johnston",
+      "email": "harum-70562843@yopmail.com"
+    }
+  ]
+}
