@@ -199,14 +199,14 @@ describe('RSpaceMapper', () => {
   });
 
   describe('prepareTags', () => {
-    it('returns base eln-import, type and kebab-case category', () => {
+    it('returns base elabftw-import, type and kebab-case category', () => {
       const item: PreviewItem = {
         id: 't', name: 'x', type: 'experiment', category: 'Basic Research', categoryColor: '#000',
         proposedClassification: 'document', userClassification: null, confidence: 'high', justification: '', reasons: [],
         metadata: {}, files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: ['aaa'], dateCreated: '', dateModified: ''
       };
       const tags = prepareTags(item);
-      expect(tags).toEqual(['eln-import', 'experiment', 'basic-research','aaa']);
+      expect(tags).toEqual(['elabftw-import', 'experiment', 'basic-research','aaa']);
     });
 
     it('handles simple category', () => {
@@ -216,7 +216,7 @@ describe('RSpaceMapper', () => {
         metadata: {}, files: [], crossReferences: [], validationIssues: [], textContent: '', steps: [], keywords: [], dateCreated: '', dateModified: ''
       };
       const tags = prepareTags(item);
-      expect(tags).toEqual(['eln-import', 'resource', 'reagents']);
+      expect(tags).toEqual(['elabftw-import', 'resource', 'reagents']);
     });
   });
 

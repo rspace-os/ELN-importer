@@ -281,7 +281,7 @@ export class RSpaceService {
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
-        tags: [{ value: ('elabftw-import,'+tags.join(',')) }],
+        tags: [{ value: ('elabftw-import,' + (tags || []).join(',')) }],
         quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
         fields: fields.filter((field) => field.name !=='References' && field.name !=='Content').map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),

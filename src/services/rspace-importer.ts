@@ -214,7 +214,8 @@ export class RSpaceImporter {
   }> {
     const formName = `${item.name} ELN ${item.category} (${item.type})`;
     const formFields: FormField[] = prepareFormFields(item, false);
-    const matchingFormExistsWithID = localStorage.getItem(JSON.stringify(formFields));
+    const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+    const matchingFormExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(formFields)) : null;
 
     function addAttachedFiles(fields) {
       // Add file references to the Content field if files were uploaded
@@ -230,15 +231,16 @@ export class RSpaceImporter {
       }
     }
 
-    addAttachedFiles(formFields);
     let formId;
     if (matchingFormExistsWithID && await this.rspaceService.formExists(Number(matchingFormExistsWithID))) {
       formId = Number(matchingFormExistsWithID);
     } else {
       formId = await this.rspaceService.createForm(formName, formFields, isDocumentTemplate);
-      localStorage.setItem(JSON.stringify(formFields),""+formId);
+      if(isBrowser) {
+        localStorage.setItem(JSON.stringify(formFields), "" + formId);
+      }
     }
-    if (isDocumentTemplate && uploadedFileIds.length === 0) {//forms cannot have attached files; we will continue and create a document for that
+    if (isDocumentTemplate && uploadedFileIds.length === 0) {//forms cannot have attached files; elabftw templates *can* have attached files. In that case,we will continue and create a document, attaching the files to the document itself
       return {rspaceId: "FM" + formId, numericId: formId};
     }
     else {
@@ -264,13 +266,16 @@ export class RSpaceImporter {
     // Create SampleTemplate first
     const templateName = `${item.name} ELN ${item.category} Template`;
     const templateFieldsForm = prepareFormFields(item, false);
-    const matchingFormExistsWithID = localStorage.getItem(JSON.stringify(templateFieldsForm));
+    const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+    const matchingFormExistsWithID = isBrowser ? localStorage.getItem(JSON.stringify(templateFieldsForm)) : null;
     let templateId:number;
     if (matchingFormExistsWithID && await this.rspaceService.formExists(Number(matchingFormExistsWithID))) {
       templateId = Number(matchingFormExistsWithID);
     } else {
       templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags);
-      localStorage.setItem(JSON.stringify(templateFieldsForm), ""+templateId);
+      if(isBrowser) {
+        localStorage.setItem(JSON.stringify(templateFieldsForm), ""+templateId);
+      }
     }
     if (isTemplate && uploadedFileIds.length === 0) {//sampleTemplates cannot have attached files; we will continue and create a sample for that
       return {rspaceId: "IT" + templateId, numericId: templateId};
