@@ -284,20 +284,21 @@ export class RSpaceService {
       throw error;
     }
   }
+  descriptionMaxLength = 240;//Inventory wraps description in html tags and combined length must be less than 250
 
   async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
     value: number;
     unit: string
   }, tags: Array<{ value: string }>, description:string): Promise<number> {
     try {
-      const isLongDescription = description?.length > 250;
+      const isLongDescription = description?.length > this.descriptionMaxLength;
       const filterTerm = isLongDescription? 'References' : 'Content';
       const templateData = {
         name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
         tags: [{ value: ('elabftw-import,' + (tags || []).join(',')) }],
         quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
-        description: isLongDescription ? description.substring(0,250): description,
+        description: isLongDescription ? description.substring(0,this.descriptionMaxLength): description,
         fields: fields.filter((field) => field.name !=='References' && field.name !==filterTerm).map(field => ({
           name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
@@ -340,7 +341,7 @@ export class RSpaceService {
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
-      const isLongDescription = data.description?.length > 250;
+      const isLongDescription = data.description?.length > this.descriptionMaxLength;
       const filterTerm = isLongDescription? 'References' : 'Content';
       const sampleData: any = {
         name: data.name,
@@ -348,7 +349,7 @@ export class RSpaceService {
       };
 
       if (data.description) {
-        sampleData.description = isLongDescription ? data.description.substring(0,250): data.description;
+        sampleData.description = isLongDescription ? data.description.substring(0,this.descriptionMaxLength): data.description;
       }
 
       if (data.tags) {
