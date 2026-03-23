@@ -5,6 +5,7 @@ import { ELabFTWParser, convertDatasetsToPreviewItems } from '../utils/elabftw-p
 import { RSpaceImporter } from '../services/rspace-importer';
 import { RSpaceService } from '../services/rspace-api';
 import { PreviewSession } from '../types/eln';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";
 
 describe('End-to-End Import Integration', () => {
   const dataDir = path.join(process.cwd(), 'src/integration-test/data');
@@ -32,6 +33,15 @@ describe('End-to-End Import Integration', () => {
     const datasets = (parser as any).extractDatasets(crateData);
     
     const previewItems = convertDatasetsToPreviewItems(datasets, fileMetadata, crateData);
+
+    //if we dont do this, everything defaults to 'Items' as its quantity type
+    previewItems.forEach(item => {
+      Object.entries(item.metadata).forEach(([fieldName, _]) => {
+        if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
+          item.chosenQuantityName = fieldName;
+        }
+      })
+    })
 
     const session: PreviewSession = {
       id: `session-test`,

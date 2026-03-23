@@ -16,12 +16,12 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.json_step_longname.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_experiment_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_resource_links.json';
-  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_test.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_test.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_with_value_having_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_tags_category_and_status.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_no_value_having_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
-  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_template.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_with_time.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with checkbox.json';
