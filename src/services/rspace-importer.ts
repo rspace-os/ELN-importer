@@ -256,14 +256,14 @@ export class RSpaceImporter {
     const templateName = `${item.name} ELN ${item.category} Template`;
     const templateFieldsForm = prepareFormFields(item, false);
     const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
-    const matchingSTExistsWithID = isBrowser ? localStorage.getItem(this.simpleStringHash(JSON.stringify(templateFieldsForm))) : null;
+    const matchingSTExistsWithID = isBrowser ? localStorage.getItem(this.simpleStringHash(JSON.stringify(templateFieldsForm) + JSON.stringify(quantity))) : null;
     let templateId:number;
     if (matchingSTExistsWithID && await this.rspaceService.sampleTemplateExists(Number(matchingSTExistsWithID))) {
       templateId = Number(matchingSTExistsWithID);
     } else {
       templateId = await this.rspaceService.createSampleTemplate(templateName, templateFieldsForm, quantity, tags, description);
       if(isBrowser) {
-        localStorage.setItem(this.simpleStringHash(JSON.stringify(templateFieldsForm)), ""+templateId);
+        localStorage.setItem(this.simpleStringHash(JSON.stringify(templateFieldsForm)+ JSON.stringify(quantity)), ""+templateId);
       }
     }
     if (isTemplate && uploadedFileIds.length === 0) {//sampleTemplates cannot have attached files; we will continue and create a sample for that

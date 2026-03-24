@@ -25,9 +25,10 @@ interface PreviewInterfaceProps {
   onBack: () => void;
   onClassificationChange: (itemId: string, classification: 'document' | 'inventory') => void;
   onConfigureRSpace: () => void;
+  handleChosenQuantityChange: (itemId: string, chosenQuantityName:string) => void;
 }
 
-export function PreviewInterface({ session, onImport, onBack, onClassificationChange, onConfigureRSpace }: PreviewInterfaceProps) {
+export function PreviewInterface({ session, onImport, onBack, onClassificationChange, onConfigureRSpace, handleChosenQuantityChange }: PreviewInterfaceProps) {
   const { config, isConfigured } = useRSpaceConfig();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -82,7 +83,6 @@ export function PreviewInterface({ session, onImport, onBack, onClassificationCh
       toast.error('Please configure RSpace credentials first. Click the settings button in the top right.');
       return;
     }
-
     if (selectedItems.size === 0) {
       toast.error('Please select at least one item to import');
       return;
@@ -405,6 +405,7 @@ export function PreviewInterface({ session, onImport, onBack, onClassificationCh
                         item={item}
                         onClassificationChange={onClassificationChange}
                         onItemClick={setDetailItem}
+                        handleChosenQuantityChange={handleChosenQuantityChange}
                       />
                     </div>
                   ))

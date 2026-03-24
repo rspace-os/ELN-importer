@@ -14,6 +14,7 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.default_values.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.category_customID_status.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.json_step_longname.json';
+  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.exp_tag_with_special_chars.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_experiment_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate_resource_links.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_test.json';
@@ -21,7 +22,7 @@ async function runImport() {
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_tags_category_and_status.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_number_no_value_having_units.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_two_numbers_with_one_value_having_units.json';
-  const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
+  // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with_quantity.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_template.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.an_experiment_with_time.json';
   // const filePath = '/Users/neilhanlon/projects/rspace-os-fork/ELN-importer/src/integration-test/data/elab_ftw_ro_crate.a_resource_with checkbox.json';
@@ -46,14 +47,6 @@ async function runImport() {
   const fileMetadata = parser.extractFileMetadata(crateData);
 
   const previewItems = convertDatasetsToPreviewItems(datasets, fileMetadata, crateData);
-  //if we dont do this, everything defaults to 'Items' as its quantity type
-  previewItems.forEach(item => {
-    Object.entries(item.metadata).forEach(([fieldName, _]) => {
-      if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
-        item.chosenQuantityName = fieldName;
-      }
-    })
-  })
 
   const session: PreviewSession = {
     id: 'script-session-' + Date.now(),

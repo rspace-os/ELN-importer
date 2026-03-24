@@ -107,6 +107,18 @@ function AppContent() {
     
     setCurrentSession(updatedSession);
   };
+  const handleChosenQuantityChange = (itemId: string, chosenQuantityName:string) => {
+    if (!currentSession) return;
+    const updatedSession = {
+      ...currentSession,
+      items: currentSession.items.map(item =>
+          item.id === itemId
+              ? { ...item, chosenQuantityName: chosenQuantityName }
+              : item
+      )
+    };
+    setCurrentSession(updatedSession);
+  };
 
   const handleImport = async (session: PreviewSession) => {
     // This is now handled by PreviewInterface
@@ -167,6 +179,7 @@ function AppContent() {
           onBack={handleBack}
           onClassificationChange={handleClassificationChange}
           onConfigureRSpace={() => setShowSettings(true)}
+          handleChosenQuantityChange ={handleChosenQuantityChange}
         />
       )}
     </div>

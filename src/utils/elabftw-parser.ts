@@ -9,7 +9,8 @@ import {
 import { CustomFieldExtractor } from './CustomFieldExtractor';
 import { ClassificationEngine } from './ClassificationEngine';
 import { ValidationEngine } from './ValidationEngine';
-import { SourceDetector, ELNSource } from './SourceDetector';  // P1: Source detection
+import { SourceDetector, ELNSource } from './SourceDetector';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";  // P1: Source detection
 
 export class ELabFTWParser {
   private crateData: ROCrateData | null = null;
@@ -402,7 +403,7 @@ export function convertDatasetsToPreviewItems(
   const classifier = new ClassificationEngine();
   const validator = new ValidationEngine();
 
-  return datasets.map(dataset => {
+  const previewItems: PreviewItem[] =  datasets.map(dataset => {
     // Extract custom fields
     const customFields = parser.extractCustomFields(dataset.variableMeasured, crateData);
     
@@ -445,6 +446,15 @@ export function convertDatasetsToPreviewItems(
 
     return previewItem;
   });
+  //if we dont do this, everything defaults to 'Items' as its quantity type
+  previewItems.forEach(item => {
+    Object.entries(item.metadata).forEach(([fieldName, _]) => {
+      if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
+        item.chosenQuantityName = fieldName;
+      }
+    })
+  })
+  return previewItems;
 }
 
 // Helper function to create item-specific metadata

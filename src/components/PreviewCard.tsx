@@ -20,9 +20,10 @@ interface PreviewCardProps {
   item: PreviewItem;
   onClassificationChange: (itemId: string, classification: 'document' | 'inventory') => void;
   onItemClick: (item: PreviewItem) => void;
+  handleChosenQuantityChange: (itemId: string, chosenQuantityName: string) => void;
 }
 
-export function PreviewCard({ item, onClassificationChange, onItemClick }: PreviewCardProps) {
+export function PreviewCard({ item, onClassificationChange, onItemClick, handleChosenQuantityChange }: PreviewCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState('auto-detect');
   const currentClassification = item.userClassification || item.proposedClassification;
@@ -71,7 +72,7 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                           className="ml-4 px-2 py-1 text-sm border border-purple-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                           value={selectedQuantity}
                           onChange={(e) => {
-                            item.chosenQuantityName = e.target.value;
+                            handleChosenQuantityChange(item.id, e.target.value);
                             setSelectedQuantity(e.target.value);
                           }}
                       >
@@ -80,7 +81,6 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                           return extractQuantityFromMetadata(item.metadata, fieldName)?.length>0;
                         })
                         .map(([fieldName]) => {
-                          item.chosenQuantityName = fieldName;
                           return <option key={fieldName} value={fieldName}>{fieldName}</option>
                         })}
                         <option key = "Items" value="Items">(Items)</option>

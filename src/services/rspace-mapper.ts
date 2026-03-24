@@ -269,7 +269,16 @@ export function isInstrumentResource(item: PreviewItem): boolean {
   return item.justification.includes('instrument') ||
          item.justification.includes('equipment');
 }
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '<': '&lt;',
+    '>': '&gt;',
+    '\\': '&#92;',
+    '/': '&#47;'
+  };
 
+  return text.replace(/[<>\/\\\/]/g, (char) => map[char]);
+}
 /**
  * Prepares tags for RSpace items based on classification and metadata
  *
@@ -279,11 +288,12 @@ export function isInstrumentResource(item: PreviewItem): boolean {
 export function prepareTags(item: PreviewItem): string[] {
   const tags: string[] = [];
   tags.push('elabftw-import');
-  tags.push(item.type);
-  tags.push(item.category.toLowerCase().replace(/\s+/g, '-'));
+  tags.push(escapeHtml(item.type));
+  tags.push(escapeHtml(item.category.toLowerCase().replace(/\s+/g, '-')));
   if(item.keywords && item.keywords.length > 0) {
-    tags.push(item.keywords.join(','));
+    tags.push(escapeHtml(item.keywords.join(',')));
   }
+
   if (item.creativeWorkStatus) {
     tags.push(item.creativeWorkStatus);
   }

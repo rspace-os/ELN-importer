@@ -34,14 +34,6 @@ describe('End-to-End Import Integration', () => {
     
     const previewItems = convertDatasetsToPreviewItems(datasets, fileMetadata, crateData);
 
-    //if we dont do this, everything defaults to 'Items' as its quantity type
-    previewItems.forEach(item => {
-      Object.entries(item.metadata).forEach(([fieldName, _]) => {
-        if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
-          item.chosenQuantityName = fieldName;
-        }
-      })
-    })
 
     const session: PreviewSession = {
       id: `session-test`,
