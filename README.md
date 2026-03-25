@@ -1,5 +1,7 @@
 ELN-importer
 
+You need to have node.js installed. See https://nodejs.org/en/download
+
 (first time setup: `npm install`)
 
 RUN the code: `npm run dev`
@@ -13,5 +15,5 @@ integration-test : `npm run integration-test`
 
 run scripts:
 -- to run the importer headless with the test data defined in the import-crate.ts script:
-`npx vite-node src/scripts/import-crate.ts`
+`npx vite-node src/scripts/import-crate.ts`git 
 
