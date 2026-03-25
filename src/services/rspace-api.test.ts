@@ -130,3 +130,127 @@ describe('RSpaceService', () => {
     });
   });
 });
+
+// Additional coverage for RSpaceService
+import * as fs from 'fs';
+import * as path from 'path';
+import os from 'os';
+
+describe('RSpaceService - extended', () => {
+  const config = { baseUrl: 'http://localhost:8080', apiKey: 'key' };
+  let service: RSpaceService;
+
+  beforeEach(() => {
+    service = new RSpaceService(config as any);
+    global.fetch = vi.fn();
+  });
+
+  it('testConnection returns true in integration test mode', async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rspace-'));
+    service.setIntegrationTestMode(tmp, 'input.json');
+    const ok = await service.testConnection();
+    expect(ok).toBe(true);
+  });
+
+  it('createForm writes payload in integration test mode and returns mock id', async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rspace-'));
+    service.setIntegrationTestMode(tmp, 'input.json');
+
+    const id = await service.createForm('My Form', [
+      { name: 'Field A', type: 'String', mandatory: false }
+    ] as any);
+
+    expect(id).toBe(999);
+    const outFile = path.join(tmp, 'input.json-output.json');
+    expect(fs.existsSync(outFile)).toBe(true);
+    const arr = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+    const entry = arr.find((e: any) => e.type === 'createForm');
+    expect(entry).toBeTruthy();
+    expect(entry.data.name).toBe('My Form');
+    expect(entry.data.fields[0].name).toBe('Field A');
+  });
+
+  it('createDocument writes payload in integration test mode and applies description formatting', async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rspace-'));
+    service.setIntegrationTestMode(tmp, 'input.json');
+
+    const fieldValues = [
+      { name: 'Content', content: 'Body' },
+      { name: 'Custom', content: 'X', description: 'Details' }
+    ];
+
+    const res = await service.createDocument(42, 'DocName', fieldValues as any, ['t1','t2']);
+    expect(res.id).toBe(888);
+
+    const outFile = path.join(tmp, 'input.json-output.json');
+    const arr = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+    const doc = arr.find((e: any) => e.type === 'createDocument');
+    expect(doc).toBeTruthy();
+    expect(doc.data.form.id).toBe(42);
+    expect(doc.data.tags).toBe('t1,t2');
+    const fv = doc.data.fields.find((f: any) => f.name === 'Custom');
+    expect(fv.content.startsWith('<p>Description: Details</p><br/>')).toBe(true);
+  });
+
+  it('uploadFile retries on first failure then succeeds', async () => {
+    const file = new File([new Blob(['abc'])], 'a.txt', { type: 'text/plain' });
+    (global.fetch as any)
+      .mockResolvedValueOnce({ ok: false, status: 503 })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: '1', globalId: 'GL1', name: 'a.txt' }) });
+
+    const result = await service.uploadFile(file);
+    expect(result.id).toBe('1');
+    expect((global.fetch as any).mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('attachFileToDocument calls records attachments endpoint', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, json: async () => ({}) });
+    await service.attachFileToDocument(123, 456);
+    const [url, opts] = (global.fetch as any).mock.calls[0];
+    expect(url).toContain('/api/v1/records/123/attachments');
+    expect(JSON.parse(opts.body)).toEqual({ fileId: 456 });
+  });
+
+  it('createInventoryContainer maps tags to objects', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, json: async () => ({ id: 'IC1', globalId: 'IC1' }) });
+    const res = await service.createInventoryContainer({ name: 'Instr', tags: ['x','y'] });
+    expect(res.id).toBe('IC1');
+    const body = JSON.parse((global.fetch as any).mock.calls[0][1].body);
+    expect(body.tags).toEqual([{ value: 'x' }, { value: 'y' }]);
+  });
+
+  it('sampleTemplateExists returns true/false based on fetch', async () => {
+    (global.fetch as any).mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ id: 1 }) });
+    expect(await service.sampleTemplateExists(1)).toBe(true);
+    (global.fetch as any).mockResolvedValueOnce({ ok: false, status: 404, text: async () => 'Not Found' });
+    expect(await service.sampleTemplateExists(2)).toBe(false);
+  });
+
+  it('getForms returns parsed forms list', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, json: async () => ({ forms: [{ id: 1, name: 'F1' }] }) });
+    const forms = await service.getForms();
+    expect(forms[0].id).toBe(1);
+  });
+
+  it('getDocument returns parsed document', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, json: async () => ({ id: 10, fields: [] }) });
+    const doc = await service.getDocument(10);
+    expect(doc.id).toBe(10);
+  });
+
+  it('deleteDocument calls DELETE and succeeds', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, status: 204 });
+    await expect(service.deleteDocument(9)).resolves.toBeUndefined();
+    const [url, opts] = (global.fetch as any).mock.calls[0];
+    expect(url).toContain('/api/v1/documents/9');
+    expect(opts.method).toBe('DELETE');
+  });
+
+  it('deleteInventoryItem deletes a sample by global id', async () => {
+    (global.fetch as any).mockResolvedValue({ ok: true, status: 204 });
+    await expect(service.deleteInventoryItem('SA123')).resolves.toBeUndefined();
+    const [url, opts] = (global.fetch as any).mock.calls[0];
+    expect(url).toContain('/api/inventory/v1/samples/SA123');
+    expect(opts.method).toBe('DELETE');
+  });
+});
