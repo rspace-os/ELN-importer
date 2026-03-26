@@ -1,43 +1,17 @@
-import { PreviewItem } from '../types/eln';
+import {CustomField, FormField, PreviewItem} from '../types/elabftw';
+import {RSpaceService} from "./rspace-api.ts";
+const MAX_FIELDNAME_LENGTH = 50;
 
-/**
- * P1 IMPROVEMENT: Renamed parameter from elabftwType to fieldType
- * Maps field types from any ELN source to RSpace field types
- *
- * @param fieldType - Field type from source ELN (generic, not eLabFTW-specific)
- * @returns RSpace-compatible field type
- */
-export function mapFieldTypeForRSpace(fieldType: string): string {
-  const typeMapping: Record<string, string> = {
-    'number': 'Number',
-    'date': 'Date',
-    'datetime': 'Date',
-    'time': 'Time',
-    'checkbox': 'Radio',  // P0: Checkboxes map to Radio with Yes/No options
-    'select': 'Choice',
-    'radio': 'Radio',
-    'textarea': 'Text',
-    'url': 'String',
-    'email': 'String',
-    'text': 'String'
-  };
-
-  return typeMapping[fieldType] || 'Text';
-}
-
-export function prepareFormFields(item: PreviewItem) {
-  // P0 FIX: Track used field names to prevent collisions
+export function prepareFormFields(item: PreviewItem, isDocumentTemplate:boolean) : FormField[] {
   const usedFieldNames = new Set<string>();
-
-  // Helper function to get unique field name
-  const getUniqueFieldName = (baseName: string): string => {
-    let fieldName = baseName.substring(0, 50);
+  const getUniqueFieldName = (baseName: string, maxTotalLength?: number): string => {
+    let fieldName = baseName.substring(0, (maxTotalLength? maxTotalLength: MAX_FIELDNAME_LENGTH));
     let counter = 1;
 
     // If name already exists, append counter
     while (usedFieldNames.has(fieldName)) {
       const suffix = `_${counter}`;
-      const maxLength = 50 - suffix.length;
+      const maxLength = (maxTotalLength? maxTotalLength: MAX_FIELDNAME_LENGTH) - suffix.length;
       fieldName = baseName.substring(0, maxLength) + suffix;
       counter++;
     }
@@ -45,31 +19,39 @@ export function prepareFormFields(item: PreviewItem) {
     usedFieldNames.add(fieldName);
     return fieldName;
   };
-
-  const formFields = [
-    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false },
+  const formFields: FormField[] = [
+    { name: getUniqueFieldName('Owner'), type: 'String', mandatory: false, fullName: 'Owner', content: item.authorName },
+    { name: getUniqueFieldName('Content'), type: 'Text', mandatory: false,  fullName: 'Content', content: item.textContent },
   ];
 
-  // Add individual step fields with deduplication
   if (item.steps && item.steps.length > 0) {
-    item.steps.forEach((step, index) => {
-      // P0 FIX: Use index instead of position to avoid duplicate field names
-      const stepName = getUniqueFieldName(`Step ${index + 1}`);
+    item.steps.forEach((step) => {
+      const fullName = makeStepName(step.itemListElement.text);
+      const deadlineName = makeStepDeadlineName(step.itemListElement.text);
+      const stepName = getUniqueFieldName(fullName);
       formFields.push({
         name: stepName,
-        type: 'Text',
-        mandatory: false
+        fullName: fullName,
+        type: 'Radio',
+        mandatory: false,
+        options: ['finished','unfinished']
+      });
+      formFields.push({
+        name: getUniqueFieldName(deadlineName),
+        fullName: deadlineName,
+        type: 'String',//TODO - make this map to a time or a date instead?
+        mandatory: false,
+        isSecondary:true
       });
     });
-  }
+}
 
   formFields.push(
-    { name: getUniqueFieldName('References'), type: 'Text', mandatory: false },
-    { name: getUniqueFieldName('Keywords'), type: 'Text', mandatory: false },
-    { name: getUniqueFieldName('Source ELN ID'), type: 'String', mandatory: false },  // P1: Generic name
-    { name: getUniqueFieldName('Category'), type: 'String', mandatory: false },
-    { name: getUniqueFieldName('Date Created'), type: 'Date', mandatory: false },
-    { name: getUniqueFieldName('Date Modified'), type: 'Date', mandatory: false }
+    { name: getUniqueFieldName('References'), type: 'Text', mandatory: false, fullName: 'References' },
+    { name: getUniqueFieldName('Source ELN ID'), type: 'String', mandatory: false, fullName: 'Source ELN ID' , content:item.id},  // P1: Generic name
+    { name: getUniqueFieldName('Category'), type: 'String', mandatory: false, fullName: 'Category', content: item.category },
+    { name: getUniqueFieldName('Date Created'), type: 'Date', mandatory: false, fullName: 'Date Created', content: formatDateForRSpace(item.dateCreated) },
+    { name: getUniqueFieldName('Date Modified'), type: 'Date', mandatory: false, fullName: 'Date Modified', content: formatDateForRSpace(item.dateModified) }
   );
 
   // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
@@ -80,56 +62,111 @@ export function prepareFormFields(item: PreviewItem) {
     'custom_fields',      // Already extracted
     '_internal'           // Internal fields
   ]);
-
+  const getFieldValueAndCheckBoxValueToRadio = (field: CustomField) => {
+    if (field.type === 'checkbox') {
+      const truthy = ['on', 'true', '1', 'checked', 'yes'];
+      return truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
+    }
+    return field.value;
+  }
   Object.entries(item.metadata).forEach(([fieldName, field]) => {
     if (!metadataFieldsToSkip.has(fieldName)) {
-      const mappedType = mapFieldTypeForRSpace(field.type);
-
-      // P0 FIX: Checkbox fields mapped to Radio need Yes/No options
-      const fieldOptions = field.options ||
-        (field.type === 'checkbox' && mappedType === 'Radio' ? ['Yes', 'No'] : undefined);
-
-      formFields.push({
+      const mappedType = mapSelectAndCheckBoxToRadio(field.type);
+      const showAsPickList = field.type === 'select';
+      const fieldOptions = field.options;
+      const primaryFormField : FormField = {
         name: getUniqueFieldName(fieldName),
+        fullName: fieldName,
         type: mappedType,
+        ...(mappedType === 'Time' && {defaultValue: 1}),
         mandatory: field.required || false,
-        ...(fieldOptions && { options: fieldOptions })
-      } as any);
+        ...(fieldOptions && { options: fieldOptions }),
+        ...(fieldOptions && field.value && {'selectedOptions': [getFieldValueAndCheckBoxValueToRadio(field)]}),
+        ...(showAsPickList && { showAsPickList: true }),
+        content: field.value,
+      };
+      formFields.push(primaryFormField);
+      if(field.description && mappedType !== 'Text') {
+        const description = {
+          name: getUniqueFieldName("Description: "+fieldName),
+          fullName: "Description: "+fieldName,
+          type: 'Text',
+          mandatory: false,
+          isSecondary:true,
+          content: field.description
+        };
+        primaryFormField.descriptionName = description.name;
+        formFields.push(description);
+      }
+      if(field.units && field.units.length > 0) {
+        const units = {
+          name: getUniqueFieldName("Units: "+fieldName),
+          fullName: "Units: "+fieldName,
+          type: 'Radio',
+          mandatory: false,
+          showAsPickList: true,
+          isSecondary:true,
+          options: field.units.map(unit => unit.toString()),
+          selectedOptions: [field.unitText],
+        };
+        primaryFormField.unitsName = units.name;
+        formFields.push(units);
+      }
     }
   });
-
+  const formFieldsCopy = [...formFields];
+  formFieldsCopy.forEach(field => {
+    if(field.fullName.length > MAX_FIELDNAME_LENGTH && !field.isSecondary) {
+      const fullNameField = {type: "Text", name:getUniqueFieldName("FullName: "+field.fullName), fullName:"FullName: "+field.fullName, mandatory:false};
+      formFields.splice(formFields.indexOf(field)+1,0,fullNameField);
+      field.fullNameName = fullNameField.name;
+    }
+  })
   return formFields;
 }
 
-export function prepareDocumentFieldValues(item: PreviewItem): Record<string, string> {
-  const formatDateForRSpace = (dateString?: string): string => {
-    if (!dateString) return '';
-    try {
-      const date = new Date(dateString);
-      return date.toISOString().split('T')[0];
-    } catch {
-      return '';
-    }
-  };
+export function mapSelectAndCheckBoxToRadio(fieldType: string): string {
+  if (fieldType === 'checkbox' || fieldType === 'select') {
+    return 'Radio';
+  }
+  return fieldType;
+}
 
-  const fieldValues: Record<string, string> = {
-    'Content': item.textContent || 'No content',
-  };
+const makeStepName = name => `Step: ${name}`;
+const makeStepDeadlineName = name => `Deadline: ${name}`;
+const formatDateForRSpace = (dateString?: string): string => {
+  if (!dateString) return '';
+  try {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  } catch {
+    return '';
+  }
+};
+export function prepareDocumentFieldValues(item: PreviewItem, formFields: FormField []): Array<{ name: string, content: string, description?: string }> {
 
-  // Add individual step values
-  // P0 FIX: Use index instead of position to match field names from prepareFormFields
+type ObjectWithAtLeastOneString = {
+    [key: string]: string;
+  };
+  const preFieldValues: Array<ObjectWithAtLeastOneString> = [
+      {'Owner': item.authorName || ''},
+    {'Content': item.textContent || 'No content'},
+  ];
+
   if (item.steps && item.steps.length > 0) {
-    item.steps.forEach((step, index) => {
-      fieldValues[`Step ${index + 1}`] = step.itemListElement.text;
+    item.steps.forEach((step) => {
+      const fullName = makeStepName(step.itemListElement.text);
+      const deadlineName = makeStepDeadlineName(step.itemListElement.text);
+      preFieldValues.push({[fullName]: step.creativeWorkStatus});
+      preFieldValues.push({[deadlineName]: step.expires ? new Date(step.expires).toLocaleString():""});
     });
   }
 
-  fieldValues['References'] = '';
-  fieldValues['Keywords'] = item.keywords.join(', ');
-  fieldValues['Source ELN ID'] = item.id;  // P1: Generic name
-  fieldValues['Category'] = item.category;
-  fieldValues['Date Created'] = formatDateForRSpace(item.dateCreated);
-  fieldValues['Date Modified'] = formatDateForRSpace(item.dateModified);
+  preFieldValues.push({'References' :''});
+  preFieldValues.push({'Source ELN ID':item.id});  // P1: Generic name
+  preFieldValues.push({'Category': item.category});
+  preFieldValues.push({'Date Created': formatDateForRSpace(item.dateCreated)});
+  preFieldValues.push({'Date Modified': formatDateForRSpace(item.dateModified)});
 
   // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
   const metadataFieldsToSkip = new Set([
@@ -144,123 +181,121 @@ export function prepareDocumentFieldValues(item: PreviewItem): Record<string, st
     if (!metadataFieldsToSkip.has(fieldName)) {
       let fieldValue = field.value || '';
 
-      // P0 FIX: Convert checkbox values to Yes/No for Radio buttons
+      // Convert checkbox values to Choice format
       if (field.type === 'checkbox') {
-        // Convert checkbox values: 'on', 'true', '1', 'checked' → 'Yes', otherwise 'No'
         const truthy = ['on', 'true', '1', 'checked', 'yes'];
         fieldValue = truthy.includes(String(field.value).toLowerCase()) ? 'Yes' : 'No';
       }
-
-      fieldValues[fieldName.substring(0, 50)] = fieldValue;
+      preFieldValues.push({[fieldName]: fieldValue, description: field.description || '', unitText: field.unitText || ''});
     }
   });
-
-  return fieldValues;
-}
-
-export function prepareInventoryCustomFields(item: PreviewItem): Record<string, string> {
-  const customFields: Record<string, any> = {};
-
-  // P1 IMPROVEMENT: Define metadata fields to skip (not just elabftw_metadata)
-  const metadataFieldsToSkip = new Set([
-    'elabftw_metadata',
-    'source_metadata',
-    'extra_fields',
-    'custom_fields',
-    '_internal'
-  ]);
-
-  // BUG FIX: RSpace reserved field names for inventory
-  const reservedFieldNames = new Set([
-    'name',
-    'description',
-    'expiry date',
-    'expirydate',
-    'source',
-    'tags'
-  ]);
-
-  Object.entries(item.metadata).forEach(([fieldName, field]) => {
-    const fieldNameLower = fieldName.toLowerCase().trim();
-
-    // Skip metadata container fields
-    if (metadataFieldsToSkip.has(fieldName)) {
-      return;
-    }
-
-    // Skip empty values
-    if (field.value === undefined || field.value === null) {
-      return;
-    }
-
-    // BUG FIX: Rename reserved field names to preserve data
-    let finalFieldName = fieldName;
-    if (reservedFieldNames.has(fieldNameLower)) {
-      finalFieldName = `metadata_${fieldName}`;
-      console.log(`Renamed reserved field: "${fieldName}" → "${finalFieldName}"`);
-    }
-
-    // BUG FIX: Convert all values to strings for RSpace API
-    // Handles: booleans (true/false), numbers (5.0, 0.1), strings, objects
-    let stringValue: string;
-    if (typeof field.value === 'object') {
-      try {
-        stringValue = JSON.stringify(field.value);
-      } catch (error) {
-        // Handle circular references or other JSON.stringify errors
-        console.warn(`Failed to stringify field "${fieldName}":`, error);
-        stringValue = String(field.value); // Fallback to toString()
+  const orderedFieldValues :{name:string,content:string, description?:string} [] = [];
+  formFields.forEach(field => {
+    const aValue = preFieldValues.find(v=> v[field.fullName] !== undefined);
+    if(aValue) {
+      const descriptionValue = (aValue['description'] || '').replace('Extra field:', '') ;
+      if(field.type === 'Text' && descriptionValue) {
+        orderedFieldValues.push({
+          name: field.name, content: aValue[field.fullName],
+          description: (descriptionValue)
+        });
+      } else if (descriptionValue) {
+        orderedFieldValues.push({
+          name: field.name, content:  aValue[field.fullName]
+        });
+        orderedFieldValues.push({
+          name: field.descriptionName || '', content: descriptionValue
+        });
+      } else {
+        orderedFieldValues.push({
+          name: field.name, content: aValue[field.fullName]
+        });
       }
-    } else {
-      stringValue = String(field.value);
+      if(aValue.unitText) {
+        orderedFieldValues.push({
+          name: field.unitsName || '', content: aValue.unitText
+        });
+      }
+      if(aValue && field.fullName.length > MAX_FIELDNAME_LENGTH &&!field.isSecondary) {
+        orderedFieldValues.push({
+          name: field.fullNameName || '', content: field.fullName
+        });
+      }
     }
-
-    customFields[finalFieldName] = stringValue;
   });
-
-  customFields['Source ELN ID'] = String(item.id);  // P1: Generic name
-  customFields['Category'] = String(item.category);
-  customFields['Date Created'] = String(item.dateCreated || '');
-  customFields['Keywords'] = item.keywords.join(', ');
-
-  return customFields;
+  return orderedFieldValues;
 }
 
-export function extractQuantityFromMetadata(item: PreviewItem): { value: number; unit: string } | undefined {
-  const quantityFields = Object.entries(item.metadata).find(([fieldName, field]) =>
-    ['quantity', 'amount', 'volume', 'mass', 'weight', 'concentration'].some(q =>
-      fieldName.toLowerCase().includes(q)
-    ) && field.value
-  );
-
-  if (quantityFields) {
-    const [fieldName, field] = quantityFields;
-    const numericValue = parseFloat(field.value);
-    if (!isNaN(numericValue)) {
-      const unit = field.units?.[0] || 'units';
-      return { value: numericValue, unit };
+export function extractQuantityFromMetadata(metadata: Record<string, CustomField>, chosenQuantityName?: string): Array<{ value: number; unit: string, category: string }> {
+  // Helper to try to infer unit from description text when unitText is missing
+  const parseDescriptionForUnits  = (description?: string) => {
+    let unitValue = '';
+    if(description) {
+      const descriptionParts = description.split(' ');
+      descriptionParts.forEach((part) => {
+        const testValue = part.toLowerCase().replaceAll("μ", "µ");
+        // If unit is known, use it (unitMap is a simple map in our service)
+        if (RSpaceService.unitMap[testValue]) {
+          unitValue =  testValue;
+        }
+      })
+    }
+    return unitValue;
+  };
+  const quantities = [];
+  if (chosenQuantityName === 'Items') {//this is the default when no quantity is specified is of category volume or mass
+    return [{value: 1, unit: 'items', category: 'dimensionless'}];
+  }
+  const entries = Object.entries(metadata);
+  for(const [fieldName, field] of entries) {
+    let numericValue = parseFloat(field.value);
+    if (isNaN(numericValue)) {
+      numericValue = 1;
+    }
+    const unit = field.unitText || parseDescriptionForUnits(field.description) || '';
+    const category = RSpaceService.getCategory(unit);
+    if (RSpaceService.getUnitId(unit)) {
+      if (chosenQuantityName && fieldName.toLowerCase() === chosenQuantityName.toLowerCase()) {
+        quantities.push({value: numericValue, unit, category});
+      }  else if (!chosenQuantityName) {
+        quantities.push({value: numericValue, unit, category});
+      }
     }
   }
-
-  return undefined;
+  return quantities;
 }
 
 export function isInstrumentResource(item: PreviewItem): boolean {
   return item.justification.includes('instrument') ||
          item.justification.includes('equipment');
 }
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '<': '&lt;',
+    '>': '&gt;',
+    '\\': '&#92;',
+    '/': '&#47;'
+  };
 
+  return text.replace(/[<>\/\\\/]/g, (char) => map[char]);
+}
 /**
- * P1 IMPROVEMENT: Changed from 'elabftw-import' to generic 'eln-import' tag
  * Prepares tags for RSpace items based on classification and metadata
  *
  * @param item - Preview item to generate tags for
  * @returns Array of tags for RSpace
  */
 export function prepareTags(item: PreviewItem): string[] {
-  return [
-    'eln-import',  // P1: Generic tag instead of 'elabftw-import'
-    item.type,
-    item.category.toLowerCase().replace(/\s+/g, '-')
-  ];
+  const tags: string[] = [];
+  tags.push('elabftw-import');
+  tags.push(escapeHtml(item.type));
+  tags.push(escapeHtml(item.category.toLowerCase().replace(/\s+/g, '-')));
+  if(item.keywords && item.keywords.length > 0) {
+    tags.push(escapeHtml(item.keywords.join(',')));
+  }
+
+  if (item.creativeWorkStatus) {
+    tags.push(item.creativeWorkStatus);
+  }
+  return tags;
 }

@@ -1,0 +1,238 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-25T18:28:05+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-25T18:28:05+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/b26fbcdb-a7bd-47ea-bab4-5bbb80e8e60d",
+      "@type": "File",
+      "name": "wombat.png",
+      "alternateName": "c2\/c26004bb-92ec-4f32-82f0-f86470ea9341.png",
+      "creativeWorkStatus": "Normal",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 24205,
+      "sha256": "f197a2ecb5cacb6b475864d6f658afabaee5a0e4f6cbbd1d90d390418cbb9676"
+    },
+    {
+      "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/318a9ae7-3e41-4d7d-960d-88803164e330",
+      "@type": "File",
+      "name": "test.xlsx",
+      "alternateName": "8d\/8d4a9c56-31e6-498d-bd8b-dce019135930.xlsx",
+      "creativeWorkStatus": "Normal",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 20213,
+      "sha256": "1057cd4fdc7f45196b705dbd3609cd97029ffc6af704b3bc8411db40c0812605",
+      "description": "Untitled"
+    },
+    {
+      "@id": "#category-Synthesis",
+      "@type": "Thing",
+      "name": "Synthesis",
+      "color": "B82EBA"
+    },
+    {
+      "@id": "pv:\/\/293cec49-7a8d-46fe-8450-c1669a731bc2",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{}"
+    },
+    {
+      "@id": ".\/38394457-3a24-4b17-b68d-962ec1811c0d\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/1dd85d5cff20fd2a07ed284b5cd7a46018bfb4ce8c02a484a62d1adc7bbf2058?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-25T02:51:57+01:00",
+      "dateModified": "2026-02-25T02:51:57+01:00",
+      "temporal": "2025-01-02T00:00:00+01:00",
+      "name": "Synthesis of Aspirin",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=57",
+      "genre": "experiment",
+      "creativeWorkStatus": "Success",
+      "identifier": "20260225-c9dddfffe2c9444ded40334189e6047ddd891e03",
+      "keywords": "generated from yml,chemistry,has-mathjax",
+      "text": "<h1>Introduction<\/h1>\n<p>\nAspirin is a widely used pain-relieving and anti-inflammatory drug. In this experiment, we aimed to synthesize aspirin from salicylic acid and acetic anhydride.\n<\/p>\n<h2>Experimental Design<\/h2>\n<p>\nWe mixed salicylic acid and acetic anhydride in the presence of a catalyst, sulfuric acid. The reaction produced aspirin and acetic acid, as shown in the following chemical equation:\n<\/p>\n<p>\n$$\\ce{C7H6O3 + (CH3CO)2O -&gt;[\\text{H2SO4}] C9H8O4 + CH3COOH}$$\n<\/p>\n<p>\nAfter the reaction, we purified the aspirin by recrystallization from hot water. The purity of the aspirin was confirmed using thin-layer chromatography (TLC) and melting point analysis.\n<\/p>\n<h2>Results<\/h2>\n<p>\nThe yield of aspirin was 80% based on the amount of salicylic acid used. The purity of the aspirin was confirmed using TLC, which showed a single spot corresponding to aspirin. The melting point of the aspirin was 135-136\u00b0C, which is consistent with the literature value of 135-136.5\u00b0C.\n<\/p>\n<p>\nThe chemical reaction involved in the synthesis of aspirin can be written as:\n<\/p>\n<p>\n$$\\ce{C7H6O3 + (CH3CO)2O -&gt;[\\text{H2SO4}] C9H8O4 + CH3COOH}$$\n<\/p>\n<p>\nThe theoretical yield of aspirin can be calculated using the stoichiometry of the reaction. Assuming that all the salicylic acid reacts and no aspirin is lost during the purification process, the theoretical yield is calculated as follows:\n<\/p>\n<p>\n$$\\text{Theoretical yield} = \\frac{\\text{moles of salicylic acid used}}{\\text{molar ratio of salicylic acid to aspirin}} \\times \\text{molar mass of aspirin}$$\n<\/p>\n<p>\nThe actual yield of aspirin can be calculated by dividing the mass of the purified aspirin by the mass of salicylic acid used and multiplying by 100%. The percent yield can be calculated by dividing the actual yield by the theoretical yield and multiplying by 100%.\n<\/p>\n",
+      "about": {
+        "@id": "#category-Synthesis"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/293cec49-7a8d-46fe-8450-c1669a731bc2"
+        }
+      ]
+    },
+    {
+      "@id": "pv:\/\/9a0a036e-b151-4c31-a99d-a33ecc39c075",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"chemistry\": {\"type\": \"compounds\", \"value\": 2}, \"Extra Field Experiment\": {\"type\": \"experiments\", \"value\": 57}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/c1ca14b4-f2db-4ba1-9fef-d918011bbc60",
+      "propertyID": "chemistry",
+      "valueReference": "compounds",
+      "value": 2
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/6a098cb3-764e-49cc-b8ca-d7754081bf15",
+      "propertyID": "Extra Field Experiment",
+      "valueReference": "experiments",
+      "value": 57
+    },
+    {
+      "@id": "howtostep:\/\/d1d5dc3b-ce06-40af-aac6-0f7298da1e83",
+      "@type": "HowToStep",
+      "position": 1,
+      "creativeWorkStatus": "finished",
+      "temporal": "2026-02-25T18:28:01+01:00",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/cbd91d3e-8c43-40d9-9808-224a90783baf"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/cbd91d3e-8c43-40d9-9808-224a90783baf",
+      "@type": "HowToDirection",
+      "text": "step 1"
+    },
+    {
+      "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-25T11:02:34+01:00",
+      "dateModified": "2026-02-25T18:28:01+01:00",
+      "temporal": "2026-02-25T00:00:00+01:00",
+      "name": "Another",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=219",
+      "genre": "experiment",
+      "hasPart": [
+        {
+          "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/b26fbcdb-a7bd-47ea-bab4-5bbb80e8e60d"
+        },
+        {
+          "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/318a9ae7-3e41-4d7d-960d-88803164e330"
+        }
+      ],
+      "identifier": "20260225-f80c5e7aedd7bf229bcd34d02c546cad676903b9",
+      "mentions": [
+        {
+          "@id": ".\/38394457-3a24-4b17-b68d-962ec1811c0d\/"
+        }
+      ],
+      "text": "<p><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a>qwqqwqwqw<a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><a href=\"?mode=view&amp;id=219&amp;highlightstep=42#step_view_42\">step 1<\/a><\/p>",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/9a0a036e-b151-4c31-a99d-a33ecc39c075"
+        },
+        {
+          "@id": "pv:\/\/c1ca14b4-f2db-4ba1-9fef-d918011bbc60"
+        },
+        {
+          "@id": "pv:\/\/6a098cb3-764e-49cc-b8ca-d7754081bf15"
+        }
+      ],
+      "step": [
+        {
+          "@id": "howtostep:\/\/d1d5dc3b-ce06-40af-aac6-0f7298da1e83"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "3efd7896-51cd-4794-b9f3-e7fba07bc3cd",
+      "@type": "Dataset",
+      "datePublished": "2026-02-25T18:28:05+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/20af3d99-e72e-419a-b2af-fc4dc24a279b\/"
+        },
+        {
+          "@id": ".\/38394457-3a24-4b17-b68d-962ec1811c0d\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/1dd85d5cff20fd2a07ed284b5cd7a46018bfb4ce8c02a484a62d1adc7bbf2058?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Shirley",
+      "familyName": "Schulist",
+      "email": "user1@demo.elabftw.net"
+    },
+    {
+      "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Norris",
+      "familyName": "Kerluke",
+      "email": "admin1@demo.elabftw.net"
+    }
+  ]
+}

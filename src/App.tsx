@@ -6,9 +6,8 @@ import { RSpaceConfigProvider, useRSpaceConfig } from './contexts/RSpaceConfigCo
 import { SettingsModal } from './components/SettingsModal';
 import { FileUpload } from './components/FileUpload';
 import { PreviewInterface } from './components/PreviewInterface';
-import { ELNParser, convertDatasetsToPreviewItems } from './utils/eln-parser';
-import { PreviewSession } from './types/eln';
-import { PreviewSessionService } from './services/preview-session';
+import { ELabFTWParser, convertDatasetsToPreviewItems } from './utils/elabftw-parser';
+import { PreviewSession } from './types/elabftw';
 
 type AppState = 'upload' | 'preview';
 
@@ -28,10 +27,10 @@ function AppContent() {
     try {
       // Parse the ELN file
       console.log('Creating parser...');
-      const parser = new ELNParser();
+      const parser = new ELabFTWParser();
 
       console.log('Parsing ELN file...');
-      const { datasets, fileMetadata, fileIndex } = await parser.parseELNFile(file);
+      const { datasets, fileMetadata, fileIndex, rawJson } = await parser.parseELNFile(file);
 
       console.log('Parsed datasets:', datasets.length);
       console.log('File metadata:', Object.keys(fileMetadata).length);
@@ -71,13 +70,13 @@ function AppContent() {
         totalItems: previewItems.length,
         items: previewItems,
         fileMetadata,
-        fileBlobs
+        fileBlobs,
+        rawJson
       };
 
       console.log('Session created:', session.id);
 
       // Save session
-      PreviewSessionService.saveSession(session);
       setCurrentSession(session);
       setCurrentState('preview');
       
@@ -107,7 +106,18 @@ function AppContent() {
     };
     
     setCurrentSession(updatedSession);
-    PreviewSessionService.saveSession(updatedSession);
+  };
+  const handleChosenQuantityChange = (itemId: string, chosenQuantityName:string) => {
+    if (!currentSession) return;
+    const updatedSession = {
+      ...currentSession,
+      items: currentSession.items.map(item =>
+          item.id === itemId
+              ? { ...item, chosenQuantityName: chosenQuantityName }
+              : item
+      )
+    };
+    setCurrentSession(updatedSession);
   };
 
   const handleImport = async (session: PreviewSession) => {
@@ -169,6 +179,7 @@ function AppContent() {
           onBack={handleBack}
           onClassificationChange={handleClassificationChange}
           onConfigureRSpace={() => setShowSettings(true)}
+          handleChosenQuantityChange ={handleChosenQuantityChange}
         />
       )}
     </div>

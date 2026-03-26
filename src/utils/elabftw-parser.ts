@@ -9,19 +9,32 @@ import {
 import { CustomFieldExtractor } from './CustomFieldExtractor';
 import { ClassificationEngine } from './ClassificationEngine';
 import { ValidationEngine } from './ValidationEngine';
+import { SourceDetector, ELNSource } from './SourceDetector';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";  // P1: Source detection
 
 export class ELabFTWParser {
   private crateData: ROCrateData | null = null;
   private fileIndex: Map<string, any> = new Map();
+  private detectedSource: ELNSource = 'generic';  // P1: Track detected source
+  private sourceDetector = new SourceDetector();  // P1: Source detector instance
 
   getCrateData(): ROCrateData | null {
     return this.crateData;
+  }
+
+  /**
+   * P1 IMPROVEMENT: Get detected ELN source
+   * @returns The detected source ELN system
+   */
+  getDetectedSource(): ELNSource {
+    return this.detectedSource;
   }
 
   async parseELNFile(file: File): Promise<{
     datasets: ELabFTWDataset[];
     fileMetadata: Record<string, FileMetadata>;
     fileIndex: Map<string, Blob>;
+    rawJson: string;
   }> {
     console.log('=== STARTING ELN FILE PARSING ===');
     console.log('File name:', file.name);
@@ -94,6 +107,17 @@ export class ELabFTWParser {
       throw new Error('Invalid ro-crate-metadata.json format in ELN archive.');
     }
 
+    // P1 IMPROVEMENT: Detect ELN source system
+    const sourceDetection = this.sourceDetector.detectSource(this.crateData);
+    this.detectedSource = sourceDetection.source;
+    console.log('=== ELN SOURCE DETECTION ===');
+    console.log(`Detected source: ${this.sourceDetector.getSourceDisplayName(sourceDetection.source)}`);
+    console.log(`Confidence: ${sourceDetection.confidence}%`);
+    console.log('Indicators:', sourceDetection.indicators);
+    if (sourceDetection.version) {
+      console.log(`Version: ${sourceDetection.version}`);
+    }
+
     // Extract datasets and file metadata
     const datasets = this.extractDatasets(this.crateData);
     const fileMetadata = this.extractFileMetadata(this.crateData);
@@ -104,7 +128,7 @@ export class ELabFTWParser {
     console.log('Datasets:', datasets);
     console.log('File metadata:', fileMetadata);
     
-    return { datasets, fileMetadata, fileIndex: this.fileIndex };
+    return { datasets, fileMetadata, fileIndex: this.fileIndex, rawJson: crateContent };
   }
 
   private extractDatasets(crateData: ROCrateData | null | undefined): ELabFTWDataset[] {
@@ -120,12 +144,19 @@ export class ELabFTWParser {
     console.log('Total items in @graph:', crateData['@graph'].length);
 
     for (const item of crateData['@graph']) {
-      if (item['@type'] === 'Dataset' && item.genre) {
+      // P0 FIX: Skip the root dataset metadata (usually with id "./")
+      if (item['@id'] === './') {
+        continue;
+      }
+
+      if (item['@type'] === 'Dataset') {
+        // Determine genre with fallback (assume experiment if not specified)
+        const genre = item.genre || 'experiment';
         console.log('\n--- Processing Dataset ---');
         console.log('Dataset ID:', item['@id']);
         console.log('Dataset name:', item.name);
         console.log('Dataset type:', item['@type']);
-        console.log('Dataset genre:', item.genre);
+        console.log('Dataset genre:', genre, item.genre ? '(from data)' : '(fallback)');
         console.log('Raw variableMeasured:', item.variableMeasured);
         console.log('variableMeasured length:', (item.variableMeasured || []).length);
         
@@ -147,7 +178,8 @@ export class ELabFTWParser {
         const dataset: ELabFTWDataset = {
           id: item['@id'],
           name: item.name || 'Untitled',
-          genre: item.genre,
+          alternateName: item.alternateName || '',
+          genre: genre,
           dateCreated: item.dateCreated || '',
           dateModified: item.dateModified || '',
           textContent: item.text || '',
@@ -156,9 +188,14 @@ export class ELabFTWParser {
           files: this.extractFiles(item.hasPart || []),
           variableMeasured: item.variableMeasured || [],
           keywords: this.extractKeywords(item.keywords || ''),
+          authorName: this.extractAuthorName(item.author, crateData),
           category: this.getCategoryName(item.about?.['@id'], categories),
-          categoryColor: this.getCategoryColor(item.about?.['@id'], categories)
+          categoryColor: this.getCategoryColor(item.about?.['@id'], categories),
+          creativeWorkStatus: item.creativeWorkStatus || '',
         };
+
+        // Cleanup textContent
+        dataset.textContent = this.cleanupTextContent(dataset.textContent);
 
         console.log('Final dataset variableMeasured:', dataset.variableMeasured);
         console.log('--- End Dataset ---\n');
@@ -232,6 +269,7 @@ export class ELabFTWParser {
           '@type': stepItem['@type'],
           position: stepItem.position || 0,
           creativeWorkStatus: stepItem.creativeWorkStatus || '',
+          expires: stepItem.expires || '',
           itemListElement: {
             '@id': directionId || '',
             '@type': directionItem?.['@type'] || 'HowToDirection',
@@ -266,6 +304,22 @@ export class ELabFTWParser {
     return [];
   }
 
+  private extractAuthorName(authorRef: any, crateData: ROCrateData): string {
+    if (!authorRef) return '';
+    
+    const authorId = typeof authorRef === 'string' ? authorRef : authorRef['@id'];
+    if (!authorId) return '';
+
+    const authorItem = crateData['@graph'].find(item => item['@id'] === authorId);
+    if (authorItem && authorItem['@type'] === 'Person') {
+      const givenName = authorItem.givenName || '';
+      const familyName = authorItem.familyName || '';
+      return `${givenName} ${familyName}`.trim();
+    }
+
+    return '';
+  }
+
   private extractFileMetadata(crateData: ROCrateData | null | undefined): Record<string, FileMetadata> {
     if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
       return {};
@@ -275,13 +329,21 @@ export class ELabFTWParser {
     
     for (const item of crateData['@graph']) {
       if (item['@type'] === 'File') {
+        // Normalize contentSize to number (handles both string and number per spec)
+        const contentSize = typeof item.contentSize === 'string'
+          ? parseInt(item.contentSize, 10)
+          : (item.contentSize || 0);
+
         fileMetadata[item['@id']] = {
-          id: item['@id'],
+          '@id': item['@id'],
+          '@type': item['@type'] || 'File',
           name: item.name || '',
+          alternateName: item.alternateName,
           encodingFormat: item.encodingFormat || '',
-          contentSize: item.contentSize || 0,
+          contentSize: contentSize,
           dateModified: item.dateModified || '',
-          description: item.description || ''
+          description: item.description || '',
+          sha256: item.sha256 || ''
         };
       }
     }
@@ -294,297 +356,35 @@ export class ELabFTWParser {
     return extractor.extractCustomFields(variableMeasured, crateData);
   }
 
-  // Deprecated: use CustomFieldExtractor directly
-  private _extractCustomFieldsOld(variableMeasured: any[], crateData?: ROCrateData | null): Record<string, any> {
-    if (!crateData || !crateData['@graph'] || !Array.isArray(crateData['@graph'])) {
-      console.warn('No valid crateData available for field extraction');
-      return {};
-    }
+  /**
+   * Cleans up text content by removing LaTeX delimiters and fixing arrows
+   * - Removes '$' around LaTeX
+   * - Removes '\[ ' and ' \]' around LaTeX
+   * - Replaces '-&gt;' with '->'
+   */
+  private cleanupTextContent(text: string): string {
+    if (!text) return '';
 
-    const customFields: Record<string, CustomField> = {};
+    let cleaned = text;
 
-    console.log('=== EXTRACTING CUSTOM FIELDS ===');
-    console.log('variableMeasured array:', variableMeasured);
-    console.log('crateData available:', true);
-
-    // Create a map for quick graph lookups
-    const graphMap = new Map();
-    crateData['@graph'].forEach(item => {
-      if (item['@id']) {
-        graphMap.set(item['@id'], item);
-      }
+    // Replace LaTeX enclosed in '$' characters
+    // Using a regex to find content between $ and $
+    // This matches $...$ and replaces it with RSpace equation div
+    cleaned = cleaned.replace(/\$([^$]+)\$/g, (_, latex) => {
+      return `<div class="rsEquation mceNonEditable" data-equation="${latex}"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>`;
     });
 
-    console.log('Graph items available:', graphMap.size);
-
-    // Process all variableMeasured items
-    variableMeasured.forEach((variable, index) => {
-      console.log(`\n--- Processing variable ${index} ---`);
-      console.log('Raw variable:', variable);
-      
-      // Resolve references to get the actual variable data
-      let actualVariable = variable;
-      if (variable['@id'] && Object.keys(variable).length <= 2) {
-        const resolved = graphMap.get(variable['@id']);
-        if (resolved) {
-          actualVariable = resolved;
-          console.log('Resolved reference:', variable['@id']);
-          console.log('Resolved to:', actualVariable);
-        }
-      }
-      
-      // Extract eLabFTW metadata first (highest priority) - handle both experiments and resources
-      if (actualVariable.propertyID === 'elabftw_metadata' && actualVariable.value) {
-        console.log('Found elabftw_metadata PropertyValue');
-        this.extractFromElabFTWMetadata(actualVariable.value, customFields);
-      } else if (actualVariable.elabftw_metadata) {
-        console.log('Found direct elabftw_metadata');
-        this.extractFromElabFTWMetadata(actualVariable.elabftw_metadata, customFields);
-      }
-      
-      // Extract direct property values
-      if (actualVariable.propertyID && actualVariable.value) {
-        // Skip elabftw_metadata as it's handled above
-        if (actualVariable.propertyID !== 'elabftw_metadata') {
-          console.log('Found direct property:', actualVariable.propertyID);
-          this.extractPropertyValue(actualVariable, customFields);
-        }
-      }
-
-      // Extract other structured data
-      if (actualVariable.name && actualVariable.value && !actualVariable.propertyID) {
-        this.extractNameValuePair(actualVariable, customFields);
-      }
-      });
-
-
-    return customFields;
-  }
-
-  private extractFromElabFTWMetadata(metadataValue: string | any, customFields: Record<string, CustomField>): void {
-    console.log('=== EXTRACTING FROM ELABFTW METADATA ===');
-    console.log('Raw metadata value:', metadataValue);
-    
-    let metadata;
-    try {
-      // Parse if it's a string, otherwise use as-is
-      metadata = typeof metadataValue === 'string' ? JSON.parse(metadataValue) : metadataValue;
-      console.log('Parsed metadata:', metadata);
-    } catch (error) {
-      console.error('Failed to parse metadata JSON:', error);
-      return;
-    }
-
-    // Handle different metadata structures
-    let extraFields = null;
-    
-    // Check for nested elabftw.extra_fields (experiments)
-    if (metadata.elabftw?.extra_fields) {
-      extraFields = metadata.elabftw.extra_fields;
-      console.log('Found elabftw.extra_fields (experiment format)');
-    }
-    // Check for direct extra_fields (resources)
-    else if (metadata.extra_fields) {
-      extraFields = metadata.extra_fields;
-      console.log('Found direct extra_fields (resource format)');
-    }
-
-    if (extraFields) {
-      console.log('Processing extra fields:', Object.keys(extraFields));
-      
-      // Process each field
-      Object.entries(extraFields).forEach(([fieldName, fieldData]: [string, any]) => {
-        console.log(`Processing field: ${fieldName}`, fieldData);
-        this.processExtraField({ name: fieldName, ...fieldData }, customFields);
-      });
-    } else {
-      console.log('No extra_fields found in metadata');
-    }
-  }
-
-  private processExtraField(field: any, customFields: Record<string, CustomField>): void {
-    console.log(`\n--- Processing field: ${field.name} ---`);
-    console.log('Field object:', field);
-    console.log('Field type:', field.type);
-    console.log('Field value:', field.value);
-    console.log('Field has options:', !!field.options);
-    console.log('Field has units:', !!field.units);
-    console.log('Field required:', field.required);
-    
-    if (field.name && (field.value !== undefined && field.value !== null)) {
-      // Allow empty strings for required fields
-      const fieldValue = field.value.toString();
-      console.log(`Adding extra field: ${field.name} = "${fieldValue}" (type: ${field.type})`);
-      
-      customFields[field.name] = {
-        type: this.mapELabFTWFieldType(field.type) || 'text',
-        value: fieldValue,
-        description: field.description || `Extra field: ${field.name}`,
-        required: field.required || false,
-        ...(field.options && { options: field.options }),
-        ...(field.units && { units: field.units }),
-        ...(field.group_id && { group_id: field.group_id })
-      };
-      
-      console.log(`Successfully added field "${field.name}" with type "${customFields[field.name].type}"`);
-      if (field.options) {
-        console.log(`  - Options: ${field.options.join(', ')}`);
-      }
-      if (field.units) {
-        console.log(`  - Units: ${field.units.join(', ')}`);
-      }
-      if (field.required) {
-        console.log(`  - Required: ${field.required}`);
-      }
-    } else {
-      console.log(`Skipping field due to missing name or value:`, {
-        name: field.name,
-        value: field.value,
-        hasName: !!field.name,
-        hasValue: field.value !== undefined && field.value !== null
-      });
-    }
-  }
-
-  private extractPropertyValue(variable: any, customFields: Record<string, CustomField>): void {
-    const fieldName = variable.propertyID?.toString().trim();
-    const fieldValue = variable.value?.toString().trim();
-    
-    if (!fieldName || !fieldValue) return;
-    
-    console.log(`Extracting property: ${fieldName} = "${fieldValue}"`);
-    
-    const fieldType = this.inferFieldType(fieldValue);
-
-    customFields[fieldName] = {
-      type: fieldType,
-      value: fieldValue,
-      description: variable.description || `Property: ${fieldName}`,
-      ...(variable.unitCode && { units: [variable.unitCode] }),
-      ...(variable.unitText && { units: [variable.unitText] })
-    };
-  }
-
-  private extractNameValuePair(variable: any, customFields: Record<string, CustomField>): void {
-    const fieldName = variable.name?.toString().trim();
-    const fieldValue = variable.value?.toString().trim();
-    
-    if (!fieldName || !fieldValue) return;
-    
-    console.log(`Extracting name/value: ${fieldName} = "${fieldValue}"`);
-    
-    customFields[fieldName] = {
-      type: this.inferFieldType(fieldValue),
-      value: fieldValue,
-      description: variable.description || `Field: ${fieldName}`
-    };
-  }
-
-  private extractNestedReferences(variable: any, graphMap: Map<string, any>, customFields: Record<string, CustomField>): void {
-    // Look for nested references in the variable
-    Object.keys(variable).forEach(key => {
-      const value = variable[key];
-      if (value && typeof value === 'object' && value['@id']) {
-        const resolved = graphMap.get(value['@id']);
-        if (resolved && resolved.name && resolved.value) {
-          console.log(`Found nested reference: ${key} -> ${resolved.name}`);
-          this.extractNameValuePair(resolved, customFields);
-        }
-      }
+    // Replace LaTeX enclosed in '\[ ' and ' \]' characters
+    // Using a regex to find content between \[ and \]
+    // We escape [ and ] in the regex
+    cleaned = cleaned.replace(/\\\[(.*?)\\\]/g, (_, latex) => {
+      return `<div class="rsEquation mceNonEditable" data-equation="${latex}"> <a class="rsEquationClickableWrapper"> click here to insert latex data </a></div>`;
     });
-  }
 
-  private exploreGraphForProperties(graph: any[], customFields: Record<string, CustomField>): void {
-    // Look for PropertyValue items in the graph
-    graph.forEach(item => {
-      if (item['@type'] === 'PropertyValue' && item.name && item.value) {
-        const fieldName = item.name.toString().trim();
-        const fieldValue = item.value.toString().trim();
-        
-        if (fieldName && fieldValue && !customFields[fieldName]) {
-          console.log(`\n--- Processing field ${index + 1}/${fieldsToProcess.length} ---`);
-          console.log('Field object:', field);
-          console.log('Field name:', field.name);
-          console.log('Field type:', field.type);
-          console.log('Field value:', field.value);
-          console.log('Field has options:', !!field.options);
-          console.log('Field has units:', !!field.units);
-          console.log('Field required:', field.required);
-          
-          console.log(`Found PropertyValue in graph: ${fieldName} = "${fieldValue}"`);
-          customFields[fieldName] = {
-            type: this.inferFieldType(fieldValue),
-            value: fieldValue,
-            description: item.description || `Property: ${fieldName}`
-          };
-        }
-      }
-    });
-  }
+    // Replace '->' with '->'
+    cleaned = cleaned.replace(/-&gt;/g, '->');
 
-  private createMetadataBlob(variableMeasured: any[], crateData: ROCrateData, customFields: Record<string, CustomField>): void {
-    const otherMetadata: any = {};
-    
-    otherMetadata.variableMeasured = variableMeasured;
-    
-    const relevantItems = crateData['@graph'].filter(item => 
-      item['@type'] === 'PropertyValue' || 
-      item['@type'] === 'DefinedTerm' ||
-      (item['@type'] === 'Thing' && item.name && item.value)
-    );
-    
-    if (relevantItems.length > 0) {
-      otherMetadata.additionalProperties = relevantItems;
-    }
-    
-    customFields['elabftw_metadata'] = {
-      type: 'textarea',
-      value: JSON.stringify(otherMetadata, null, 2),
-      description: 'ELN metadata (JSON format)'
-    };
-  }
-
-  private mapELabFTWFieldType(type: string): string | null {
-    if (!type) return null;
-    
-    const typeMapping: Record<string, string> = {
-      'number': 'number',
-      'integer': 'number',
-      'decimal': 'number',
-      'float': 'number',
-      'date': 'date',
-      'datetime': 'datetime',
-      'time': 'time',
-      'boolean': 'checkbox',
-      'url': 'url',
-      'email': 'email',
-      'select': 'select',
-      'radio': 'radio',
-      'checkbox': 'checkbox',
-      'textarea': 'textarea'
-    };
-    
-    return typeMapping[String(type).toLowerCase()] || null;
-  }
-
-  private inferFieldType(value: string): string {
-    const trimmedValue = value.trim();
-    
-    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedValue)) {
-      return 'date';
-    } else if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(trimmedValue)) {
-      return 'datetime';
-    } else if (/^-?\d+\.?\d*$/.test(trimmedValue)) {
-      return 'number';
-    } else if (/^(true|false)$/i.test(trimmedValue)) {
-      return 'checkbox';
-    } else if (/^https?:\/\//.test(trimmedValue)) {
-      return 'url';
-    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue)) {
-      return 'email';
-    }
-    
-    return 'text';
+    return cleaned;
   }
 }
 
@@ -603,7 +403,7 @@ export function convertDatasetsToPreviewItems(
   const classifier = new ClassificationEngine();
   const validator = new ValidationEngine();
 
-  return datasets.map(dataset => {
+  const previewItems: PreviewItem[] =  datasets.map(dataset => {
     // Extract custom fields
     const customFields = parser.extractCustomFields(dataset.variableMeasured, crateData);
     
@@ -617,6 +417,7 @@ export function convertDatasetsToPreviewItems(
     const previewItem: PreviewItem = {
       id: dataset.id,
       name: dataset.name,
+      alternateName: dataset.alternateName,
       type: dataset.genre,
       category: dataset.category || 'Uncategorized',
       categoryColor: dataset.categoryColor || '#666666',
@@ -634,7 +435,10 @@ export function convertDatasetsToPreviewItems(
       keywords: dataset.keywords || [],
       dateCreated: dataset.dateCreated || '',
       dateModified: dataset.dateModified || '',
-      elabftwMetadata: rawElabFTWMetadata
+      authorName: dataset.authorName,
+      elabftwMetadata: rawElabFTWMetadata,
+      chosenQuantityName: 'Items',
+      creativeWorkStatus: dataset.creativeWorkStatus
     };
     
     // Validate the item
@@ -642,6 +446,15 @@ export function convertDatasetsToPreviewItems(
 
     return previewItem;
   });
+  //if we dont do this, everything defaults to 'Items' as its quantity type
+  previewItems.forEach(item => {
+    Object.entries(item.metadata).forEach(([fieldName, _]) => {
+      if (extractQuantityFromMetadata(item.metadata, fieldName).length > 0) {
+        item.chosenQuantityName = fieldName;
+      }
+    })
+  })
+  return previewItems;
 }
 
 // Helper function to create item-specific metadata

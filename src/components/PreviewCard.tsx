@@ -13,17 +13,19 @@ import {
 import { PreviewItem } from '../types/eln';
 import { ClassificationToggle } from './ClassificationToggle';
 import { getConfidenceColor, getValidationIcon, getValidationIconColor } from '../utils/ui-helpers';
+import {extractQuantityFromMetadata} from "../services/rspace-mapper.ts";
 import clsx from 'clsx';
 
 interface PreviewCardProps {
   item: PreviewItem;
   onClassificationChange: (itemId: string, classification: 'document' | 'inventory') => void;
   onItemClick: (item: PreviewItem) => void;
+  handleChosenQuantityChange: (itemId: string, chosenQuantityName: string) => void;
 }
 
-export function PreviewCard({ item, onClassificationChange, onItemClick }: PreviewCardProps) {
+export function PreviewCard({ item, onClassificationChange, onItemClick, handleChosenQuantityChange }: PreviewCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const [selectedQuantity, setSelectedQuantity] = useState('auto-detect');
   const currentClassification = item.userClassification || item.proposedClassification;
   const hasUserOverride = item.userClassification !== null;
 
@@ -58,7 +60,34 @@ export function PreviewCard({ item, onClassificationChange, onItemClick }: Previ
                   {item.category}
                 </span>
               </div>
-              
+              {/* Quantity selector for Inventory items */}
+              {(item.userClassification || item.proposedClassification) === 'inventory'&& (
+                  <div className="mt-2 ml-12 mr-4 p-3 bg-purple-50 border border-purple-200 rounded-md">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-medium text-purple-900" htmlFor={`qty-${item.id}`}>
+                        Quantity field to use (for Inventory template)
+                      </label>
+                      <select
+                          id={`qty-${item.id}`}
+                          className="ml-4 px-2 py-1 text-sm border border-purple-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          value={selectedQuantity}
+                          onChange={(e) => {
+                            handleChosenQuantityChange(item.id, e.target.value);
+                            setSelectedQuantity(e.target.value);
+                          }}
+                      >
+                        {Object.entries(item.metadata)
+                        .filter(([fieldName, _]) => {
+                          return extractQuantityFromMetadata(item.metadata, fieldName)?.length>0;
+                        })
+                        .map(([fieldName]) => {
+                          return <option key={fieldName} value={fieldName}>{fieldName}</option>
+                        })}
+                        <option key = "Items" value="Items">(Items)</option>
+                      </select>
+                    </div>
+                  </div>
+              )}
               <div className="flex items-center space-x-4 text-sm text-gray-500">
                 <span className="capitalize">{item.type}</span>
                 <span className="flex items-center space-x-1">

@@ -1,0 +1,668 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2025-09-19T09:04:44+02:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2025-09-19T09:04:44+02:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.3.0-beta2",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": ".\/Molecular-biology - Cloning - 6300f19f\/test.png",
+      "@type": "File",
+      "name": "test.png",
+      "alternateName": "40\/406edf17a7a58bc828b8e394a7d17be5c05b0d437936778b50002c255416c354901c0e0efbab7ea288a02948a9b4591d343661ce3cd856da596b7ad2136ab0fb.png",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 25970,
+      "sha256": "17285c5d991e9d104a51d7510a290762d5b03fac0406328ff11a85329af1758a"
+    },
+    {
+      "@id": ".\/Molecular-biology - Cloning - 6300f19f\/4c freezer.png",
+      "@type": "File",
+      "name": "4c freezer.png",
+      "alternateName": "89\/890740fb2ca940dbd6e01287fa6b1cb959a32e3654af0b42bf61bada93bc05287ab444e04833c87aa6c8b1ec653a94ff57bb96a9e526bc71a6609819e4cec8d9.png",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 277878,
+      "sha256": "a41d4608f3a3ec87a4f17881a6e42d8e77d3f742ff85e61bfe971b68fcd44acb"
+    },
+    {
+      "@id": ".\/Molecular-biology - Cloning - 6300f19f\/-80.png",
+      "@type": "File",
+      "name": "-80.png",
+      "alternateName": "2a\/2a8ad22f083e2586a2a383dfff02e2e99b39ea976abd5200856a8423383f750152567f92cb292098cf9883fe7ac825978fb69977316676bb308a7072fe0a932d.png",
+      "encodingFormat": "application\/octet-stream",
+      "contentSize": 299874,
+      "sha256": "02a1df675ee6c0fb94c5ec6aacf706ec7a5eb116514f33d00ed5a51e7ccebe14"
+    },
+    {
+      "@id": "#category-Pealkirjata",
+      "@type": "Thing",
+      "name": "Pealkirjata",
+      "color": "37BD21"
+    },
+    {
+      "@id": "pv:\/\/00255dd7-e4ab-444a-88fa-eb72516bf5d6",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"elabftw\": {\"extra_fields_groups\": [{\"id\": 1, \"name\": \"main\"}, {\"id\": 2, \"name\": \"spectroNMR\"}, {\"id\": 3, \"name\": \"spectroNMR.configuration\"}, {\"id\": 4, \"name\": \"options\"}]}, \"extra_fields\": {\"Solid\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.configuration\", \"esType\": \"list\", \"group_id\": 3.0, \"position\": 2.0, \"description\": \"\"}, \"Liquid\": {\"type\": \"checkbox\", \"value\": \"on\", \"esName\": \"spectroNMR.configuration\", \"esType\": \"list\", \"group_id\": 3.0, \"position\": 1.0, \"description\": \"\"}, \"Console\": {\"type\": \"select\", \"value\": \"neo\", \"esName\": \"spectroNMR.console\", \"options\": [\"\", \"vnmrs\", \"AV I\", \"AV II\", \"AV III\", \"AVIII HD\", \"neo\"], \"group_id\": 2.0, \"position\": 1.0, \"description\": \"\"}, \"Imaging\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.configuration.\", \"esType\": \"list\", \"group_id\": 3.0, \"position\": 3.0, \"description\": \"\"}, \"Technic\": {\"type\": \"text\", \"value\": \"NMR spectroscopy\", \"esName\": \"technic\", \"group_id\": 1.0, \"position\": 3.0, \"required\": \"true\", \"description\": \"\"}, \"Unit id\": {\"type\": \"text\", \"value\": \"UAR_2599\", \"esName\": \"unitID\", \"group_id\": 1.0, \"position\": 2.0, \"required\": \"true\", \"description\": \"plateform CNRS identifier\"}, \"main id\": {\"type\": \"text\", \"value\": \"5050912\", \"esName\": \"id\", \"group_id\": 1.0, \"position\": 1.0, \"required\": \"true\", \"description\": \"manufacturer identifier for bruker see Bruker Order\\n in  file <TOPSPIN_HOME>-conf-instr-spect-uxnmr.info\"}, \"Bore size\": {\"type\": \"number\", \"units\": [\"mm\"], \"value\": \"54\", \"esName\": \"spectroNMR.boreSize\", \"group_id\": 2.0, \"position\": 3.0, \"description\": \"Common size: \\nStandard bore: 54mm\\n Wide bore: 89mm \"}, \"1H frequency\": {\"type\": \"number\", \"units\": [\"MHz\"], \"value\": \"600\", \"esName\": \"spectroNMR.1H_frequency\", \"group_id\": 2.0, \"position\": 4.0, \"required\": \"true\", \"description\": \"\"}, \"manufacturer\": {\"type\": \"select\", \"value\": \"BRUKER\", \"esName\": \"manufacturer\", \"options\": [\"\", \"JEOL\", \"VARIAN\", \"BRUKER\", \"AGILENT\"], \"group_id\": 2.0, \"position\": 5.0, \"description\": \"\"}, \"Plateform name\": {\"type\": \"text\", \"value\": \"NMR\", \"esName\": \"pltName\", \"group_id\": 1.0, \"position\": 4.0, \"required\": \"true\", \"description\": \"\"}, \"Dissolution DNP\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 11.0, \"description\": \"\"}, \"Solid-State DNP\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 10.0, \"description\": \"\"}, \"Hyperpolirized Gas\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 2.0, \"description\": \"\"}, \"High Pressure Device\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 9.0, \"description\": \"\"}, \"Coupled Instrument IDs\": {\"type\": \"text\", \"value\": \"\", \"esName\": \"coupledInstrumentId\", \"esType\": \"list\", \"group_id\": 1.0, \"position\": 5.0, \"description\": \"Identifier of a coupled instrument (ex: gyrotron in the case of DNP)\"}, \"Chromatography Coupling\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 1.0, \"description\": \"\"}, \"Console production date\": {\"type\": \"date\", \"value\": \"2022-12-08\", \"esName\": \"prodDate\", \"group_id\": 2.0, \"position\": 2.0, \"description\": \"\"}, \"Sample Preparation Robot\": {\"type\": \"checkbox\", \"value\": \"off\", \"esName\": \"spectroNMR.accessorie.name\", \"group_id\": 4.0, \"position\": 8.0, \"description\": \"\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/868ff129-70ff-4fe5-8289-dddb7f5a99ce",
+      "propertyID": "Solid",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/b2348dd1-a713-4523-8aa0-d75b2b3a4556",
+      "propertyID": "Liquid",
+      "valueReference": "checkbox",
+      "value": "on"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/3ccf5f5c-98d2-40b3-b28f-afdb3b177326",
+      "propertyID": "Console",
+      "valueReference": "select",
+      "value": "neo"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/79b297dd-9d35-4fb8-aa12-c95980636585",
+      "propertyID": "Imaging",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/0111e3ac-ffc9-4bba-b21e-f0a2c92b3c4a",
+      "propertyID": "Technic",
+      "valueReference": "text",
+      "value": "NMR spectroscopy"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/7777c001-c876-4679-a8d2-d5df2bc67aa4",
+      "propertyID": "Unit id",
+      "valueReference": "text",
+      "value": "UAR_2599",
+      "description": "plateform CNRS identifier"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/4a6324b2-55a7-4be2-b725-e1e150d6fbdf",
+      "propertyID": "main id",
+      "valueReference": "text",
+      "value": "5050912",
+      "description": "manufacturer identifier for bruker see Bruker Order\n in  file <TOPSPIN_HOME>-conf-instr-spect-uxnmr.info"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/35fd7a00-6561-4a4b-ae13-ead7366a3be5",
+      "propertyID": "Bore size",
+      "valueReference": "number",
+      "value": "54",
+      "description": "Common size: \nStandard bore: 54mm\n Wide bore: 89mm "
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/af7e3b26-9c77-4f85-bab2-fa35fecd7265",
+      "propertyID": "1H frequency",
+      "valueReference": "number",
+      "value": "600"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/2e673800-b26b-49d0-9341-b746daa7bf08",
+      "propertyID": "manufacturer",
+      "valueReference": "select",
+      "value": "BRUKER"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/456f863e-1b17-483f-973b-d97c1671daa5",
+      "propertyID": "Plateform name",
+      "valueReference": "text",
+      "value": "NMR"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/3b6dc577-5f29-4f3e-a3a0-b7b6bf4d006b",
+      "propertyID": "Dissolution DNP",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/20a9cc6c-f7e8-4f28-afb2-87bfc5aa41f2",
+      "propertyID": "Solid-State DNP",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/4fb0605a-69d8-4a7e-92e7-7e3accc06201",
+      "propertyID": "Hyperpolirized Gas",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/225100b4-d9e9-4660-ae2b-7f9265810a6c",
+      "propertyID": "High Pressure Device",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/4962c315-93bb-4840-ad11-d70ec37c9a4a",
+      "propertyID": "Coupled Instrument IDs",
+      "valueReference": "text",
+      "value": "",
+      "description": "Identifier of a coupled instrument (ex: gyrotron in the case of DNP)"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/7cf0c909-2278-41b6-ae34-2c5076fe3d53",
+      "propertyID": "Chromatography Coupling",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/fdff135b-7a32-48eb-8963-4582747dcfe5",
+      "propertyID": "Console production date",
+      "valueReference": "date",
+      "value": "2022-12-08"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/c16c758a-7e55-4578-b1b4-ebab754ad447",
+      "propertyID": "Sample Preparation Robot",
+      "valueReference": "checkbox",
+      "value": "off"
+    },
+    {
+      "@id": ".\/Pealkirjata - UAR_2599_600_main - 68f2d46c\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/76f056fd4e4fd430a624edf36bb86a58894a3b83820c532a8d06637fcb97cba0?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-18T14:31:38+02:00",
+      "dateModified": "2025-09-18T14:31:38+02:00",
+      "temporal": "2025-09-15T00:00:00+02:00",
+      "name": "UAR_2599_600_main",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=419",
+      "genre": "experiment",
+      "identifier": "20250918-68f2d46c7f87627fca00254b08ce91a542ad3afe",
+      "text": "AVANCE NEO 600 MHz",
+      "about": {
+        "@id": "#category-Pealkirjata"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/00255dd7-e4ab-444a-88fa-eb72516bf5d6"
+        },
+        {
+          "@id": "pv:\/\/868ff129-70ff-4fe5-8289-dddb7f5a99ce"
+        },
+        {
+          "@id": "pv:\/\/b2348dd1-a713-4523-8aa0-d75b2b3a4556"
+        },
+        {
+          "@id": "pv:\/\/3ccf5f5c-98d2-40b3-b28f-afdb3b177326"
+        },
+        {
+          "@id": "pv:\/\/79b297dd-9d35-4fb8-aa12-c95980636585"
+        },
+        {
+          "@id": "pv:\/\/0111e3ac-ffc9-4bba-b21e-f0a2c92b3c4a"
+        },
+        {
+          "@id": "pv:\/\/7777c001-c876-4679-a8d2-d5df2bc67aa4"
+        },
+        {
+          "@id": "pv:\/\/4a6324b2-55a7-4be2-b725-e1e150d6fbdf"
+        },
+        {
+          "@id": "pv:\/\/35fd7a00-6561-4a4b-ae13-ead7366a3be5"
+        },
+        {
+          "@id": "pv:\/\/af7e3b26-9c77-4f85-bab2-fa35fecd7265"
+        },
+        {
+          "@id": "pv:\/\/2e673800-b26b-49d0-9341-b746daa7bf08"
+        },
+        {
+          "@id": "pv:\/\/456f863e-1b17-483f-973b-d97c1671daa5"
+        },
+        {
+          "@id": "pv:\/\/3b6dc577-5f29-4f3e-a3a0-b7b6bf4d006b"
+        },
+        {
+          "@id": "pv:\/\/20a9cc6c-f7e8-4f28-afb2-87bfc5aa41f2"
+        },
+        {
+          "@id": "pv:\/\/4fb0605a-69d8-4a7e-92e7-7e3accc06201"
+        },
+        {
+          "@id": "pv:\/\/225100b4-d9e9-4660-ae2b-7f9265810a6c"
+        },
+        {
+          "@id": "pv:\/\/4962c315-93bb-4840-ad11-d70ec37c9a4a"
+        },
+        {
+          "@id": "pv:\/\/7cf0c909-2278-41b6-ae34-2c5076fe3d53"
+        },
+        {
+          "@id": "pv:\/\/fdff135b-7a32-48eb-8963-4582747dcfe5"
+        },
+        {
+          "@id": "pv:\/\/c16c758a-7e55-4578-b1b4-ebab754ad447"
+        }
+      ]
+    },
+    {
+      "@id": "#category-\ud83d\udd2c Microscope",
+      "@type": "Thing",
+      "name": "\ud83d\udd2c Microscope",
+      "color": "2238B5"
+    },
+    {
+      "@id": ".\/Microscope - electronic-microscope - 5bf4d5f7\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/cea473fa7a474cd4b54d966e10060624ccebdd264a5dce5caea3320dcf424fb8?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-12T13:19:57+02:00",
+      "dateModified": "2025-09-17T13:30:39+02:00",
+      "temporal": "2025-09-12T00:00:00+02:00",
+      "name": "electronic microscope",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=345",
+      "genre": "resource",
+      "identifier": "20250912-5bf4d5f79e840832df72be71a47540c6336db906",
+      "keywords": "microscopy,biological samples,ecology,species",
+      "about": {
+        "@id": "#category-\ud83d\udd2c Microscope"
+      }
+    },
+    {
+      "@id": "#category-Cells",
+      "@type": "Thing",
+      "name": "Cells",
+      "color": "B7BEAD"
+    },
+    {
+      "@id": "pv:\/\/910d2c3f-897d-4e07-8537-95fb1d9eddd3",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"elabftw\": {\"extra_fields_groups\": [{\"id\": 1, \"name\": \"Basic information\"}, {\"id\": 2, \"name\": \"Storage\"}]}, \"extra_fields\": {\"Species\": {\"type\": \"select\", \"value\": \"Human\", \"options\": [\"Human\", \"Mouse\", \"Chinese Hamster\", \"Rat\", \"African Green Monkey\", \"Dog\", \"Horse\", \"Klingon\", \"Ewok\", \"Na\u2019vi\"], \"group_id\": 1, \"required\": true, \"description\": \"What species is it from?\"}, \"Date of acquisition\": {\"type\": \"date\", \"value\": \"\", \"group_id\": 1, \"required\": true}, \"Number of aliquots left\": {\"type\": \"number\", \"unit\": \"\", \"units\": [], \"value\": \"\", \"group_id\": 2}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/c81a1dda-7f20-4e5f-a04c-503a2fea1268",
+      "propertyID": "Species",
+      "valueReference": "select",
+      "value": "Human",
+      "description": "What species is it from?"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/7bc32485-ba32-4164-8c3b-7f6be77ce50b",
+      "propertyID": "Date of acquisition",
+      "valueReference": "date",
+      "value": ""
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/e654537d-3d40-4f11-9680-e32ddc12a05e",
+      "propertyID": "Number of aliquots left",
+      "valueReference": "number",
+      "value": ""
+    },
+    {
+      "@id": ".\/Cells - Cell-line - e6aaef0a\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/76f056fd4e4fd430a624edf36bb86a58894a3b83820c532a8d06637fcb97cba0?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-16T14:30:33+02:00",
+      "dateModified": "2025-09-16T14:30:33+02:00",
+      "temporal": "2025-09-16T00:00:00+02:00",
+      "name": "\ud83e\udda0 Cell line",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=475",
+      "genre": "resource",
+      "alternateName": 2,
+      "identifier": "20250916-e6aaef0a6d36b8dc4a282c853d79f6611f280320",
+      "about": {
+        "@id": "#category-Cells"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/910d2c3f-897d-4e07-8537-95fb1d9eddd3"
+        },
+        {
+          "@id": "pv:\/\/c81a1dda-7f20-4e5f-a04c-503a2fea1268"
+        },
+        {
+          "@id": "pv:\/\/7bc32485-ba32-4164-8c3b-7f6be77ce50b"
+        },
+        {
+          "@id": "pv:\/\/e654537d-3d40-4f11-9680-e32ddc12a05e"
+        }
+      ]
+    },
+    {
+      "@id": "#category-Reagentes",
+      "@type": "Thing",
+      "name": "Reagentes",
+      "color": "d8c755"
+    },
+    {
+      "@id": "pv:\/\/c08fe170-01bf-43ae-85b9-00ffbaac0a2e",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"Quant\": {\"type\": \"number\", \"unit\": \"\", \"units\": [], \"value\": \"20\"}, \"Abertura\": {\"type\": \"date\", \"value\": \"2025-09-06\", \"required\": true, \"description\": \"Data de abertura da nova embalagem\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/8bd04891-37bf-4099-a38b-5b74cc9087ff",
+      "propertyID": "Quant",
+      "valueReference": "number",
+      "value": "20"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/1fb1ab98-f6b1-4e40-94ea-683a46c2eb7f",
+      "propertyID": "Abertura",
+      "valueReference": "date",
+      "value": "2025-09-06",
+      "description": "Data de abertura da nova embalagem"
+    },
+    {
+      "@id": ".\/Reagentes - Formol - 4ff9f21d\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/76f056fd4e4fd430a624edf36bb86a58894a3b83820c532a8d06637fcb97cba0?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-12T13:38:38+02:00",
+      "dateModified": "2025-09-12T13:41:15+02:00",
+      "temporal": "2025-09-12T00:00:00+02:00",
+      "name": "Formol",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=349",
+      "genre": "resource",
+      "identifier": "20250912-4ff9f21d9d46c711a0ff8ab3945dc9516edf6779",
+      "about": {
+        "@id": "#category-Reagentes"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/c08fe170-01bf-43ae-85b9-00ffbaac0a2e"
+        },
+        {
+          "@id": "pv:\/\/8bd04891-37bf-4099-a38b-5b74cc9087ff"
+        },
+        {
+          "@id": "pv:\/\/1fb1ab98-f6b1-4e40-94ea-683a46c2eb7f"
+        }
+      ]
+    },
+    {
+      "@id": "#category-\ud83e\uddec Plasmid",
+      "@type": "Thing",
+      "name": "\ud83e\uddec Plasmid",
+      "color": "BEB721"
+    },
+    {
+      "@id": ".\/Plasmid - Thio-TOPO - d4cd7163\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/c10f74e280abf8ccea4a20f4d722a7c1f1dc9e9ef93f40252d6bb47151a59e9f?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-11T21:17:11+02:00",
+      "dateModified": "2025-09-11T21:17:11+02:00",
+      "temporal": "2024-09-07T00:00:00+02:00",
+      "name": "pBAD\/Thio-TOPO",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=112",
+      "genre": "resource",
+      "identifier": "20250911-d4cd71637598b3f0c849a113b070be2930e55eb2",
+      "about": {
+        "@id": "#category-\ud83e\uddec Plasmid"
+      }
+    },
+    {
+      "@id": "#category-Molecular biology",
+      "@type": "Thing",
+      "name": "Molecular biology",
+      "color": "37B73A"
+    },
+    {
+      "@id": "pv:\/\/34af6f32-c5cf-40a6-bc6d-2c5fe7c564e3",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"elabftw\": {\"display_main_text\": true}}"
+    },
+    {
+      "@id": "howtostep:\/\/6ad02e2a-c5ec-4187-b864-aa13233e5f75",
+      "@type": "HowToStep",
+      "position": 1,
+      "creativeWorkStatus": "unfinished",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/71f29e2f-8403-4d17-8857-7009de742922"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/71f29e2f-8403-4d17-8857-7009de742922",
+      "@type": "HowToDirection",
+      "text": "1"
+    },
+    {
+      "@id": "howtostep:\/\/c6289ce9-72d2-4617-9f42-8d5374c371eb",
+      "@type": "HowToStep",
+      "position": 2,
+      "creativeWorkStatus": "unfinished",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/2d0947db-6d99-4110-a878-73b6ebc66a80"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/2d0947db-6d99-4110-a878-73b6ebc66a80",
+      "@type": "HowToDirection",
+      "text": "2"
+    },
+    {
+      "@id": "howtostep:\/\/d6820145-dbae-434a-8650-0d26664cd9c0",
+      "@type": "HowToStep",
+      "position": 3,
+      "creativeWorkStatus": "unfinished",
+      "itemListElement": {
+        "@id": "howtodirection:\/\/cd811a5f-5e41-44f8-9b9f-7212030bcd05"
+      }
+    },
+    {
+      "@id": "howtodirection:\/\/cd811a5f-5e41-44f8-9b9f-7212030bcd05",
+      "@type": "HowToDirection",
+      "text": "3"
+    },
+    {
+      "@id": ".\/Molecular-biology - Cloning - 6300f19f\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/cea473fa7a474cd4b54d966e10060624ccebdd264a5dce5caea3320dcf424fb8?hash_algo=sha256"
+      },
+      "dateCreated": "2025-09-12T15:24:38+02:00",
+      "dateModified": "2025-09-19T09:04:38+02:00",
+      "temporal": "2025-09-12T00:00:00+02:00",
+      "name": "Cloning",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=240",
+      "genre": "experiment",
+      "alternateName": 3,
+      "hasPart": [
+        {
+          "@id": ".\/Molecular-biology - Cloning - 6300f19f\/test.png"
+        },
+        {
+          "@id": ".\/Molecular-biology - Cloning - 6300f19f\/4c freezer.png"
+        },
+        {
+          "@id": ".\/Molecular-biology - Cloning - 6300f19f\/-80.png"
+        }
+      ],
+      "identifier": "20250912-6300f19f55787dcf873ca124890dc78c81e4ad28",
+      "keywords": "EV",
+      "mentions": [
+        {
+          "@id": ".\/Pealkirjata - UAR_2599_600_main - 68f2d46c\/"
+        },
+        {
+          "@id": ".\/Microscope - electronic-microscope - 5bf4d5f7\/"
+        },
+        {
+          "@id": ".\/Cells - Cell-line - e6aaef0a\/"
+        },
+        {
+          "@id": ".\/Reagentes - Formol - 4ff9f21d\/"
+        },
+        {
+          "@id": ".\/Plasmid - Thio-TOPO - d4cd7163\/"
+        }
+      ],
+      "text": "<p>test cloning<\/p>\n<p style=\"line-height:1;\">\u00a0<\/p>\n<p style=\"line-height:1;\">\u00a0<\/p>",
+      "about": {
+        "@id": "#category-Molecular biology"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/34af6f32-c5cf-40a6-bc6d-2c5fe7c564e3"
+        }
+      ],
+      "step": [
+        {
+          "@id": "howtostep:\/\/6ad02e2a-c5ec-4187-b864-aa13233e5f75"
+        },
+        {
+          "@id": "howtostep:\/\/c6289ce9-72d2-4617-9f42-8d5374c371eb"
+        },
+        {
+          "@id": "howtostep:\/\/d6820145-dbae-434a-8650-0d26664cd9c0"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "2b818829-92aa-4bfc-9d6a-fd8254cddff4",
+      "@type": "Dataset",
+      "datePublished": "2025-09-19T09:04:44+02:00",
+      "hasPart": [
+        {
+          "@id": ".\/Molecular-biology - Cloning - 6300f19f\/"
+        },
+        {
+          "@id": ".\/Pealkirjata - UAR_2599_600_main - 68f2d46c\/"
+        },
+        {
+          "@id": ".\/Microscope - electronic-microscope - 5bf4d5f7\/"
+        },
+        {
+          "@id": ".\/Cells - Cell-line - e6aaef0a\/"
+        },
+        {
+          "@id": ".\/Reagentes - Formol - 4ff9f21d\/"
+        },
+        {
+          "@id": ".\/Plasmid - Thio-TOPO - d4cd7163\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "104",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/76f056fd4e4fd430a624edf36bb86a58894a3b83820c532a8d06637fcb97cba0?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Boris",
+      "familyName": "Collins",
+      "email": "admin1@demo.elabftw.net"
+    },
+    {
+      "@id": "person:\/\/cea473fa7a474cd4b54d966e10060624ccebdd264a5dce5caea3320dcf424fb8?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Felicity",
+      "familyName": "Stanton",
+      "email": "user1@demo.elabftw.net"
+    },
+    {
+      "@id": "person:\/\/c10f74e280abf8ccea4a20f4d722a7c1f1dc9e9ef93f40252d6bb47151a59e9f?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Rosie",
+      "familyName": "Mayer",
+      "email": "omnis-475200@yopmail.com"
+    }
+  ]
+}

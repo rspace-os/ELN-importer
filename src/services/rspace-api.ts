@@ -1,4 +1,7 @@
 import { RetryManager } from '../utils/RetryManager';  // P1: Retry logic
+import * as fs from 'fs';
+import * as path from 'path';
+import {FormField} from "../types/elabftw.ts";
 
 interface RSpaceConfig {
   baseUrl: string;
@@ -31,10 +34,43 @@ interface RSpaceForm {
 export class RSpaceService {
   private config: RSpaceConfig;
   private retryManager: RetryManager;  // P1: Retry manager for network operations
+  private outputDir: string | null = null;
+  private currentInputFile: string | null = null;
+  private MAX_FIELDNAME_LENGTH = 50;
 
   constructor(config: RSpaceConfig) {
     this.config = config;
     this.retryManager = new RetryManager();  // P1: Initialize retry manager
+  }
+
+  /**
+   * Set the output directory for integration tests
+   */
+  setIntegrationTestMode(outputDir: string, inputFile: string) {
+    this.outputDir = outputDir;
+    this.currentInputFile = inputFile;
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+  }
+
+  private writeOutput(payload: any) {
+    if (!this.outputDir || !this.currentInputFile) return;
+
+    const baseName = path.basename(this.currentInputFile);
+    const outputPath = path.join(this.outputDir, `${baseName}-output.json`);
+    
+    let existing: any[] = [];
+    if (fs.existsSync(outputPath)) {
+      try {
+        existing = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
+      } catch (e) {
+        existing = [];
+      }
+    }
+    
+    existing.push(payload);
+    fs.writeFileSync(outputPath, JSON.stringify(existing, null, 2));
   }
 
   private async makeRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
@@ -50,7 +86,6 @@ export class RSpaceService {
     const response = await fetch(url, {
       ...options,
       headers,
-      timeout: 30000,
     });
 
     if (!response.ok) {
@@ -63,6 +98,7 @@ export class RSpaceService {
   }
 
   async testConnection(): Promise<boolean> {
+    if (this.outputDir) return true;
     try {
       const response = await this.makeRequest('/api/v1/status');
       return response.ok;
@@ -132,18 +168,57 @@ export class RSpaceService {
     }
   }
 
-  async createForm(name: string, fields: Array<{ name: string; type: string; mandatory?: boolean; options?: string[] }>): Promise<number> {
+  async formExists(formId: number): Promise<boolean> {
+    if (this.outputDir) return formId === 999;
+    try {
+      const response = await this.makeRequest(`/api/v1/forms/${formId}`);
+      return response.ok;
+    } catch (error) {
+      // If makeRequest throws on non-ok status, we catch it here.
+      // A 404 would be thrown by makeRequest as an error.
+      return false;
+    }
+  }
+  async sampleTemplateExists(templateID: number): Promise<boolean> {
+    if (this.outputDir) return templateID === 999;
+    try {
+      const response = await this.makeRequest(`/api/inventory/v1/sampleTemplates/${templateID}`);
+      return response.ok;
+    } catch (error) {
+      // If makeRequest throws on non-ok status, we catch it here.
+      // A 404 would be thrown by makeRequest as an error.
+      return false;
+    }
+  }
+
+  async createForm(name: string, fields: Array<{
+    name: string;
+    type: string;
+    mandatory?: boolean;
+    showAsPickList?: boolean;
+    defaultValue?: string;
+    options?: string[],
+    content?: string;
+  }>, isDocumentTemplate: boolean = false): Promise<number> {
     try {
       const formData = {
-        name: name.substring(0, 50),
+        name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
         tags: 'elabftw-import',
         fields: fields.map(field => ({
-          name: field.name.substring(0, 50),
+          name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
           type: field.type,
+          ...(field.content && isDocumentTemplate &&{ defaultValue: field.content }),
+          ...(field.defaultValue && !isDocumentTemplate &&{ defaultValue: field.defaultValue }),
           mandatory: field.mandatory || false,
-          ...(field.options && { options: field.options })
+          ...(field.options && { options: field.options }),
+          ...(field.showAsPickList && { showAsPickList: true }),
         }))
       };
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createForm', data: formData });
+        return 999; // Mock ID
+      }
 
       const response = await this.makeRequest('/api/v1/forms', {
         method: 'POST',
@@ -154,6 +229,8 @@ export class RSpaceService {
       const formId = result.id;
 
       // Publish the form
+      if (this.outputDir) return formId;
+
       await this.makeRequest(`/api/v1/forms/${formId}/publish`, {
         method: 'PUT'
       });
@@ -168,17 +245,25 @@ export class RSpaceService {
     }
   }
 
-  async createDocument(formId: number, name: string, fieldValues: Record<string, string>, tags: string[] = []): Promise<RSpaceDocument> {
+  async createDocument(formId: number, name: string, fieldValues: Array<{ name: string, content: string, description?: string }>, tags: string[] = []): Promise<RSpaceDocument> {
+   fieldValues.map(field => {
+     if (field.description) {
+       field.content = "<p>Description: "+field.description+"</p><br/>"+field.content;
+     }
+     return field;
+   })
     try {
       const docData = {
         name,
         tags: tags.join(','),
         form: { id: formId },
-        fields: Object.entries(fieldValues).map(([name, content]) => ({
-          name,
-          content
-        }))
+        fields: fieldValues
       };
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createDocument', data: docData });
+        return { id: 888, globalId: 'DOC888', name: name }; // Mock result
+      }
 
       console.log('Creating document:', { name, formId, tags, fieldCount: Object.keys(fieldValues).length });
       console.log('Document data:', JSON.stringify(docData, null, 2));
@@ -199,26 +284,84 @@ export class RSpaceService {
       throw error;
     }
   }
+  descriptionMaxLength = 240;//Inventory wraps description in html tags and combined length must be less than 250
+
+  async createSampleTemplate(name: string, fields: Array<FormField>, quantityExtract: {
+    value: number;
+    unit: string
+  }, tags: Array<{ value: string }>, description:string): Promise<number> {
+    try {
+      const isLongDescription = description?.length > this.descriptionMaxLength;
+      const filterTerm = isLongDescription? 'References' : 'Content';
+      const templateData = {
+        name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
+        defaultUnitId: RSpaceService.getUnitId(quantityExtract.unit),
+        tags: [{ value: ('elabftw-import,' + (tags || []).join(',')) }],
+        quanity: {numericValue:quantityExtract.value,  unitId: RSpaceService.getUnitId(quantityExtract.unit)},
+        description: isLongDescription ? description.substring(0,this.descriptionMaxLength): description,
+        fields: fields.filter((field) => field.name !=='References' && field.name !==filterTerm).map(field => ({
+          name: field.name.substring(0, this.MAX_FIELDNAME_LENGTH),
+          type: field.type,
+          ...(field.content && { content: field.content }),
+          ...(field.options && {
+            definition: {
+              options: field.options,
+              ...(field.multiple !== undefined && { multiple: field.multiple })
+            },
+            selectedOptions: field.selectedOptions
+          })
+        }))
+      };
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createSampleTemplate', data: templateData });
+        return 777; // Mock ID
+      }
+
+      const response = await this.makeRequest('/api/inventory/v1/sampleTemplates', {
+        method: 'POST',
+        body: JSON.stringify(templateData)
+      });
+
+      const result = await response.json();
+      return result.id;
+    } catch (error) {
+      console.error('Sample template creation failed:', error);
+      throw error;
+    }
+  }
 
   async createInventorySample(data: {
     name: string;
     description?: string;
     tags?: string[];
     quantity?: { value: number; unit: string };
+    templateId?: number;
+    fields?: Array<{ content?: string; selectedOptions?: string[] }>;
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
+      const isLongDescription = data.description?.length > this.descriptionMaxLength;
+      const filterTerm = isLongDescription? 'References' : 'Content';
       const sampleData: any = {
         name: data.name,
         subsample_count: 1
       };
 
       if (data.description) {
-        sampleData.description = data.description;
+        sampleData.description = isLongDescription ? data.description.substring(0,this.descriptionMaxLength): data.description;
       }
 
       if (data.tags) {
         sampleData.tags = data.tags.map(tag => ({ value: tag }));
+      }
+
+      if (data.templateId) {
+        sampleData.templateId = data.templateId;
+      }
+
+      if (data.fields) {
+        sampleData.fields = data.fields;
       }
 
       // Add quantity to the first subsample
@@ -227,18 +370,23 @@ export class RSpaceService {
           name: data.name,
           quantity: {
             numericValue: data.quantity.value,
-            unitId: this.getUnitId(data.quantity.unit)
+            unitId: RSpaceService.getUnitId(data.quantity.unit)
           }
         }];
       }
 
-      // Add custom fields as extraFields
-      if (data.customFields && Object.keys(data.customFields).length > 0) {
+      // Add custom fields as extraFields if no template
+      if (!data.templateId && data.customFields && Object.keys(data.customFields).length > 0) {
         sampleData.extraFields = this.prepareExtraFields(data.customFields);
       }
 
       console.log('Creating inventory sample:', data.name);
       console.log('Sample data:', JSON.stringify(sampleData, null, 2));
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createInventorySample', data: sampleData });
+        return { id: '999', globalId: 'SA999', name: data.name, type: 'sample' };
+      }
 
       const response = await this.makeRequest('/api/inventory/v1/samples', {
         method: 'POST',
@@ -246,18 +394,9 @@ export class RSpaceService {
       });
 
       const result = await response.json();
-      console.log('Sample created:', result);
-      console.log('DEBUG - Sample result keys:', Object.keys(result));
-      console.log('DEBUG - Sample result.id:', result.id);
-      console.log('DEBUG - Sample result.globalId:', result.globalId);
-      console.log('DEBUG - Sample result.subSamples:', result.subSamples);
-
       return { ...result, type: 'sample' as const };
     } catch (error) {
       console.error('Sample creation failed:', error);
-      if (error instanceof Error) {
-        console.error('Error details:', error.message);
-      }
       throw error;
     }
   }
@@ -269,7 +408,7 @@ export class RSpaceService {
     customFields?: Record<string, any>;
   }): Promise<RSpaceInventoryItem> {
     try {
-      const containerData: any = {
+      const containerData  = {
         name: data.name,
         cType: 'LIST',
         can_store_containers: true,
@@ -291,6 +430,11 @@ export class RSpaceService {
 
       console.log('Creating inventory container:', data.name);
       console.log('Container data:', JSON.stringify(containerData, null, 2));
+
+      if (this.outputDir) {
+        this.writeOutput({ type: 'createInventoryContainer', data: containerData });
+        return { id: '888', globalId: 'IC888', name: data.name, type: 'container' };
+      }
 
       const response = await this.makeRequest('/api/inventory/v1/containers', {
         method: 'POST',
@@ -315,38 +459,38 @@ export class RSpaceService {
 
   private prepareExtraFields(customFields: Record<string, any>): any[] {
     return Object.entries(customFields).map(([name, value]) => ({
-      name: name.substring(0, 50),
+      name: name.substring(0, this.MAX_FIELDNAME_LENGTH),
       type: typeof value === 'number' ? 'number' : 'text',
       content: String(value)
     }));
   }
+  // see enum RSUnitDef in RSpace Core Model
+  static unitMap: Record<string, { unitNumber: number, category: string }> = {
+    'items': {unitNumber: 1, category: 'dimensionless'},
+    'µl': {unitNumber: 2, category: 'volume'},
+    'ml': {unitNumber: 3, category: 'volume'},
+    'l': {unitNumber: 4, category: 'volume'},
+    'µg': {unitNumber: 5, category: 'mass'},
+    'mg': {unitNumber: 6, category: 'mass'},
+    'g': {unitNumber: 7, category: 'mass'},
+    'picolitres': {unitNumber: 18, category: 'volume'},
+    'pl': {unitNumber: 18, category: 'volume'},
+    'nl': {unitNumber: 19, category: 'volume'},
+    'pg': {unitNumber: 20, category: 'mass'},
+    'ng': {unitNumber: 21, category: 'mass'},
+    'kilo': {unitNumber: 22, category: 'mass'},
+    'kg': {unitNumber: 22, category: 'mass'},
+    'mm3': {unitNumber: 23, category: 'volume'},
+    'cm3': {unitNumber: 24, category: 'volume'},
+    'dm3': {unitNumber: 25, category: 'volume'},
+    'm3': {unitNumber: 26, category: 'volume'}
+  };
 
-  private getUnitId(unit: string): number {
-    // RSpace unit IDs - common units
-    const unitMap: Record<string, number> = {
-      'ml': 7,
-      'l': 8,
-      'µl': 6,
-      'ul': 6,
-      'g': 1,
-      'mg': 2,
-      'kg': 3,
-      'µg': 4,
-      'ug': 4,
-      'moles': 11,
-      'mmol': 12,
-      'µmol': 13,
-      'umol': 13,
-      'units': 14,
-      'items': 14
-    };
-
-    return unitMap[unit.toLowerCase()] || 14; // Default to 'items'
+   static getUnitId(unit: string): number {
+    return (RSpaceService.unitMap)[unit.toLowerCase()]?.unitNumber;
   }
-
-  async addCustomFieldsToInventoryItem(itemId: string, customFields: Record<string, any>): Promise<void> {
-    // This method is now deprecated as custom fields are added during creation
-    console.log('Custom fields are now added during item creation');
+  static getCategory(unit: string): string {
+    return (RSpaceService.unitMap)[unit.toLowerCase()]?.category;
   }
 
   /**
@@ -538,7 +682,10 @@ export class RSpaceService {
         // This creates a smart link that RSpace tracks in its metadata and shows in "Linked Documents"
         linkHtml = `<p>See also: <docId=${linkedId}></p>`;
       }
-
+      if(this.outputDir){
+        this.writeOutput({ type: 'addInternalLinkToDocument', data: { documentId, linkedId, linkText, linkHtml } });
+        return;
+      }
       await this.updateDocumentField(documentId, 'References', linkHtml);
     } catch (error) {
       console.warn(`Failed to add internal link to document ${documentId}:`, error);

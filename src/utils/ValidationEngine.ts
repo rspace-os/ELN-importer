@@ -1,4 +1,4 @@
-import { PreviewItem, ValidationIssue } from '../types/eln';
+import { PreviewItem, ValidationIssue } from '../types/elabftw';
 
 /**
  * P1 IMPROVEMENT: Enhanced validation engine with comprehensive pre-import checks
@@ -7,10 +7,10 @@ import { PreviewItem, ValidationIssue } from '../types/eln';
  */
 export class ValidationEngine {
   // P1: RSpace API limits
-  private static readonly MAX_FIELD_NAME_LENGTH = 50;
+  private static readonly MAX_FIELD_NAME_LENGTH = 500;
   private static readonly MAX_FIELD_VALUE_LENGTH = 10000;
-  private static readonly MAX_FILE_SIZE_MB = 100;
-  private static readonly MAX_FILES_PER_ITEM = 50;
+  private static readonly MAX_FILE_SIZE_MB = 500;//TODO - what is a good max file size?
+  private static readonly MAX_FILES_PER_ITEM = 500;
   private static readonly INVALID_FIELD_NAME_CHARS = /[<>{}]/;
 
   validateItem(item: PreviewItem): ValidationIssue[] {
@@ -92,7 +92,7 @@ export class ValidationEngine {
 
   /**
    * P1 IMPROVEMENT: Validate field names against RSpace constraints
-   * - Max length: 50 characters
+   * - Max length: 500 characters
    * - No invalid characters (<>{}
    * - No duplicates (handled by P0 deduplication, but warn if found)
    */
@@ -180,8 +180,8 @@ export class ValidationEngine {
 
   /**
    * P1 IMPROVEMENT: Validate file attachments
-   * - Max file size: 100 MB
-   * - Max files per item: 50
+   * - Max file size: 500 MB
+   * - Max files per item: 500
    * - File references must exist
    */
   private validateFiles(item: PreviewItem, issues: ValidationIssue[]): void {

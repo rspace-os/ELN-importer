@@ -1,0 +1,120 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-19T11:32:40+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-19T11:32:40+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "#category-\ud83d\udd2c Lemons",
+      "@type": "Thing",
+      "name": "\ud83d\udd2c Lemons",
+      "color": "A63C23"
+    },
+    {
+      "@id": ".\/a6a1a14d-7720-46bf-93af-94a61ade1c55\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/dbcb664ab14a490cda50a7f1b69a3918d3e2b6b7af1905da567106ca1303b6e3?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-19T11:31:27+01:00",
+      "dateModified": "2026-03-19T11:32:23+01:00",
+      "temporal": "2026-03-19T00:00:00+01:00",
+      "name": "A Resource With tags Category and Status",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=316",
+      "genre": "resource",
+      "creativeWorkStatus": "Maintenance mode",
+      "identifier": "20260319-05a0c88ec66fcdd0041f2213dab8c3990308f1a7",
+      "keywords": "tag1,Tag2",
+      "text": "<p style=\"line-height:1;\">Main text describing this resource<\/p>",
+      "about": {
+        "@id": "#category-\ud83d\udd2c Lemons"
+      },
+      "aggregateRating": {
+        "@id": "rating:\/\/197022a9-ab49-4c61-8fce-09d40e4704e0",
+        "@type": "AggregateRating",
+        "ratingValue": 5,
+        "reviewCount": 1
+      }
+    },
+    {
+      "@id": ".\/",
+      "identifier": "2cfccc07-82e0-424a-b373-7895e753a210",
+      "@type": "Dataset",
+      "datePublished": "2026-03-19T11:32:40+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/a6a1a14d-7720-46bf-93af-94a61ade1c55\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/dbcb664ab14a490cda50a7f1b69a3918d3e2b6b7af1905da567106ca1303b6e3?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Charlie",
+      "familyName": "Rosenbaum",
+      "email": "admin1@demo.elabftw.net"
+    }
+  ]
+}

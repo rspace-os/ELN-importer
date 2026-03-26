@@ -1,0 +1,136 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-16T19:06:29+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-16T19:06:29+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "pv:\/\/79d61698-8bdd-46fe-bc0e-d4146adcd075",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"Amount one\": {\"type\": \"number\", \"unit\": \"g\", \"units\": [\"g\", \"mg\"], \"value\": \"1\"}, \"Amount two\": {\"type\": \"number\", \"unit\": \"cm\", \"units\": [\"cm\", \"m\"], \"value\": \"22\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/37b44e61-4a9c-4ff3-be3f-52927bdc7c94",
+      "propertyID": "Amount one",
+      "valueReference": "number",
+      "value": "1",
+      "unitText": "g"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/2aa0d346-2790-4148-a6c4-235afa23f0b5",
+      "propertyID": "Amount two",
+      "valueReference": "number",
+      "value": "22",
+      "unitText": "cm"
+    },
+    {
+      "@id": ".\/c5b6cf97-3a1c-41b3-9b2b-924aa3d7a3ab\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-16T19:04:54+01:00",
+      "dateModified": "2026-03-16T19:06:24+01:00",
+      "temporal": "2026-03-16T00:00:00+01:00",
+      "name": "A resource with two quantities",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=323",
+      "genre": "resource",
+      "identifier": "20260316-822bffd5a03dd8b477f8607fc151021870f7f562",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/79d61698-8bdd-46fe-bc0e-d4146adcd075"
+        },
+        {
+          "@id": "pv:\/\/37b44e61-4a9c-4ff3-be3f-52927bdc7c94"
+        },
+        {
+          "@id": "pv:\/\/2aa0d346-2790-4148-a6c4-235afa23f0b5"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "71383708-9021-4d9c-bd2b-d923e6d9e999",
+      "@type": "Dataset",
+      "datePublished": "2026-03-16T19:06:29+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/c5b6cf97-3a1c-41b3-9b2b-924aa3d7a3ab\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/62f7695401fa2380f5a03ed12eae4f0cd2372c0ae22c36401fee8e8bfb3ba856?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Matt",
+      "familyName": "Dibbert",
+      "email": "user1@demo.elabftw.net"
+    }
+  ]
+}

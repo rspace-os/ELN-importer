@@ -1,0 +1,317 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-03-24T15:01:52+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-03-24T15:01:52+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.5.3",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "comment:\/\/93ff1478bc5ee82e83a4717ce0c51450efb173acd72c6d005c25fb6ac7c8347d?hash_algo=sha256",
+      "@type": "Comment",
+      "dateCreated": "2026-03-24T03:01:16+01:00",
+      "text": "Great results on the DNA extraction. The yield and purity look good. For the wash steps, consider extending the final centrifugation to 3 minutes to ensure no residual buffer. Nice work!",
+      "author": {
+        "@id": "person:\/\/aa343fe76f47642b8c3b11fc4273ecbd9ea20f7b1e20c200cb5ed5498d149dac?hash_algo=sha256"
+      }
+    },
+    {
+      "@id": "#category-Demo",
+      "@type": "Thing",
+      "name": "Demo",
+      "color": "34A5B6"
+    },
+    {
+      "@id": "pv:\/\/bb981941-dad9-4417-97c4-85f91db04b01",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"elabftw\": {\"display_main_text\": true, \"extra_fields_groups\": [{\"id\": 1, \"name\": \"Group 1\"}, {\"id\": 2, \"name\": \"Group 2\"}, {\"id\": 3, \"name\": \"Last group\"}]}, \"extra_fields\": {\"Number\": {\"type\": \"number\", \"unit\": \"\", \"units\": [], \"value\": \"\", \"group_id\": 2, \"description\": \"no units\"}, \"Type URL\": {\"type\": \"url\", \"value\": \"https:\/\/www.elabftw.net\", \"group_id\": 2, \"readonly\": true, \"description\": \"a link (readonly)\"}, \"Just time\": {\"type\": \"time\", \"value\": \"17:00\", \"group_id\": 2, \"description\": \"tea time\"}, \"Some date\": {\"type\": \"date\", \"value\": \"2024-07-14\", \"group_id\": 2, \"description\": \"is a date\"}, \"Type user\": {\"type\": \"users\", \"value\": 1, \"group_id\": 3, \"description\": \"this is a link to a user\"}, \"A checkbox\": {\"type\": \"checkbox\", \"value\": \"on\", \"group_id\": 2, \"description\": \"is checked\"}, \"Email input\": {\"type\": \"email\", \"value\": \"louis@example.com\", \"group_id\": 2, \"description\": \"type email\"}, \"Date and time\": {\"type\": \"datetime-local\", \"value\": \"2024-07-14T13:37\", \"group_id\": 2, \"description\": \"datetime description\"}, \"Radio buttons\": {\"type\": \"radio\", \"value\": \"Oui\", \"options\": [\"Oui\", \"Non\", \"Peut-\u00eatre\"], \"group_id\": 1, \"description\": \"radio description\"}, \"Type resource\": {\"type\": \"items\", \"value\": 208, \"group_id\": 3, \"description\": \"This is a link to a resource\"}, \"A dropdown menu\": {\"type\": \"select\", \"value\": \"Choice 1\", \"options\": [\"Choice 1\", \"Choice 2\", \"Choice 3\"], \"group_id\": 1, \"description\": \"Single select\"}, \"Text input name\": {\"type\": \"text\", \"value\": \"some text\", \"group_id\": 1, \"readonly\": true, \"required\": true, \"description\": \"type text + all attributes\", \"blank_value_on_duplicate\": true}, \"Type experiment\": {\"type\": \"experiments\", \"value\": 373, \"group_id\": 3, \"description\": \"This is a link to an experiment\"}, \"Number with units\": {\"type\": \"number\", \"unit\": \"mM\", \"units\": [\"mM\", \"\u03bcM\", \"nM\"], \"value\": \"\", \"group_id\": 2, \"description\": \"this one has units\"}, \"Unchecked checkbox\": {\"type\": \"checkbox\", \"value\": \"\", \"group_id\": 2, \"description\": \"this one is not checked\"}, \"Multi dropdown menu\": {\"type\": \"select\", \"value\": \"Option 1\", \"options\": [\"Option 1\", \"Option 2\", \"Option 3\"], \"group_id\": 1, \"description\": \"Allows multiple selection\", \"allow_multi_values\": true}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/eabf3bea-6801-415a-ad96-bbc9b5ec1191",
+      "propertyID": "Number",
+      "valueReference": "number",
+      "value": "",
+      "description": "no units"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/7573b456-6ef1-42aa-98ab-08b3fa67beae",
+      "propertyID": "Type URL",
+      "valueReference": "url",
+      "value": "https:\/\/www.elabftw.net",
+      "description": "a link (readonly)"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/dd3a3ad0-5b28-42d8-9b9a-46b0b5e7e61c",
+      "propertyID": "Just time",
+      "valueReference": "time",
+      "value": "17:00",
+      "description": "tea time"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/23a418b5-3d64-406a-b35c-68ce21034091",
+      "propertyID": "Some date",
+      "valueReference": "date",
+      "value": "2024-07-14",
+      "description": "is a date"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/c0ebe584-5507-41e2-8b70-264ea450d0c2",
+      "propertyID": "Type user",
+      "valueReference": "users",
+      "value": 1,
+      "description": "this is a link to a user"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/16aa1056-e4b7-47c6-8e77-c7af4e31fe33",
+      "propertyID": "A checkbox",
+      "valueReference": "checkbox",
+      "value": "on",
+      "description": "is checked"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/6fac9d3b-fa68-48b4-8be0-6e4d4f98e1c5",
+      "propertyID": "Email input",
+      "valueReference": "email",
+      "value": "louis@example.com",
+      "description": "type email"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/19d170b3-9b99-4471-9602-dc233a16ab13",
+      "propertyID": "Date and time",
+      "valueReference": "datetime-local",
+      "value": "2024-07-14T13:37",
+      "description": "datetime description"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/1cea4d92-7e82-478d-a8d0-5c9017f9b886",
+      "propertyID": "Radio buttons",
+      "valueReference": "radio",
+      "value": "Oui",
+      "description": "radio description"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/2d80016d-44fa-4524-9368-557458b82f9a",
+      "propertyID": "Type resource",
+      "valueReference": "items",
+      "value": 208,
+      "description": "This is a link to a resource"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/45a63dbe-b5a9-4a5d-8f24-3591ae4d4644",
+      "propertyID": "A dropdown menu",
+      "valueReference": "select",
+      "value": "Choice 1",
+      "description": "Single select"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/442cfa47-90d3-40d6-8a8c-6e945c1f2fc2",
+      "propertyID": "Text input name",
+      "valueReference": "text",
+      "value": "some text",
+      "description": "type text + all attributes"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/5bbd11b7-5d29-4936-90c5-c180e3cb7e9e",
+      "propertyID": "Type experiment",
+      "valueReference": "experiments",
+      "value": 373,
+      "description": "This is a link to an experiment"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/1c893170-ff78-4c97-8fa9-74ef538daa01",
+      "propertyID": "Number with units",
+      "valueReference": "number",
+      "value": "",
+      "description": "this one has units",
+      "unitText": "mM"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/181f26e6-9d6c-4ac7-9dd2-e9a1bdb88b39",
+      "propertyID": "Unchecked checkbox",
+      "valueReference": "checkbox",
+      "value": "",
+      "description": "this one is not checked"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/15d8f3c9-b024-45ab-b1d6-c45b4e7e869e",
+      "propertyID": "Multi dropdown menu",
+      "valueReference": "select",
+      "value": "Option 1",
+      "description": "Allows multiple selection"
+    },
+    {
+      "@id": ".\/53612844-9254-4e1d-a728-8a6884594ca3\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/aa343fe76f47642b8c3b11fc4273ecbd9ea20f7b1e20c200cb5ed5498d149dac?hash_algo=sha256"
+      },
+      "dateCreated": "2026-03-24T03:01:16+01:00",
+      "dateModified": "2026-03-24T03:01:16+01:00",
+      "temporal": "2025-01-03T00:00:00+01:00",
+      "name": "Gold master experiment",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=52",
+      "genre": "experiment",
+      "comment": [
+        {
+          "@id": "comment:\/\/93ff1478bc5ee82e83a4717ce0c51450efb173acd72c6d005c25fb6ac7c8347d?hash_algo=sha256"
+        }
+      ],
+      "creativeWorkStatus": "Success",
+      "identifier": "20260324-4f37f1e5bd075ea75cb7f7b27ce6e4011775b669",
+      "keywords": "generated from yml,test-data,eln,tag with space,special chars {[\u00e9\u00e8\u00c0\u00ae]}:*<>\u00d7\u00f7\u00b1",
+      "text": "<h1>Level 1 title<\/h1>\n<h2>Level 2 title<\/h2>\n<p>The <strong>goal<\/strong> of this <em>experiment<\/em> is to have <span style=\"text-decoration:underline;\">all<\/span> <span style=\"background-color:rgb(241,196,15);color:rgb(224,62,45);\">attributes<\/span>:<\/p>\n<ul>\n<li>all extra fields types<\/li>\n<li>links to experiments and items<\/li>\n<li>links from experiments and items<\/li>\n<li>status, category, tags and uploaded files<\/li>\n<\/ul>\n<h3>Here is a table<\/h3>\n<table style=\"width:100%;\">\n\n<tr>\n<td>Something<\/td>\n<td>in H<sub>2<\/sub><\/td>\n<td>the<\/td>\n<\/tr>\n<tr>\n<td>table<\/td>\n<td style=\"background-color:rgb(185,106,217);border:2px dashed rgb(224,62,45);\">31<sup>321<\/sup><\/td>\n<td>there<\/td>\n<\/tr>\n\n<\/table>\n<p>an emoji: \ud83e\udd2a<\/p>\n<p>\u221e \u2211<\/p>\n<h4>An image<\/h4>\n<p><img src=\"app\/download.php?name=example.jpg&amp;f=78\/7834c99a3af687a043d7e9c5bec5e4877469748dca1e898892962ab769be562e069204c19f3bf4663dd2f036cd2a9673b8db53702405ad5298a6e1fd78d6d7da.jpg&amp;storage=1\" width=\"173\" height=\"260\" alt=\"7834c99a3af687a043d7e9c5bec5e4877469748dca1e898892962ab769be562e069204c19f3bf4663dd2f036cd2a9673b8db53702405ad5298a6e1fd78d6d7da.jpg&amp;storage=1\"><\/p>\n<p><a href=\"https:\/\/www.elabftw.net\/\" target=\"_blank\" rel=\"noreferrer noopener\">A link to elabftw.net<\/a>.<\/p>\n<p>\u00a0<\/p>\n",
+      "about": {
+        "@id": "#category-Demo"
+      },
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/bb981941-dad9-4417-97c4-85f91db04b01"
+        },
+        {
+          "@id": "pv:\/\/eabf3bea-6801-415a-ad96-bbc9b5ec1191"
+        },
+        {
+          "@id": "pv:\/\/7573b456-6ef1-42aa-98ab-08b3fa67beae"
+        },
+        {
+          "@id": "pv:\/\/dd3a3ad0-5b28-42d8-9b9a-46b0b5e7e61c"
+        },
+        {
+          "@id": "pv:\/\/23a418b5-3d64-406a-b35c-68ce21034091"
+        },
+        {
+          "@id": "pv:\/\/c0ebe584-5507-41e2-8b70-264ea450d0c2"
+        },
+        {
+          "@id": "pv:\/\/16aa1056-e4b7-47c6-8e77-c7af4e31fe33"
+        },
+        {
+          "@id": "pv:\/\/6fac9d3b-fa68-48b4-8be0-6e4d4f98e1c5"
+        },
+        {
+          "@id": "pv:\/\/19d170b3-9b99-4471-9602-dc233a16ab13"
+        },
+        {
+          "@id": "pv:\/\/1cea4d92-7e82-478d-a8d0-5c9017f9b886"
+        },
+        {
+          "@id": "pv:\/\/2d80016d-44fa-4524-9368-557458b82f9a"
+        },
+        {
+          "@id": "pv:\/\/45a63dbe-b5a9-4a5d-8f24-3591ae4d4644"
+        },
+        {
+          "@id": "pv:\/\/442cfa47-90d3-40d6-8a8c-6e945c1f2fc2"
+        },
+        {
+          "@id": "pv:\/\/5bbd11b7-5d29-4936-90c5-c180e3cb7e9e"
+        },
+        {
+          "@id": "pv:\/\/1c893170-ff78-4c97-8fa9-74ef538daa01"
+        },
+        {
+          "@id": "pv:\/\/181f26e6-9d6c-4ac7-9dd2-e9a1bdb88b39"
+        },
+        {
+          "@id": "pv:\/\/15d8f3c9-b024-45ab-b1d6-c45b4e7e869e"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "7357e2d6-aed2-46a4-8883-ad392fa8b1f9",
+      "@type": "Dataset",
+      "datePublished": "2026-03-24T15:01:52+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/53612844-9254-4e1d-a728-8a6884594ca3\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/aa343fe76f47642b8c3b11fc4273ecbd9ea20f7b1e20c200cb5ed5498d149dac?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Lorenzo",
+      "familyName": "Johnston",
+      "email": "quaerat-47315641@yopmail.com"
+    }
+  ]
+}

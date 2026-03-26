@@ -1,0 +1,124 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-27T09:56:09+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-27T09:56:09+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "pv:\/\/e0b0924a-02f8-4659-8d0c-14b7923c9b9c",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"types of greeting\": {\"type\": \"radio\", \"value\": \"Hello\", \"options\": [\"Hello\", \"Goodbye\", \"See ya\"]}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/5f73bc06-4df7-4ee7-8982-b55373496afb",
+      "propertyID": "types of greeting",
+      "valueReference": "radio",
+      "value": "Hello"
+    },
+    {
+      "@id": ".\/f8b0be96-0a2f-4d7b-b1d1-5eb7b467f3d3\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/34fff75aeca70f454a5ef179f0affdaa639270cbb778848b595b4a7892edcf2a?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-27T09:55:22+01:00",
+      "dateModified": "2026-02-27T09:56:02+01:00",
+      "temporal": "2026-02-27T00:00:00+01:00",
+      "name": "Checking",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=218",
+      "genre": "experiment",
+      "identifier": "20260227-b2a7a2d8369fb7e159b961a3fe7a6347c6fc4a13",
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/e0b0924a-02f8-4659-8d0c-14b7923c9b9c"
+        },
+        {
+          "@id": "pv:\/\/5f73bc06-4df7-4ee7-8982-b55373496afb"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "81910098-c1a1-4f33-92c4-21766414d62b",
+      "@type": "Dataset",
+      "datePublished": "2026-02-27T09:56:09+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/f8b0be96-0a2f-4d7b-b1d1-5eb7b467f3d3\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/34fff75aeca70f454a5ef179f0affdaa639270cbb778848b595b4a7892edcf2a?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Kristopher",
+      "familyName": "Feeney",
+      "email": "user1@demo.elabftw.net"
+    }
+  ]
+}

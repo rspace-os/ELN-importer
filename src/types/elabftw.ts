@@ -1,7 +1,8 @@
 export interface ELabFTWDataset {
   id: string;
   name: string;
-  genre: 'experiment' | 'resource';
+  alternateName: string
+  genre: 'experiment' |'experiment template'| 'resource'|'resource template';
   dateCreated: string;
   dateModified: string;
   textContent: string;
@@ -10,8 +11,28 @@ export interface ELabFTWDataset {
   files: string[];
   variableMeasured: PropertyValue[];
   keywords: string[];
-  category?: string;
-  categoryColor?: string;
+  authorName?: string;
+  category: string;
+  categoryColor: string;
+  creativeWorkStatus: string;
+}
+
+export interface FormField {
+  name: string;
+  fullName: string;
+  description?: string;
+  type: string;
+  mandatory: boolean;
+  options?: string[];
+  showAsPickList?: boolean;
+  units?: string[];
+  isSecondary?: boolean;
+  descriptionName?: string;
+  unitsName?: string;
+  fullNameName?: string;
+  selectedOptions?: string[];
+  content?: string;
+  defaultValue?: string;
 }
 
 export interface PropertyValue {
@@ -28,6 +49,7 @@ export interface HowToStep {
   '@type': string;
   position: number;
   creativeWorkStatus: string;
+  expires?: string;
   itemListElement: {
     '@id': string;
     '@type': string;
@@ -46,6 +68,7 @@ export interface FileMetadata {
 }
 
 export interface CustomField {
+  unitText?: string;
   type: string;
   value: string;
   description?: string;
@@ -60,13 +83,13 @@ export interface ClassificationResult {
   proposed: 'document' | 'inventory';
   confidence: 'high' | 'medium' | 'low';
   justification: string;
-  isInstrument?: boolean;
   reasons: string[];
 }
 
 export interface PreviewItem {
   id: string;
   name: string;
+  alternateName: string;
   type: 'experiment' | 'resource';
   category: string;
   categoryColor: string;
@@ -84,7 +107,11 @@ export interface PreviewItem {
   keywords: string[];
   dateCreated: string;
   dateModified: string;
+  authorName?: string;
+  // Name of the metadata field chosen by the user to represent quantity for inventory items
+  chosenQuantityName: string;
   elabftwMetadata?: any; // Raw ELN metadata as JSON blob
+  creativeWorkStatus: string;
 }
 
 export interface ValidationIssue {
@@ -102,6 +129,7 @@ export interface PreviewSession {
   items: PreviewItem[];
   fileMetadata: Record<string, FileMetadata>;
   fileBlobs: Map<string, Blob>;
+  rawJson?: string;
 }
 
 export interface ROCrateData {

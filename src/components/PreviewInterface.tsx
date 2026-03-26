@@ -25,9 +25,10 @@ interface PreviewInterfaceProps {
   onBack: () => void;
   onClassificationChange: (itemId: string, classification: 'document' | 'inventory') => void;
   onConfigureRSpace: () => void;
+  handleChosenQuantityChange: (itemId: string, chosenQuantityName:string) => void;
 }
 
-export function PreviewInterface({ session, onImport, onBack, onClassificationChange, onConfigureRSpace }: PreviewInterfaceProps) {
+export function PreviewInterface({ session, onImport, onBack, onClassificationChange, onConfigureRSpace, handleChosenQuantityChange }: PreviewInterfaceProps) {
   const { config, isConfigured } = useRSpaceConfig();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -82,7 +83,6 @@ export function PreviewInterface({ session, onImport, onBack, onClassificationCh
       toast.error('Please configure RSpace credentials first. Click the settings button in the top right.');
       return;
     }
-
     if (selectedItems.size === 0) {
       toast.error('Please select at least one item to import');
       return;
@@ -92,11 +92,25 @@ export function PreviewInterface({ session, onImport, onBack, onClassificationCh
     const rspaceService = new RSpaceService(config);
     const importer = new RSpaceImporter(rspaceService);
 
+    // Step 1: Upload the raw RO-Crate JSON to RSpace Gallery (non-blocking)
+    let rocJsonNumericId: number | null = null;
+    try {
+      if (session.rawJson) {
+        const fileName = `${session.elnFileName.replace(/\.eln$/i, '')}-ro-crate.json`;
+        const jsonFile = new File([session.rawJson], fileName, { type: 'application/json' });
+        const uploaded = await rspaceService.uploadFile(jsonFile, fileName);
+        rocJsonNumericId = parseInt(uploaded.id);
+      }
+    } catch (e) {
+      console.warn('Failed to upload RO-Crate JSON to RSpace. Proceeding without it.', e);
+      rocJsonNumericId = null;
+    }
+
     try {
       const finalProgress = await importer.importSession(session, (progress) => {
         console.log('Progress update:', progress.current, '/', progress.total, '-', progress.status);
         setImportProgress({ ...progress });
-      }, selectedItems);
+      }, selectedItems, rocJsonNumericId);
 
       const successCount = finalProgress.results.filter(r => r.success).length;
       const failureCount = finalProgress.results.filter(r => !r.success).length;
@@ -391,6 +405,7 @@ export function PreviewInterface({ session, onImport, onBack, onClassificationCh
                         item={item}
                         onClassificationChange={onClassificationChange}
                         onItemClick={setDetailItem}
+                        handleChosenQuantityChange={handleChosenQuantityChange}
                       />
                     </div>
                   ))

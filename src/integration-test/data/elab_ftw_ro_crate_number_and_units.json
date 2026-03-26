@@ -1,0 +1,184 @@
+{
+  "@context": "https:\/\/w3id.org\/ro\/crate\/1.2\/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": ".\/"
+      },
+      "conformsTo": {
+        "@id": "https:\/\/w3id.org\/ro\/crate\/1.2"
+      },
+      "dateCreated": "2026-02-25T18:07:14+01:00",
+      "sdPublisher": {
+        "@id": "#publisher"
+      },
+      "version": "1.0"
+    },
+    {
+      "@id": "https:\/\/www.deltablot.com",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "Deltablot",
+      "logo": "https:\/\/www.deltablot.com\/img\/logos\/deltablot.svg",
+      "slogan": "Open Source software for research labs.",
+      "url": "https:\/\/www.deltablot.com"
+    },
+    {
+      "@id": "#publisher",
+      "@type": "Organization",
+      "areaServed": "Laniakea Supercluster",
+      "name": "eLabFTW",
+      "logo": "https:\/\/www.elabftw.net\/img\/elabftw-logo-only.svg",
+      "slogan": "A free and open source electronic lab notebook.",
+      "url": "https:\/\/www.elabftw.net",
+      "parentOrganization": {
+        "@id": "https:\/\/www.deltablot.com"
+      }
+    },
+    {
+      "@id": "#ro-crate_created",
+      "@type": "CreateAction",
+      "object": {
+        "@id": ".\/"
+      },
+      "name": "RO-Crate created",
+      "endTime": "2026-02-25T18:07:14+01:00",
+      "instrument": {
+        "@id": "https:\/\/www.elabftw.net"
+      },
+      "actionStatus": {
+        "@id": "http:\/\/schema.org\/CompletedActionStatus"
+      }
+    },
+    {
+      "@id": "https:\/\/www.elabftw.net",
+      "@type": "SoftwareApplication",
+      "name": "eLabFTW",
+      "version": "5.4.1",
+      "identifier": "https:\/\/www.elabftw.net"
+    },
+    {
+      "@id": "#category-Antibody",
+      "@type": "Thing",
+      "name": "Antibody",
+      "color": "2325BE"
+    },
+    {
+      "@id": ".\/d22a6775-de85-44d2-84a4-91d54a709867\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/59abd5088adcfe89b84ed9ef1444b81812aafd148c752d9bd80b2c30b9b7a974?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-25T02:52:03+01:00",
+      "dateModified": "2026-02-25T02:52:04+01:00",
+      "temporal": "2025-08-15T00:00:00+02:00",
+      "name": "Anti-RFP",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/database.php?mode=view&id=120",
+      "genre": "resource",
+      "identifier": "20260225-0becda1014e00c1e490a536cabfca87a3f41a966",
+      "about": {
+        "@id": "#category-Antibody"
+      }
+    },
+    {
+      "@id": "pv:\/\/d6cb409f-64ea-46a9-b98a-b06475b365a9",
+      "@type": "PropertyValue",
+      "propertyID": "elabftw_metadata",
+      "description": "eLabFTW metadata JSON as string",
+      "value": "{\"extra_fields\": {\"User\": {\"type\": \"users\", \"value\": 11}, \"Resource\": {\"type\": \"items\", \"value\": 120}, \"Number of aliquots left\": {\"type\": \"number\", \"unit\": \"miles\", \"units\": [\"inches\", \"miles\"], \"value\": \"0\"}}}"
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/06fd761f-3f6a-48e8-aa57-1e0dec77fb32",
+      "propertyID": "User",
+      "valueReference": "users",
+      "value": 11
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/d4969940-c596-4f58-9946-c25f66db2888",
+      "propertyID": "Resource",
+      "valueReference": "items",
+      "value": 120
+    },
+    {
+      "@type": "PropertyValue",
+      "@id": "pv:\/\/135d09da-7598-4bad-bf82-ba2896bb1ce9",
+      "propertyID": "Number of aliquots left",
+      "valueReference": "number",
+      "value": "0",
+      "unitText": "miles"
+    },
+    {
+      "@id": ".\/dcdefc4b-27e8-43e1-9891-b770144801a8\/",
+      "@type": "Dataset",
+      "author": {
+        "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256"
+      },
+      "dateCreated": "2026-02-25T17:26:15+01:00",
+      "dateModified": "2026-02-25T18:07:04+01:00",
+      "temporal": "2026-02-25T00:00:00+01:00",
+      "name": "One more plus",
+      "encodingFormat": "text\/html",
+      "url": "https:\/\/demo.elabftw.net\/experiments.php?mode=view&id=225",
+      "genre": "experiment",
+      "identifier": "20260225-3b3a008c94d16d5f1467c06f3893a443ee631f0f",
+      "mentions": [
+        {
+          "@id": ".\/d22a6775-de85-44d2-84a4-91d54a709867\/"
+        }
+      ],
+      "variableMeasured": [
+        {
+          "@id": "pv:\/\/d6cb409f-64ea-46a9-b98a-b06475b365a9"
+        },
+        {
+          "@id": "pv:\/\/06fd761f-3f6a-48e8-aa57-1e0dec77fb32"
+        },
+        {
+          "@id": "pv:\/\/d4969940-c596-4f58-9946-c25f66db2888"
+        },
+        {
+          "@id": "pv:\/\/135d09da-7598-4bad-bf82-ba2896bb1ce9"
+        }
+      ]
+    },
+    {
+      "@id": ".\/",
+      "identifier": "de7683a8-4fd1-4342-a245-e557d430348f",
+      "@type": "Dataset",
+      "datePublished": "2026-02-25T18:07:14+01:00",
+      "hasPart": [
+        {
+          "@id": ".\/dcdefc4b-27e8-43e1-9891-b770144801a8\/"
+        },
+        {
+          "@id": ".\/d22a6775-de85-44d2-84a4-91d54a709867\/"
+        }
+      ],
+      "name": "eLabFTW export",
+      "description": "This is a .eln export from eLabFTW",
+      "version": "105",
+      "license": {
+        "@id": "https:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"
+      }
+    },
+    {
+      "@id": "person:\/\/59abd5088adcfe89b84ed9ef1444b81812aafd148c752d9bd80b2c30b9b7a974?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Ervin",
+      "familyName": "McGlynn",
+      "email": "somesamluser@example.com"
+    },
+    {
+      "@id": "person:\/\/3f7c8d8f61861233983e3ea5236fc6c7bf5f5c10c67d1446b6274e518b08ac7a?hash_algo=sha256",
+      "@type": "Person",
+      "givenName": "Norris",
+      "familyName": "Kerluke",
+      "email": "admin1@demo.elabftw.net"
+    }
+  ]
+}
